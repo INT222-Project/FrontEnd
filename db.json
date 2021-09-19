@@ -1,0 +1,18 @@
+{
+  "room" :[
+    {"id":1,"name":"305","des":"chill style room fresh air from outside","member":"4","breakfast":"bread","bed":"Double bed","price":"4500",
+    "checkIn":"12-12-2021","checkOut":"15-12-2021"},
+    {"id":2,"name":"306","des":"luxaully room and suit feel rich ","member":"2","breakfast":"egg benedict","bed":"Double bed","price":"7500",
+      "checkIn":"13-12-2021","checkOut":"16-12-2021"},
+    {"id":4,"name":"307","des":"relaxing room ","member":"1","breakfast":"egg benedict","bed":"Double bed","price":"7500",
+     "checkIn":"13-12-2021","checkOut":"16-12-2021"},
+     {"id":5,"name":"308","des":"fresh air ","member":"2","breakfast":"egg benedict","bed":"Double bed","price":"7500",
+      "checkIn":"13-12-2021","checkOut":"16-12-2021"},
+      {"id":6,"name":"309","des":"good service cheep price room in middle of the town ","member":"3","breakfast":"egg benedict","bed":"Double bed","price":"7500",
+        "checkIn":"13-12-2021","checkOut":"16-12-2021"},
+        {"id":7,"name":"310","des":"normally room not good not bad ","member":"2","breakfast":"egg benedict","bed":"Double bed","price":"7500",
+          "checkIn":"13-12-2021","checkOut":"16-12-2021"},
+          {"id":8,"name":"311","des":"sad room","member":"4","breakfast":"egg benedict","bed":"Double bed","price":"7500",
+            "checkIn":"13-12-2021","checkOut":"16-12-2021"}
+  ]
+}
