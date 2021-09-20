@@ -1,11 +1,11 @@
 <template>
   <div class="w-auto h-full pt-4">
-    <div class="container">
-      <form>
+    <div class="container pt-14">
+      <form >
         <!-- section -->
         <div class="mb-3">
-          <label class="form-label font-bold">Room Name</label>
-          <input type="text" class="form-control" placeholder="100" />
+          <label class="form-label font-bold">Room No</label>
+          <input type="text" v-model="roomNo" class="form-control" placeholder="100" />
         </div>
         <!-- section -->
         <div class="mb-3">
@@ -16,7 +16,8 @@
             class="form-check-input"
             type="radio"
             name="inlineRadioOptions"
-            value="option1"
+            value="Single Bed"
+            v-model="bedtype"
           />
           <label class="form-check-label">Single Bed</label>
         </div>
@@ -25,7 +26,8 @@
             class="form-check-input"
             type="radio"
             name="inlineRadioOptions"
-            value="option2"
+            value="Double Bed"
+            v-model="bedtype"
           />
           <label class="form-check-label">Double Bed</label>
         </div>
@@ -34,7 +36,8 @@
             class="form-check-input"
             type="radio"
             name="inlineRadioOptions"
-            value="option2"
+            value="Triple Bed"
+            v-model="bedtype"
           />
           <label class="form-check-label">Triple Bed</label>
         </div>
@@ -43,14 +46,15 @@
             class="form-check-input"
             type="radio"
             name="inlineRadioOptions"
-            value="option2"
+            value="Double-double Bed"
+            v-model="bedtype"
           />
           <label class="form-check-label">Double-double Bed</label>
         </div>
         <!-- section -->
         <div class="mb-3 mt-3">
           <label class="form-label font-bold">Room Type</label>
-          <select class="form-select">
+          <select v-model="roomtype" class="form-select">
             <option selected>Open this select menu</option>
             <option value="1">Standard</option>
             <option value="2">Superior</option>
@@ -62,6 +66,7 @@
         <div class="mb-3">
           <label class="form-label font-bold">Description</label>
           <textarea
+            v-model.trim="description"
             class="form-control"
             id="exampleFormControlTextarea1"
             rows="3"
@@ -71,7 +76,7 @@
         <label class="form-label font-bold">Room charge</label>
         <div class="input-group mb-3">
           <span class="input-group-text">฿</span>
-          <input type="number" class="form-control" placeholder="0.00" />
+          <input type="number" v-model="roomCharge" class="form-control" placeholder="0.00" />
         </div>
         <!-- section -->
         <div class="mb-3">
@@ -87,7 +92,7 @@
           />
         </div>
         <!-- section -->
-        <button type="button" class="btn btn-success">Submit form</button>
+        <button type="button" class="btn btn-success">Submit</button>
       </form>
     </div>
   </div>
@@ -98,7 +103,12 @@ export default {
   data(){
     return {
       imgSrc:'',
-      imgObject:null
+      imgObject:null,
+      roomNo:'',
+      bedtype:null,
+      roomtype:null,
+      description:'',
+      roomCharge:''
     }
   },
   methods:{

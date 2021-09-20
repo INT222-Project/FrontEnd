@@ -5,10 +5,6 @@ class RoomDataService{
     retrieveAllRoom(){
         return axios.get(`${API_URL}/api/rooms`);
     }
-
-
-
-    
     retrieveProductColor(productCode){
         return axios.get(`${API_URL}/api/productscolor/${productCode}`);
     }
