@@ -15,9 +15,9 @@
             <p class="card-text">Bed Type : {{ room.bedType }}</p>
             <p class="text-right card-text text-red-600">THB {{ room.roomCharge }}</p>
           </div>
-          <button @click="bookingRoom(room)" class="btn btn-primary">
+          <!-- <button @click="bookingRoom(room)" class="btn btn-primary">
             Booking
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
