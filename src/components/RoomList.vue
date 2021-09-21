@@ -24,38 +24,33 @@
   </div>
 </template>
 <script>
-import {mapState} from 'vuex';
-// import RoomDataService from "../service/RoomDataService";
+// import {mapState} from 'vuex';
+import RoomDataService from "../service/RoomDataService";
 export default {
   data() {
     return {
-      // rooms: [],
+      rooms: [],
       search: "",
     };
   },
   methods: {
-    // bookingRoom(item) {
-    //   this.$emit("booking-room", item);
-    // }
-    // async fetchRoom() {
-    //   const res = await fetch(this.url);
-    //   const data = await res.json();
-    //   return data;
-    // },
-    // getAllRoom(){
-    //   RoomDataService.retrieveAllRoom().then((response) =>{
-    //     this.rooms = response.data
-    //   })
-    // }
+    getAllRoom(){
+      RoomDataService.retrieveAllRoom().then((response) =>{
+        this.rooms = response.data
+      })
+    }
   },
-  mounted(){
-    this.$store.dispatch('loadRooms')
-  },
-  computed:{
-    ...mapState([
-       'rooms'
-    ])
+  created(){
+    this.rooms = this.getAllRoom();
   }
+  // mounted(){
+  //   this.$store.dispatch('loadRooms')
+  // },
+  // computed:{
+  //   ...mapState([
+  //      'rooms'
+  //   ])
+  // }
 };
 </script>
 <style>
