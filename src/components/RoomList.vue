@@ -27,12 +27,12 @@
 <script>
 // import RoomDataService from "../service/RoomDataService";
 export default {
+  emits: ["delete-room", "edit-room"],
    props: {
     itemInRooms: Array,
   },
   data() {
     return {
-      activeTab: "",
     };
   },
   methods: {

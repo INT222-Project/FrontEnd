@@ -14,8 +14,8 @@ class RoomDataService{
     deleteRoom(roomId){
         return axios.delete(`${API_URL}/api/rooms/delete/${roomId}`);
     }
-    editProducts(formData,roomId){
-        return axios.put(`${API_URL}/api/rooms/editproduct/${roomId}`, formData)
+    editRoom(formData,roomId){
+        return axios.put(`${API_URL}/api/rooms/edit/${roomId}`, formData)
     }
 
 

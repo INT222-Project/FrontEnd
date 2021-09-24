@@ -18,10 +18,19 @@
       </div>
       
       <div v-if="activeTab === 'RoomList'">
-          <room-list :itemInRooms="rooms"/>
+          <room-list 
+          v-if="isEdit"
+          @delete-room="editBtn"
+          :itemInRooms="rooms"/>
+          <room-list 
+          v-else
+          @delete-room="deleteRoom"
+          :itemInRooms="rooms"/>
       </div>
       <div v-if="activeTab === 'FormRoom'">
-         <form-room :itemInRooms="rooms"/>
+         <form-room 
+         @add-room="addRoom"
+         :itemInRooms="rooms"/>
       </div>
     </div>
   </div>
@@ -41,7 +50,6 @@ export default {
   data() {
     return {
       rooms: [],
-      // search: "",
       activeTab: "RoomList",
       isEdit:false,
     };
@@ -52,12 +60,21 @@ export default {
         this.rooms = response.data
       })
     },
-     deleteRoom(roomId) {
-      RoomDataService.deleteRoom(roomId).then((response)=>{
+    addRoom(room){
+       RoomDataService.addNewRoom(room).then((response)=>{
+          console.log(response.data)
+        })
+    },
+     deleteRoom(room) {
+       console.log(room.roomId)
+      RoomDataService.deleteRoom(room.roomId).then((response)=>{
         console.log(response.data)
       })
-      this.rooms = this.rooms.filter((room) => room.roomId !== room.roomId);
+      // this.rooms = this.rooms.filter((room) => room.roomId !== room.roomId);
     },
+    editBtn(){
+      this.isEdit = true
+    }
   },
   // mounted(){
   //   this.$store.dispatch('loadRooms')
