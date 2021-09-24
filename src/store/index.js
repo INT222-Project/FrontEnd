@@ -12,15 +12,22 @@ export default createStore({
   actions: {
     loadRooms({commit}){
       axios.get(`${API_URL}/api/rooms`).then(response=>{
-        commit('SET_ROOMS', response.data)
+        commit('setRooms', response.data)
       }).catch(error=>{
         console.log(error)
       })      
+    },
+    async addRoom({commit}, room){
+      const response = await axios.post(`${API_URL}/api/rooms/add`,room)
+      commit('newRoom',response.data);
     }
  },
   mutations: {
-      SET_ROOMS(state,data){
+      setRooms(state,data){
         state.rooms = data
+      },
+      newRoom(state,data){
+        state.rooms.push(data)
       }
   },
   modules: {

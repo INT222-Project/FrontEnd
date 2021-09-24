@@ -5,36 +5,31 @@ class RoomDataService{
     retrieveAllRoom(){
         return axios.get(`${API_URL}/api/rooms`);
     }
-    retrieveProductColor(productCode){
-        return axios.get(`${API_URL}/api/productscolor/${productCode}`);
+    retrieveAllRoomtypes(){
+        return axios.get(`${API_URL}/api/roomTypes`)
     }
-    retrieveAllBrands(){
-        return axios.get(`${API_URL}/api/brands`)
+    addNewRoom(formData){
+        return axios.post(`${API_URL}/api/rooms/add`, formData);
     }
-    retrieveAllProductColor(){
-        return axios.get(`${API_URL}/api/productcolors`)
+    deleteRoom(roomId){
+        return axios.delete(`${API_URL}/api/rooms/delete/${roomId}`);
+    }
+    editProducts(formData,roomId){
+        return axios.put(`${API_URL}/api/rooms/editproduct/${roomId}`, formData)
     }
 
-    getImage(productCode){
-        return axios.get(`${API_URL}/api/showImage/${productCode}`);
+
+
+    
+    getImage(roomId){
+        return axios.get(`${API_URL}/api/showImage/${roomId}`);
     }
-    getImageSource(productCode){
-        return axios.get(`${API_URL}/api/getImageSource/${productCode}`);
-    }
-    retrieveAllColor(){
-        return axios.get(`${API_URL}/api/colors`)
+    getImageSource(roomId){
+        return axios.get(`${API_URL}/api/getImageSource/${roomId}`);
     }
     uploadImage(file){
         return axios.post(`${API_URL}/api/uploadImage`,file,{headers: {'Content-Type' : 'multipart/form-data' }});
     }
-    addProduct(formData){
-        return axios.post(`${API_URL}/api/create`, formData);
-    }
-    editProducts(formData,productCode){
-        return axios.put(`${API_URL}/api/editproduct/${productCode}`, formData)
-    }
-    detleteProduct(productCode){
-        return axios.delete(`${API_URL}/api/deleteproduct/${productCode}`);
-    }
+
 }
 export default new RoomDataService();

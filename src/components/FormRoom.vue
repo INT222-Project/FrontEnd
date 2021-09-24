@@ -1,11 +1,13 @@
 <template>
   <div class="w-auto h-full pt-4">
-    <div class="container pt-14">
-      <form >
+    <div class="container">
         <!-- section -->
         <div class="mb-3">
           <label class="form-label font-bold">Room No</label>
           <input type="text" v-model="roomNo" class="form-control" placeholder="100" />
+          <div v-if="this.invRNo == true" class="text-red-500 text-sm">
+            Please provide a valid room number.
+          </div>
         </div>
         <!-- section -->
         <div class="mb-3">
@@ -51,19 +53,21 @@
           />
           <label class="form-check-label">Double-double Bed</label>
         </div>
+        <div v-if="this.invBtype == true" class="text-red-500 text-sm">
+            Please choose a Bed Type.
+          </div>
         <!-- section -->
         <div class="mb-3 mt-3">
           <label class="form-label font-bold">Room Type</label>
           <select v-model="roomtype" class="form-select">
-            <option selected>Open this select menu</option>
-            <option value="1">Standard</option>
-            <option value="2">Superior</option>
-            <option value="3">Deluxe</option>
-            <option value="4">Suite</option>
+            <option v-for="r in rType" :value="r" :key="r.roomTypeId">{{r.name}}</option>
           </select>
+          <div v-if="this.invRtype == true" class="text-red-500 text-sm">
+            Please select a valid room type.
+          </div>
         </div>
         <!-- section -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label class="form-label font-bold">Description</label>
           <textarea
             v-model.trim="description"
@@ -71,13 +75,16 @@
             id="exampleFormControlTextarea1"
             rows="3"
           ></textarea>
-        </div>
+        </div> -->
         <!-- section -->
         <label class="form-label font-bold">Room charge</label>
         <div class="input-group mb-3">
           <span class="input-group-text">฿</span>
-          <input type="number" v-model="roomCharge" class="form-control" placeholder="0.00" />
+          <input type="number" v-model="roomCharge" min="1" step="0.05" class="form-control" placeholder="0.00" />
         </div>
+        <div v-if="this.invRcharge == true" class="text-red-500 text-sm">
+            Please provide a valid room number.
+          </div>
         <!-- section -->
         <div class="mb-3">
           <label for="formFile" class="form-label font-bold">Images</label>
@@ -92,23 +99,36 @@
           />
         </div>
         <!-- section -->
-        <button type="button" class="btn btn-success">Submit</button>
-      </form>
+        <div class="space-x-2">
+        <button type="button" class="btn btn-success" @click="add()">Submit</button>
+        <button type="button" class="btn btn-danger" @click="clear()">Cancel</button>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
+import RoomDataService from "../service/RoomDataService";
 export default {
+    props: {
+    itemInRooms: Array,
+  },
   data(){
     return {
+      // Data
       imgSrc:'',
       imgObject:null,
       roomNo:'',
       bedtype:null,
       roomtype:null,
-      description:'',
-      roomCharge:''
+      // description:'',
+      roomCharge:0.00,
+      rType:[],
+      // Validation
+      invRNo:false,
+      invBtype:false,
+      invRtype:false,
+      invRcharge:false
     }
   },
   methods:{
@@ -116,7 +136,60 @@ export default {
       const file = ev.target.files[0];
       this.imgSrc = URL.createObjectURL(file);
       this.imgObject = file;
-    }
+    },
+    clear(){
+      this.imgSrc = ''
+      this.imgObject = null
+      this.roomNo = ''
+      this.bedtype = null
+      this.roomtype = null
+      this.roomCharge = 0.00
+      this.invRNo=false
+      this.invBtype=false
+      this.invRtype=false
+      this.invRcharge=false
+      this.$router.push('/')
+    },
+    add(){
+      if(this.roomNo == '' && this.roomtype==null && this.roomCharge <= 0 && this.bedtype == null){
+        this.invRNo = true;
+        this.invBtype = true;
+        this.invRtype = true;
+        this.invRcharge = true;
+      }else{
+        const room = {
+        roomId:this.roomNo,
+        roomNo:this.roomNo,
+        roomType:this.roomtype,
+        roomCharge:this.roomCharge,
+        bedtype:this.bedtype
+        }
+        console.log(room)
+        // const jsonNewRoom = JSON.stringify(room);
+        // const blob = new Blob([jsonNewRoom],{
+        //   type: "application/json",
+        // })
+        // console.log(jsonNewRoom)
+        // let formData = new FormData();
+        // formData.append("newRoom",blob)
+
+        RoomDataService.addNewRoom(room).then((response)=>{
+          console.log(response.data)
+        })
+        // formData.append("file-image", this.imgObject, this.imgObject.name);
+        // console.log(room)
+        // this.$store.dispatch('addRoom',room)
+      }
+      // this.$router.push('/')
+    },
+     getRoomtype(){
+       RoomDataService.retrieveAllRoomtypes().then((response)=>{
+         this.rType = response.data
+       }) 
+     },
+  },
+  created(){
+    this.rtype = this.getRoomtype();
   }
 
 };

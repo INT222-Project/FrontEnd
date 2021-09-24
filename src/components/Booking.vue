@@ -34,12 +34,22 @@
             />
             <button class="btn btn-primary" type="submit">Search</button>
           </form>
+          <div class="space-x-2 mb-2 mt-2">
+            <label class="form-label">Check in</label>
           <input
-                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  class="bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   type="date"
-                  min="2012-01-01"
+                  min="2022-01-01"
                   max="2022-12-31"
           />
+          <label class="form-label">Check out</label>
+          <input
+                  class="bg-gray-200 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  type="date"
+                  min="2022-01-01"
+                  max="2022-12-31"
+          />
+          </div>
         </div>
       </div>
     </div>

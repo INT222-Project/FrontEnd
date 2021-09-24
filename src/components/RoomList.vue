@@ -1,6 +1,6 @@
 <template>
-  <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 ">
-    <div v-for="room in rooms" :key="room.roomid">
+  <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pt-4">
+    <div v-for="room in itemInRooms" :key="room.roomid">
       <div class="col">
         <div class="card shadow-md">
           <div class="inner">
@@ -15,34 +15,37 @@
             <p class="card-text">Bed Type : {{ room.bedType }}</p>
             <p class="text-right card-text text-red-600">THB {{ room.roomCharge }}</p>
           </div>
-          <!-- <button @click="bookingRoom(room)" class="btn btn-primary">
-            Booking
-          </button> -->
+          <div class="space-x-1">
+          <button @click="editRoom(room)" class="text-sm btn btn-dark">edit</button>
+          <button @click="deleteRoom(room)" class="text-sm btn btn-success ">delete</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-// import {mapState} from 'vuex';
-import RoomDataService from "../service/RoomDataService";
+// import RoomDataService from "../service/RoomDataService";
 export default {
+   props: {
+    itemInRooms: Array,
+  },
   data() {
     return {
-      rooms: [],
-      search: "",
+      activeTab: "",
     };
   },
   methods: {
-    getAllRoom(){
-      RoomDataService.retrieveAllRoom().then((response) =>{
-        this.rooms = response.data
-      })
+    viewImg(roomId) {
+      return "http://localhost:8082/api/showImage/" + roomId;
+    },
+    deleteRoom(room) {
+      this.$emit("delete-room",room);
+    },
+    editRoom(room){
+      this.$emit("edit-room",room)
     }
   },
-  created(){
-    this.rooms = this.getAllRoom();
-  }
   // mounted(){
   //   this.$store.dispatch('loadRooms')
   // },
