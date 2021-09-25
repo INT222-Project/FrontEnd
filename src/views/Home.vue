@@ -14,21 +14,30 @@
         <button   v-if="!isEdit"
         @click="activeTab = 'FormRoom'"
         type="button" class="btn btn-dark">Add Room</button>
+        <button   v-else
+        @click="activeTab = 'FormRoom'"
+        type="button" class="btn btn-dark">Add Room</button>
         </div>
       </div>
       
       <div v-if="activeTab === 'RoomList'">
           <room-list 
-          v-if="isEdit"
-          @delete-room="editBtn"
-          :itemInRooms="rooms"/>
-          <room-list 
-          v-else
+          @edit-room="editBtn"
           @delete-room="deleteRoom"
           :itemInRooms="rooms"/>
       </div>
       <div v-if="activeTab === 'FormRoom'">
          <form-room 
+         v-if="isEdit"
+         @add-room="editRoom"
+         :old_roomId="old_roomId"
+         :old_roomNo="old_roomNo"
+         :old_bedtype="old_bedtype"
+         :old_roomtype="old_roomtype"
+         :old_roomCharge="old_roomCharge"
+         :itemInRooms="rooms"/>
+         <form-room  
+         v-else
          @add-room="addRoom"
          :itemInRooms="rooms"/>
       </div>
@@ -52,6 +61,12 @@ export default {
       rooms: [],
       activeTab: "RoomList",
       isEdit:false,
+      old_roomId:0,
+      old_roomNo:'',
+      old_bedtype:'',
+      old_roomtype:null,
+      old_roomCharge:0.00,
+      // old_img:'',
     };
   },
   methods: {
@@ -61,19 +76,58 @@ export default {
       })
     },
     addRoom(room){
-       RoomDataService.addNewRoom(room).then((response)=>{
+      const jsonNewRoom = JSON.stringify(room);
+        const blob = new Blob([jsonNewRoom],{
+          type: "application/json",
+        })
+        console.log(jsonNewRoom)
+        let formData = new FormData();
+        // formData.append("file-image", newProduct.imgObject, newProduct.imgObject.name);
+        formData.append("newRoom",blob)
+       RoomDataService.addNewRoom(formData).then((response)=>{
           console.log(response.data)
         })
+        location.reload();
     },
      deleteRoom(room) {
        console.log(room.roomId)
       RoomDataService.deleteRoom(room.roomId).then((response)=>{
         console.log(response.data)
       })
+      location.reload();
       // this.rooms = this.rooms.filter((room) => room.roomId !== room.roomId);
     },
-    editBtn(){
+    editBtn(room){
       this.isEdit = true
+      this.old_roomId = room.roomId
+      this.old_roomNo = room.roomNo
+      this.old_bedtype = room.bedType
+      this.old_roomtype = room.roomTypeId
+      this.old_roomCharge = room.roomCharge
+      this.activeTab = "FormRoom";
+    },
+    editRoom(room){
+      room = {
+        roomId:room.roomId,
+        roomNo:room.roomNo,
+        roomTypeId:room.roomTypeId,
+        roomCharge:room.roomCharge,
+        bedType:room.bedType
+        }
+        const jsonNewRoom = JSON.stringify(room);
+        const blob = new Blob([jsonNewRoom],{
+          type: "application/json",
+        })
+        console.log(jsonNewRoom)
+        console.log(room.roomId)
+        let formData = new FormData();
+        // formData.append("file-image", newProduct.imgObject, newProduct.imgObject.name);
+        formData.append("editRoom",blob)
+        RoomDataService.editRoom(formData,room.roomId).then((response)=>{
+          console.log(response.data)
+        })
+        this.isEdit = false;
+        this.activeTab = "RoomList";
     }
   },
   // mounted(){

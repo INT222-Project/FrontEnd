@@ -43,6 +43,7 @@ export default {
       this.$emit("delete-room",room);
     },
     editRoom(room){
+      console.log(room)
       this.$emit("edit-room",room)
     }
   },
