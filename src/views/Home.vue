@@ -35,6 +35,7 @@
          :old_bedtype="old_bedtype"
          :old_roomtype="old_roomtype"
          :old_roomCharge="old_roomCharge"
+         :old_Img="old_Img"
          :itemInRooms="rooms"/>
          <form-room  
          v-else
@@ -66,7 +67,7 @@ export default {
       old_bedtype:'',
       old_roomtype:null,
       old_roomCharge:0.00,
-      // old_img:'',
+      old_Img:''
     };
   },
   methods: {
@@ -81,13 +82,15 @@ export default {
           type: "application/json",
         })
         console.log(jsonNewRoom)
+        console.log(room.imgObject)
+        console.log(room.imgObject.name)
         let formData = new FormData();
-        // formData.append("file-image", newProduct.imgObject, newProduct.imgObject.name);
+        formData.append("image-file", room.imgObject, room.imgObject.name);
         formData.append("newRoom",blob)
        RoomDataService.addNewRoom(formData).then((response)=>{
           console.log(response.data)
         })
-        location.reload();
+        // location.reload();
     },
      deleteRoom(room) {
        console.log(room.roomId)
@@ -104,6 +107,8 @@ export default {
       this.old_bedtype = room.bedType
       this.old_roomtype = room.roomTypeId
       this.old_roomCharge = room.roomCharge
+      this.old_Img = "http://localhost:8082/api/rooms/getImageSource/"+room.roomId
+      console.log(this.old_Img)
       this.activeTab = "FormRoom";
     },
     editRoom(room){
@@ -112,16 +117,20 @@ export default {
         roomNo:room.roomNo,
         roomTypeId:room.roomTypeId,
         roomCharge:room.roomCharge,
-        bedType:room.bedType
+        bedType:room.bedType,
+        src:room.src
         }
+        console.log('imgsrc '+room.src)
         const jsonNewRoom = JSON.stringify(room);
         const blob = new Blob([jsonNewRoom],{
           type: "application/json",
         })
         console.log(jsonNewRoom)
-        console.log(room.roomId)
+        // console.log(room.imgObject)
+        // console.log(room.imgObject.name)
+        // console.log(room.roomId)
         let formData = new FormData();
-        // formData.append("file-image", newProduct.imgObject, newProduct.imgObject.name);
+        formData.append("image-file", room.imgObject, room.imgObject.name);
         formData.append("editRoom",blob)
         RoomDataService.editRoom(formData,room.roomId).then((response)=>{
           console.log(response.data)

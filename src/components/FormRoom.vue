@@ -88,6 +88,9 @@
             id="formFile"
             @change="openFile"
           />
+          <div v-if="this.invRimg == true" class="text-red-500 text-sm">
+            Please provide a valid room charge.
+          </div>
         </div>
         <!-- section -->
         <div class="space-x-2">
@@ -109,13 +112,13 @@ export default {
     old_bedtype:{type: String ,require: false ,default:'' },
     old_roomtype:{type: Object ,require: false ,default:null },
     old_roomCharge:{type: Number ,require: false ,default:0.00 },
+    old_Img:{type:String,require:false,default:''}
   },
   data(){
     return {
       // image
-      rooms:this.itemInRooms,
       file:null,
-      imgSrc:'',
+      imgSrc:this.old_Img,
       imgObject:null,
       // Data
       roomId:this.old_roomId,
@@ -128,14 +131,11 @@ export default {
       invRNo:false,
       invBtype:false,
       invRtype:false,
-      invRcharge:false
+      invRcharge:false,
+      invRimg:false
     }
   },
   methods:{
-    // viewImg(room) {
-    //   // return require("@/assets/images/rolex1.jpg");
-    //   return "http://localhost:8082/api/showImage/" + room.roomId;
-    // },
      openFile(ev) {
       const file = ev.target.files[0];
       this.imgSrc = URL.createObjectURL(file);
@@ -145,57 +145,75 @@ export default {
       this.imgSrc = ''
       this.imgObject = null
       this.roomNo = ''
-      this.bedtype = null
+      this.bedtype = ''
       this.roomtype = null
       this.roomCharge = 0.00
       this.invRNo=false
       this.invBtype=false
       this.invRtype=false
       this.invRcharge=false
+      this.invRimg=false
       this.$router.push('/')
     },
     checkInput(){
+      // if(this.roomNo!=this.old_roomNo){
+      //   console.log(this.old_roomNo)
+      // let count = 0;
       //  this.itemInRooms.forEach(r => {
-      //     console.log(r.roomNo);
-      //     if(this.roomNo === r.roomNo){
-      //       this.invRNo = true;
-      //     }else{
-      //       this.invRNo = false;
+      //     if(this.roomNo==r.roomNo|| this.roomNo == ''){
+      //       // this.invRNo = true;
+      //       count++
+      //       console.log(r);
+      //       console.log(this.roomNo)
       //     }
       //   });
+      //   if(count>0){
+      //     this.invRNo = true;
+      //   }else{
+      //     this.invRNo = false;
+      //   }
+      // }
+        //  this.itemInRooms.filter(item=>{
+        //    if(this.roomNo.has(item)){
+        //      this.invRNo = true;
+        //    }else{
+        //      this.invRNo = false;
+        //    }
+        //  })
         this.invRNo = this.roomNo === '' ? true : false;
         this.invBtype = this.bedtype === '' ? true : false;
         this.invRtype = this.roomtype === null ? true : false;
         this.invRcharge = this.roomCharge <= 0 ? true : false;
-        console.log(this.invRNo)
-        console.log(this.invBtype)
-        console.log(this.invRtype)
-        console.log(this.invRcharge)
-        if(!this.invRNo && !this.invBtype && !this.invRtype && !this.invRcharge){
+        this.invRimg = this.imgSrc === '' ? true : false;
+        
+        if(!this.invRNo && !this.invBtype && !this.invRtype && !this.invRcharge &&!this.invRimg){
+          if (this.imgSrc == this.old_Img) {
+          this.imgSrc = null;
+          this.imgObject = null;
+        }
         const room = {
         roomId:this.roomId,
         roomNo:this.roomNo,
         roomTypeId:this.roomtype,
         roomCharge:this.roomCharge,
-        bedType:this.bedtype
+        bedType:this.bedtype,
+        src:this.imgSrc,
+        imgObject:this.imgObject
         }
         console.log(room)
         this.invRNo = false;
         this.invBtype = false;
         this.invRtype = false;
         this.invRcharge = false;
+        this.invRimg = false;
+        this.roomId = '';
+        this.roomtype = null;
+        this.bedtype = '';
+        this.imgSrc = '';
+        this.imgObject = null;
         this.$emit('add-room',room)
-        }
-        // const jsonNewRoom = JSON.stringify(room);
-        // const blob = new Blob([jsonNewRoom],{
-        //   type: "application/json",
-        // })
-        // console.log(jsonNewRoom)
-        // let formData = new FormData();
-        // formData.append("newRoom",blob)
 
-        // formData.append("file-image", this.imgObject, this.imgObject.name);
-        // console.log(room)
+      }
         // this.$store.dispatch('addRoom',room)
     },
      getRoomtype(){

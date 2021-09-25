@@ -4,7 +4,7 @@
       <div class="col">
         <div class="card shadow-md">
           <div class="inner">
-            <img src="../assets/img/double.jpg" class="card-img-top" />
+            <img :src="viewImg(room.roomId)" class="card-img-top" />
           </div>
           <div class="card-body">
             <h5 class="card-title">
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     viewImg(roomId) {
-      return "http://localhost:8082/api/showImage/" + roomId;
+      return "http://localhost:8082/api/rooms/showImage/" + roomId;
     },
     deleteRoom(room) {
       this.$emit("delete-room",room);
