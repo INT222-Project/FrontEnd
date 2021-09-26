@@ -112,7 +112,7 @@ export default {
     old_bedtype:{type: String ,require: false ,default:'' },
     old_roomtype:{type: Object ,require: false ,default:null },
     old_roomCharge:{type: Number ,require: false ,default:0.00 },
-    old_Img:{type:String,require:false,default:''}
+    old_Img:{type:String,require:false,default:null}
   },
   data(){
     return {

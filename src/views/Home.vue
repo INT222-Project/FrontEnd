@@ -97,7 +97,7 @@ export default {
       RoomDataService.deleteRoom(room.roomId).then((response)=>{
         console.log(response.data)
       })
-      location.reload();
+      // location.reload();
       // this.rooms = this.rooms.filter((room) => room.roomId !== room.roomId);
     },
     editBtn(room){
@@ -112,7 +112,7 @@ export default {
       this.activeTab = "FormRoom";
     },
     editRoom(room){
-      room = {
+      let editRoom = {
         roomId:room.roomId,
         roomNo:room.roomNo,
         roomTypeId:room.roomTypeId,
@@ -120,8 +120,8 @@ export default {
         bedType:room.bedType,
         src:room.src
         }
-        console.log('imgsrc '+room.src)
-        const jsonNewRoom = JSON.stringify(room);
+        console.log('imgsrc '+editRoom.src)
+        const jsonNewRoom = JSON.stringify(editRoom);
         const blob = new Blob([jsonNewRoom],{
           type: "application/json",
         })
@@ -130,8 +130,13 @@ export default {
         // console.log(room.imgObject.name)
         // console.log(room.roomId)
         let formData = new FormData();
-        formData.append("image-file", room.imgObject, room.imgObject.name);
-        formData.append("editRoom",blob)
+        if(room.imgObject != null) {
+          formData.append("image-file", room.imgObject, room.imgObject.name);
+          formData.append("editRoom",blob);
+          }
+        else {
+          formData.append("editRoom",blob);
+        }
         RoomDataService.editRoom(formData,room.roomId).then((response)=>{
           console.log(response.data)
         })
