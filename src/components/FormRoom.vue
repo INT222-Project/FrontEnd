@@ -3,6 +3,7 @@
      <div class="container">
         <!-- section -->
         <!-- <form @submit.prevent="checkInput"> -->
+        
         <div class="mb-3">
           <label class="form-label font-bold">Room No</label>
           <input type="text" v-model="roomNo" class="form-control"  placeholder="100" />

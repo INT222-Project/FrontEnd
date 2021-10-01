@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <div class="container pt-14">
+  <div id="home" class="section w-auto h-full pt-4">
+    <div class="container pt-14 ">
       <div class="jumbotron">
         <h1 class="display-2">All Rooms</h1>
         <p class="lead">
@@ -107,7 +107,7 @@ export default {
       this.old_bedtype = room.bedType
       this.old_roomtype = room.roomTypeId
       this.old_roomCharge = room.roomCharge
-      this.old_Img = "http://localhost:8082/api/rooms/getImageSource/"+room.roomId
+      this.old_Img = "http://localhost:8081/api/rooms/getImageSource/"+room.roomId
       console.log(this.old_Img)
       this.activeTab = "FormRoom";
     },
@@ -158,3 +158,5 @@ export default {
   
 };
 </script>
+<style>
+</style>

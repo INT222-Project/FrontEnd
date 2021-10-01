@@ -1,9 +1,12 @@
 import axios from "axios";
-const API_URL = "http://localhost:8082";
+const API_URL = "http://localhost:8081";
 
 class RoomDataService{
     retrieveAllRoom(){
         return axios.get(`${API_URL}/api/rooms`);
+    }
+    retrieveAllPackage(){
+        return axios.get(`${API_URL}/api/packages`)
     }
     retrieveAllRoomtypes(){
         return axios.get(`${API_URL}/api/roomTypes`)
@@ -17,7 +20,7 @@ class RoomDataService{
     editRoom(formData,roomId){
         return axios.put(`${API_URL}/api/rooms/edit/${roomId}`, formData)
     }
-
+    
 
 
     

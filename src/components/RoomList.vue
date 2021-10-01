@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     viewImg(roomId) {
-      return "http://localhost:8082/api/rooms/showImage/" + roomId;
+      return "http://localhost:8081/api/rooms/showImage/" + roomId;
     },
     deleteRoom(room) {
       this.$emit("delete-room",room);
