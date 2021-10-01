@@ -90,7 +90,7 @@
             @change="openFile"
           />
           <div v-if="this.invRimg == true" class="text-red-500 text-sm">
-            Please provide a valid room charge.
+            Please provide a valid image.
           </div>
         </div>
         <!-- section -->
@@ -143,7 +143,7 @@ export default {
       this.imgObject = file;
     },
     clear(){
-      this.imgSrc = ''
+      this.imgSrc = null
       this.imgObject = null
       this.roomNo = ''
       this.bedtype = ''
@@ -185,9 +185,9 @@ export default {
         this.invBtype = this.bedtype === '' ? true : false;
         this.invRtype = this.roomtype === null ? true : false;
         this.invRcharge = this.roomCharge <= 0 ? true : false;
-        this.invRimg = this.imgSrc === '' ? true : false;
+        this.invRimg = this.imgSrc === null ? true : false;
         
-        if(!this.invRNo && !this.invBtype && !this.invRtype && !this.invRcharge &&!this.invRimg){
+        if(!this.invRNo && !this.invBtype && !this.invRtype && !this.invRcharge && !this.invRimg){
           if (this.imgSrc == this.old_Img) {
           this.imgSrc = null;
           this.imgObject = null;
@@ -210,7 +210,7 @@ export default {
         this.roomId = '';
         this.roomtype = null;
         this.bedtype = '';
-        this.imgSrc = '';
+        this.imgSrc = null;
         this.imgObject = null;
         this.$emit('add-room',room)
 

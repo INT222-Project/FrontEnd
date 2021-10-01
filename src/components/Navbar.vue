@@ -2,7 +2,7 @@
   <div id="nav">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand">Booking.com</a>
+        <a class="navbar-brand">BBooking.com</a>
         <button
           class="navbar-toggler"
           type="button"

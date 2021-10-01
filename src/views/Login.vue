@@ -26,7 +26,7 @@
           "
         >
           <div class="flex justify-center mb-3">
-            <h1>Sign in to Booking.com</h1>
+            <h1>Sign in</h1>
           </div>
 
           <div
