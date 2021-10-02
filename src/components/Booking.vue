@@ -72,11 +72,11 @@
 										<div class="form-group">
 											<span class="form-label">Packages</span>
 											<!-- <div>{{packages}}</div> -->
-											<!-- <select class="form-control">
+											<select class="form-control">
 												<option>1</option>
 												<option>2</option>
 												<option>3</option>
-											</select> -->
+											</select>
 											<span class="select-arrow"></span>
 										</div>
 									</div>
