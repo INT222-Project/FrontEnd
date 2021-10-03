@@ -2,8 +2,6 @@
   <div class="w-auto h-full pt-4">
      <div class="container">
         <!-- section -->
-        <!-- <form @submit.prevent="checkInput"> -->
-        
         <div class="mb-3">
           <label class="form-label font-bold">Room No</label>
           <input type="text" v-model="roomNo" class="form-control"  placeholder="100" />
@@ -98,37 +96,35 @@
         <button class="btn btn-success" @click="checkInput">Submit</button> 
         <button class="btn btn-danger" @click="clear">Cancel</button>
         </div>
-        <!-- </form> -->
     </div>
   </div>
 </template>
 
 <script>
-import RoomDataService from "../service/RoomDataService";
+import {computed} from 'vue';
+import {useStore} from 'vuex';
+// import RoomDataService from "../service/RoomDataService";
 export default {
     props: {
-    itemInRooms: Array,
     old_roomId:{type: Number ,require: false ,default:0 },
     old_roomNo:{type: String ,require: false ,default:'' },
     old_bedtype:{type: String ,require: false ,default:'' },
     old_roomtype:{type: Object ,require: false ,default:null },
     old_roomCharge:{type: Number ,require: false ,default:0.00 },
-    old_Img:{type:String,require:false,default:null}
+    old_Img:{type:String,require:false,default:null},
   },
   data(){
     return {
-      // image
+      edited:this.editedRoom,
       file:null,
       imgSrc:this.old_Img,
       imgObject:null,
-      // Data
       roomId:this.old_roomId,
       roomNo:this.old_roomNo,
       bedtype:this.old_bedtype,
       roomtype:this.old_roomtype,
       roomCharge:this.old_roomCharge,
-      // Validation
-      rType:[],
+      // rType:[],
       invRNo:false,
       invBtype:false,
       invRtype:false,
@@ -157,30 +153,6 @@ export default {
       this.$router.push('/')
     },
     checkInput(){
-      // if(this.roomNo!=this.old_roomNo){
-      //   console.log(this.old_roomNo)
-      // let count = 0;
-      //  this.itemInRooms.forEach(r => {
-      //     if(this.roomNo==r.roomNo|| this.roomNo == ''){
-      //       // this.invRNo = true;
-      //       count++
-      //       console.log(r);
-      //       console.log(this.roomNo)
-      //     }
-      //   });
-      //   if(count>0){
-      //     this.invRNo = true;
-      //   }else{
-      //     this.invRNo = false;
-      //   }
-      // }
-        //  this.itemInRooms.filter(item=>{
-        //    if(this.roomNo.has(item)){
-        //      this.invRNo = true;
-        //    }else{
-        //      this.invRNo = false;
-        //    }
-        //  })
         this.invRNo = this.roomNo === '' ? true : false;
         this.invBtype = this.bedtype === '' ? true : false;
         this.invRtype = this.roomtype === null ? true : false;
@@ -213,19 +185,19 @@ export default {
         this.imgSrc = null;
         this.imgObject = null;
         this.$emit('add-room',room)
-
       }
-        // this.$store.dispatch('addRoom',room)
     },
-     getRoomtype(){
-       RoomDataService.retrieveAllRoomtypes().then((response)=>{
-         this.rType = response.data
-       }) 
-     },
   },
-  created(){
-    this.rtype = this.getRoomtype();
-  }
+   setup(){
+    const store = useStore();
+    store.dispatch("getRoomType")
+    let rType = computed(function(){
+      return store.state.rType;
+    });
+    return {
+     rType
+    }
+  },
 
 };
 </script>

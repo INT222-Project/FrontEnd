@@ -16,7 +16,7 @@
         type="button" class="btn btn-dark">Add Room</button>
         <button   v-else
         @click="activeTab = 'FormRoom'"
-        type="button" class="btn btn-dark">Add Room</button>
+        type="button" class="btn btn-dark">Edit Room</button>
         </div>
       </div>
       
@@ -36,19 +36,23 @@
          :old_roomtype="old_roomtype"
          :old_roomCharge="old_roomCharge"
          :old_Img="old_Img"
-         :itemInRooms="rooms"/>
+         />
          <form-room  
          v-else
          @add-room="addRoom"
-         :itemInRooms="rooms"/>
+         />
       </div>
     </div>
   </div>
+  
 </template>
 
 <script>
 // @ is an alias to /src
 // import {mapState} from 'vuex';
+import {computed} from 'vue';
+import {useStore} from 'vuex';
+
 import RoomList from "@/components/RoomList.vue";
 import FormRoom from "../components/FormRoom"
 import RoomDataService from "../service/RoomDataService";
@@ -59,9 +63,9 @@ export default {
   },
   data() {
     return {
-      rooms: [],
       activeTab: "RoomList",
       isEdit:false,
+      editedRoom:null,
       old_roomId:0,
       old_roomNo:'',
       old_bedtype:'',
@@ -71,13 +75,10 @@ export default {
     };
   },
   methods: {
-    getAllRoom(){
-      RoomDataService.retrieveAllRoom().then((response) =>{
-        this.rooms = response.data
-      })
-    },
     addRoom(room){
-      const jsonNewRoom = JSON.stringify(room);
+      let response = confirm(`Are you sure you want to add room: ${room.roomNo}`)
+      if(response){
+         const jsonNewRoom = JSON.stringify(room);
         const blob = new Blob([jsonNewRoom],{
           type: "application/json",
         })
@@ -87,18 +88,20 @@ export default {
         let formData = new FormData();
         formData.append("image-file", room.imgObject, room.imgObject.name);
         formData.append("newRoom",blob)
-       RoomDataService.addNewRoom(formData).then((response)=>{
+        // this.$store.dispatch('addRoom',formData);
+        RoomDataService.addNewRoom(formData).then((response)=>{
           console.log(response.data)
         })
-        // location.reload();
+        this.activeTab = "RoomList"
+      }
     },
      deleteRoom(room) {
-       console.log(room.roomId)
-      RoomDataService.deleteRoom(room.roomId).then((response)=>{
-        console.log(response.data)
-      })
-      // location.reload();
-      // this.rooms = this.rooms.filter((room) => room.roomId !== room.roomId);
+      console.log(room.roomId)
+      let response = confirm(`Are you sure you want to delete room: ${room.roomNo}`)
+      if(response){
+         this.$store.dispatch('deleteRoom',room.roomId);
+      }
+      location.reload();
     },
     editBtn(room){
       this.isEdit = true
@@ -107,8 +110,7 @@ export default {
       this.old_bedtype = room.bedType
       this.old_roomtype = room.roomTypeId
       this.old_roomCharge = room.roomCharge
-      this.old_Img = "http://localhost:8081/api/rooms/getImageSource/"+room.roomId
-      console.log(this.old_Img)
+      this.old_Img = "http://localhost:8081/api/rooms/getImageSource/"+room.roomId //change ip
       this.activeTab = "FormRoom";
     },
     editRoom(room){
@@ -126,9 +128,6 @@ export default {
           type: "application/json",
         })
         console.log(jsonNewRoom)
-        // console.log(room.imgObject)
-        // console.log(room.imgObject.name)
-        // console.log(room.roomId)
         let formData = new FormData();
         if(room.imgObject != null) {
           formData.append("image-file", room.imgObject, room.imgObject.name);
@@ -144,18 +143,16 @@ export default {
         this.activeTab = "RoomList";
     }
   },
-  // mounted(){
-  //   this.$store.dispatch('loadRooms')
-  // },
-  // computed:{
-  //   ...mapState([
-  //      'rooms'
-  //   ])
-  // }
-  created(){
-    this.rooms = this.getAllRoom();
+  setup(){
+    const store = useStore();
+    store.dispatch("getRooms")
+    let rooms = computed(function(){
+      return store.state.rooms;
+    });
+    return {
+      rooms
+    }
   }
-  
 };
 </script>
 <style>
