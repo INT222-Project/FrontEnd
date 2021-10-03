@@ -47,14 +47,6 @@ export default {
       this.$emit("edit-room",room)
     }
   },
-  // mounted(){
-  //   this.$store.dispatch('loadRooms')
-  // },
-  // computed:{
-  //   ...mapState([
-  //      'rooms'
-  //   ])
-  // }
 };
 </script>
 <style>

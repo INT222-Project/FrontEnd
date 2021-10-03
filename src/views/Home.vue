@@ -6,6 +6,17 @@
         <p class="lead">
           All rooms in our hotels can accommodate different levels of travellers.
         </p>
+        <div class="container">
+    <div class="row height d-flex justify-content-center align-items-center ">
+        <div class="col-md-12">
+            <div class="search"> 
+              <i class="fa fa-search"></i> 
+              <input type="text" class="form-control" placeholder="Have a question? Ask Now"> 
+              <button class="btn btn-primary">Search</button> 
+              </div>
+        </div>
+    </div>
+    </div>
         <hr class="my-4" />
         <div class="space-x-2">
         <button
@@ -156,4 +167,39 @@ export default {
 };
 </script>
 <style>
+body {
+    background-color: rgb(255, 255, 255);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300
+}
+.search {
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1)
+}
+
+.search input {
+    height: 60px;
+    text-indent: 20px;
+    border: 2px solid #d6d4d4
+}
+
+.search input:focus {
+    box-shadow: none;
+    border: 2px solid blue
+}
+
+.search .fa-search {
+    position: absolute;
+    top: 20px;
+    left: 16px
+}
+
+.search button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 50px;
+    width: 110px;
+    background: blue
+}
 </style>
