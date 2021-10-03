@@ -36,10 +36,12 @@
          :old_roomtype="old_roomtype"
          :old_roomCharge="old_roomCharge"
          :old_Img="old_Img"
+         :itemInRooms="rooms"
          />
          <form-room  
          v-else
          @add-room="addRoom"
+         :itemInRooms="rooms"
          />
       </div>
     </div>
@@ -104,6 +106,7 @@ export default {
       location.reload();
     },
     editBtn(room){
+      console.log("Room No editing : " + room.roomNo);
       this.isEdit = true
       this.old_roomId = room.roomId
       this.old_roomNo = room.roomNo
