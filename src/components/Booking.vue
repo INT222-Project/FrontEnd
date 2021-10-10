@@ -82,7 +82,7 @@
 										</div>
 									</div>
 								<div class="form-btn">
-									<button class="submit-btn">Check availability</button>
+									<button class="submit-btn">Check Out</button>
 								</div>
 							</form>
 						</div>

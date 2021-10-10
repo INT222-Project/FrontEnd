@@ -65,7 +65,8 @@ setup(props) {
 
 .card {
     border: none;
-    overflow: hidden
+    overflow: hidden;
+    
 }
 
 .thumbnail_images ul {
