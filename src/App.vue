@@ -4,7 +4,4 @@
 </template>
 
 <style>
-/* .routerLink{
-     text-decoration-line: none;
- } */
 </style>

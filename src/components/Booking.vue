@@ -14,7 +14,8 @@
 					</div>
 					<div class="col-md-4 col-md-pull-7">
 						<div class="booking-form">
-							<form>
+							<h3 class="form-label">Fill in your Information</h3>
+							<form class="pt-4">
 								<div class="form-group">
 									<span class="form-label">Your Room</span>
 									<input class="form-control" type="text" placeholder="Enter a room number or type of room">

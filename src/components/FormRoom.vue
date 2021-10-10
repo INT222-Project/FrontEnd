@@ -208,7 +208,7 @@ export default {
         const room = {
           roomId: this.roomId,
           roomNo: this.roomNo,
-          roomTypeId: this.roomtype,
+          roomType: this.roomtype,
           roomCharge: this.roomCharge,
           bedType: this.bedtype,
           src: this.imgSrc,

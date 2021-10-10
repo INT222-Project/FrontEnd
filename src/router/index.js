@@ -1,15 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Room from '../views/Room.vue'
 import Login from '../views/Login.vue'
-import Signup from '../views/Signup.vue'
+import Register from '../views/Register.vue'
 import About from '../views/About.vue'
 import FormRoom from '../components/FormRoom.vue'
 import Booking from '../components/Booking.vue'
+import Home from '../views/Home.vue'
+import RoomDetails from '../components/RoomDetails.vue'
 const routes = [
   {
     path: '/',
     name: 'Home',
+    props: true,
     component: Home
+  },
+  {
+    path:'/RoomDetails',
+    name:'RoomDetails',
+    props: true,
+    component: RoomDetails
+  },
+  {
+    path: '/room',
+    name: 'Room',
+    component: Room
   },
   {
     path: '/about',
@@ -22,9 +36,9 @@ const routes = [
     component: Login
   },
   {
-    path: '/signup',
-    name: 'Signup',
-    component: Signup
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
   {
     path:'/formroom',

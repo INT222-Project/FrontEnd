@@ -10,8 +10,8 @@
             <h5 class="card-title">
              {{ room.roomNo }}
             </h5>
-            <p class="card-text ">{{ room.roomTypeId.description }}</p>
-            <p class="card-text">Room Level : {{ room.roomTypeId.name }}</p>
+            <p class="card-text ">{{ room.roomType.description }}</p>
+            <p class="card-text">Room Level : {{ room.roomType.name }}</p>
             <p class="card-text">Bed Type : {{ room.bedType }}</p>
             <p class="text-right card-text text-red-600">THB {{ room.roomCharge }}</p>
           </div>
@@ -54,9 +54,9 @@ export default {
   overflow: hidden;
 }
 .inner img {
-  transition: all 1.5s ease;
+  transition: all 1.1s ease;
 }
 .inner:hover img {
-  transform: scale(1.5);
+  transform: scale(1.1);
 }
 </style>

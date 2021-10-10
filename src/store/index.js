@@ -7,6 +7,7 @@ export default createStore({
   state: {
     rooms:[],
     rType:[],
+    rTypeById:[],
   },
   getter:{
   },
@@ -30,6 +31,10 @@ export default createStore({
     async editRoom({commit},formData,roomId){
       const response = await axios.put(`${API_URL}/api/rooms/edit/${roomId}`,formData);
       commit('editedRoom',response.data);
+    },
+    async getRoomTypeById({commit},roomTypeId){
+      const response = await axios.get(`${API_URL}/api/roomTypes/${roomTypeId}`);
+      commit('setRoomTypeById',response.data)
     }
  },
   mutations: {
@@ -45,6 +50,9 @@ export default createStore({
       delRoom(state,data){
         state.rooms = state.rooms.filter(d=>d.id != data)
       },
+      setRoomTypeById(state,data){
+        state.rTypeById = data
+      }
       // editedRoom(state,data){
       //   const index = state.rooms.findIndex()
       // }

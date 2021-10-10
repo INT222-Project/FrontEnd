@@ -1,7 +1,7 @@
 <template>
   <div id="nav">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container-fluid">
+      <div class="container">
         <a class="navbar-brand">BBooking.com</a>
         <button
           class="navbar-toggler"
@@ -19,32 +19,29 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
-            <!-- <li class="nav-item">
-              <router-link class="nav-link" to="/formroom">AddRoom</router-link>
+             <!-- <li class="nav-item">
+              <router-link class="nav-link" to="/RoomDetails">RoomDetails</router-link>
             </li> -->
             <li class="nav-item">
               <router-link class="nav-link" to="/booking">Booking</router-link>
             </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                About
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><router-link class="nav-link" to="/about"><a class="dropdown-item" aria-current="page">Peempat</a></router-link></li>
-                <li><router-link class="nav-link" to="/about"><a class="dropdown-item">Sahachai</a></router-link></li>
-                <li><router-link class="nav-link" to="/about"><a class="dropdown-item">Phichitphol  </a></router-link></li>
-              </ul>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/about">Aboutus</router-link>
             </li>
           </ul>
-          <router-link class="nav-link" to="/Login">Log in</router-link>
-          <router-link class="nav-link" to="/signup">sign up</router-link>
+          <div class="dropdown text-end  mb-2 mb-lg-0">
+          <a href="#" class="dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="far fa-user"></i>
+          </a>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item" href="#"><router-link to="/">Profile</router-link></a></li>
+              <li><a class="dropdown-item" href="#"><router-link to="/register">register</router-link></a></li>
+              <li><a class="dropdown-item" href="#"><router-link to="/login">login</router-link></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#"><router-link to="/room">Room Management</router-link></a></li>
+            <li><a class="dropdown-item" href="#"><router-link to="/">Log out</router-link></a></li>
+          </ul>
+        </div>
         </div>
       </div>
     </nav>
