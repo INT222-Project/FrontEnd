@@ -27,7 +27,6 @@
              {{r.name}}
             </h5>
             <p class="card-text text-center ">{{r.roomSize}} | members {{r.maxRest}} + </p>
-            <!-- <p class="card-text text-center ">{{r.description}}</p> -->
             <div class="flex justify-center">
            <span><router-link class="bg-blue-500 px-5 py-3 text-sm shadow-sm font-medium tracking-wider  
            text-blue-100 rounded-full hover:shadow-2xl hover:bg-blue-600" :to="{name:'RoomDetails',params: {id:r.roomTypeId}}">WATCH ROOM</router-link>
@@ -54,11 +53,11 @@ export default {
 setup() {
     const store = useStore();
     store.dispatch("getRoomType");
-    let rType = computed(function () {
-      return store.state.rType;
+    let rType = computed(function(){
+      return store.state.rType
     });
     return {
-      rType,
+      rType
     };
   },
 }

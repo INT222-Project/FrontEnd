@@ -11,7 +11,7 @@
     </symbol>
   </svg>
   <div id="Login" class="bg-blue-500 w-screen h-screen">
-    <form @submit.prevent="handleSubmit()">
+    <form @submit.prevent="login()">
       <div class="flex justify-center p-24">
         <div
           class="
@@ -93,7 +93,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   name: "Login",
   data() {
@@ -104,19 +104,19 @@ export default {
     };
   },
   methods: {
-    // handleSubmit(){
-    //   this.authen = this.authen === "" ? true : false;
-    // }
-    async handleSubmit() {
+     login() {
       if (this.email == "" || this.password == "") {
         this.authen = true;
+      }else{
+        const user = {
+          email : this.email,
+          password : this.password
+        }
+        this.$store.dispatch('login',user).then(()=>this.$router.push('/')).catch(err=>console.log(err))
+        this.authen = false 
+        console.log(`${user.email} ${user.password}` )
       }
-      const response = await axios.post("login", {
-        username: this.username,
-        password: this.password,
-      });
-      console.log(response);
-    },
+    }
   },
 };
-</script>>
+</script>

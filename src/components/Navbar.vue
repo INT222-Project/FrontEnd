@@ -34,12 +34,12 @@
             <i class="far fa-user"></i>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" href="#"><router-link to="/">Profile</router-link></a></li>
-              <li><a class="dropdown-item" href="#"><router-link to="/register">register</router-link></a></li>
-              <li><a class="dropdown-item" href="#"><router-link to="/login">login</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/">Profile</router-link></a></li>
+              <li><a class="dropdown-item"><router-link to="/register">register</router-link></a></li>
+              <li><a class="dropdown-item"><router-link to="/login">login</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#"><router-link to="/room">Room Management</router-link></a></li>
-            <li><a class="dropdown-item" href="#"><router-link to="/">Log out</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/room">Room Management</router-link></a></li>
+            <span v-if="isLoggedIn"><li><a @click="logout" class="dropdown-item"><router-link to="/">Log out</router-link></a></li></span>
           </ul>
         </div>
         </div>
@@ -48,6 +48,21 @@
   </div>
   
 </template>
-
+<script>
+export default {
+  methods:{
+    logout(){
+      this.$store.dispatch('logout').then(()=>{
+        this.$router.push('/login')
+      })
+    }
+  },
+  computed:{
+    isLoggedIn(){
+      return this.$store.getters.isLoggedIn
+    }
+  }
+}
+</script>
 <style>
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="Login" class="bg-blue-500 w-screen h-full">
+  <div id="register" class="bg-blue-500 w-screen h-full">
     <div class="flex justify-center p-24">
       <div
         class="
@@ -13,7 +13,7 @@
           shadow-lg
         "
       >
-        <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="register">
           <div class="flex justify-center"><h1>Sign up</h1></div>
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label"
@@ -67,14 +67,14 @@
           </div>
           <div class="mb-3 row">
             <label for="inputConfirmPassword" class="form-label"
-              ><span class="font-bold">Confirm Password</span></label
+              ><span class="font-bold">Password Confirm</span></label
             >
             <div class="col-sm-12">
               <input
                 type="password"
                 class="form-control"
                 id="inputConfirmPassword"
-                placeholder="Confirm Password"
+                placeholder="Password Confirm"
                 v-model="password_confirm"
               />
             </div>
@@ -88,7 +88,7 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 export default {
   name: "Signup.vue",
   data() {
@@ -102,7 +102,7 @@ export default {
     };
   },
   methods: {
-    handleSubmit() {
+    register() {
       const data={
         first_name:this.first_name,
         last_name:this.last_name,
@@ -111,17 +111,8 @@ export default {
         password:this.username,
         password_confirm:this.password_confirm
       };
-      axios.post('http://localhost:8001/signup',data)
-        .then(
-          res => {
-            console.log(res)
-          }
-        ).catch(
-          err=>{
-            console.log(err)
-          }
-        )
-      console.log(data);
+      console.log(data)
+      // this.$store.dispatch('register',data).then(()=>this.$router.push('/')).catch(err=>console.log(err))
     },
   },
 };

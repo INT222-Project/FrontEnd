@@ -4,17 +4,38 @@ const API_URL = "http://localhost:8081";
 import { createStore } from "vuex";
 
 export default createStore({
-  state: {
+  state: {  
+    //user
+    status:'',
+    token:localStorage.getItem('token') || '',
+    user:{},
+    //room
+    roomReq:[],
     rooms:[],
     rType:[],
     rTypeById:[],
   },
   getter:{
+    isLoggedIn: state => !!state.token,
+    authStatus: state => state.status,
   },
   actions: {
+    // async login({commit},user){
+    //     commit('auth_request')
+    //     const response = await axios.post(`${API_URL}/api/login`,user)
+
+    // },
     async getRooms({commit}){
       const response = await axios.get(`${API_URL}/api/rooms`);
       commit('setRooms',response.data)
+    },
+    async getRoomRequirementById({commit},id){
+      const response = await axios.get(`${API_URL}/api/rooms/roomRequirement/${id}`)
+      commit('setRoomRequirementById',response.data)
+    },
+    async getRoomRequirement({commit}){
+      const response = await axios.get(`${API_URL}/api/rooms/roomRequirement`)
+      commit('setRoomRequirement',response.data)
     },
     async getRoomType({commit}){
       const response = await axios.get(`${API_URL}/api/roomTypes`);
@@ -50,12 +71,33 @@ export default createStore({
       delRoom(state,data){
         state.rooms = state.rooms.filter(d=>d.id != data)
       },
+      setRoomRequirementById(state,data){
+        state.roomReq = data
+      },
+      setRoomRequirement(state,data){
+        state.roomReq = data
+      },
       setRoomTypeById(state,data){
         state.rTypeById = data
-      }
-      // editedRoom(state,data){
-      //   const index = state.rooms.findIndex()
-      // }
+      },
+
+
+
+      auth_request(state){
+        state.status = 'loading'
+      },
+      auth_success(state, token, user){
+        state.status = 'success'
+        state.token = token
+        state.user = user
+      },
+      auth_error(state){
+        state.status = 'error'
+      },
+      logout(state){
+        state.status = ''
+        state.token = ''
+      },
   },
   modules: {
   }

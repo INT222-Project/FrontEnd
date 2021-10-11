@@ -1,12 +1,7 @@
 <template>
-  <!-- <div class="container pt-14">
-      test
-      {{rTypeById}}
-      <button>Booking</button>
-      <button @click="back()">Back to Home</button>
-  </div> -->
-  <div class="container pt-14 mt-5 mb-5">
-    <div class="card shadow-md">
+<div id="details" class="section">
+  <div class="section-center container pt-14 mt-5 mb-5">
+    <div class="card shadow-md ">
         <div class="row g-0">
             <div class="col-md-6 border-end">
                 <div class="d-flex flex-column justify-content-center">
@@ -26,11 +21,19 @@
                     <p>members : {{rTypeById.maxRest}} </p>
                     <p>Size : {{rTypeById.roomSize}}</p>
                     </div>
-                    <div class="buttons d-flex flex-row pt-18 mt-5 gap-3"> <button class="btn btn-outline-dark">Book Now</button> <button class="btn btn-dark">Add to Cart</button> </div>
+                     <hr class="my-4" />
+                    <div v-for="req in roomReq" :key="req.roomId">
+                           <div class="mt-2 pr-3 content"> 
+                            <p> Bed: {{req.bedType}} |<span> ฿:{{req.roomCharge}}</span> (starter price per day)</p>
+                           </div>
+                    <div class="buttons d-flex flex-row gap-3"> <button class="btn btn-outline-primary">Book Now</button> <button class="btn btn-primary">Add to Cart</button> </div>
+                    </div>
                 </div>
             </div>
+            <button class="btn btn-outline-dark" @click="back()">Back to Home</button>
         </div>
     </div>
+</div>
 </div>
 </template>
 
@@ -51,24 +54,53 @@ methods:{
 setup(props) {
     const store = useStore();
     store.dispatch("getRoomTypeById",props.id);
+    store.dispatch("getRoomRequirementById",props.id);
     let rTypeById = computed(function () {
       return store.state.rTypeById;
     });
+    let roomReq = computed(function () {
+      return store.state.roomReq;
+    });
     return {
       rTypeById,
+      roomReq
     };
   },
 }
 </script>
 
 <style scoped>
-
+.section {
+	position: relative;
+	height: 100vh;
+}
+.section .section-center {
+	position: absolute;
+	top: 40%;
+	left: 0;
+	right: 0;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+#details{
+    font-family: 'Montserrat', sans-serif;
+	background-image: url('../assets/img/background.jpg');
+	background-size: cover;
+	background-position: center;
+}
+#details::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background: rgba(47, 103, 177, 0.6);
+}
 .card {
     border: none;
     overflow: hidden;
-    
 }
-
 .thumbnail_images ul {
     list-style: none;
     justify-content: center;
@@ -110,53 +142,12 @@ setup(props) {
 }
 
 .content p {
-    font-size: 18px
+    font-size: 12px
 }
-
-.ratings span {
-    font-size: 14px;
-    margin-left: 12px
+.content p span{
+    font-size: 16px;
+    color: red;
 }
-
-.colors {
-    margin-top: 5px
-}
-
-.colors ul {
-    list-style: none;
-    display: flex;
-    padding-left: 0px
-}
-
-.colors ul li {
-    height: 20px;
-    width: 20px;
-    display: flex;
-    border-radius: 50%;
-    margin-right: 10px;
-    cursor: pointer
-}
-
-.colors ul li:nth-child(1) {
-    background-color: #6c704d
-}
-
-.colors ul li:nth-child(2) {
-    background-color: #96918b
-}
-
-.colors ul li:nth-child(3) {
-    background-color: #68778e
-}
-
-.colors ul li:nth-child(4) {
-    background-color: #263f55
-}
-
-.colors ul li:nth-child(5) {
-    background-color: black
-}
-
 .right-side {
     position: relative
 }

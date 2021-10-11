@@ -4,7 +4,7 @@
 		<div class="section-center">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-7 col-md-push-5">
+					<div class="col-md-4 col-md-push-5">
 						<div class="booking-cta">
 							<h1>Make your reservation</h1>
 							<p>From comfortable standard rooms to the hippest suites in the heart of
@@ -12,13 +12,17 @@
 							</p>
 						</div>
 					</div>
-					<div class="col-md-4 col-md-pull-7">
+					<div class="col-md-7 col-md-pull-7">
 						<div class="booking-form">
-							<h3 class="form-label">Fill in your Information</h3>
+							<h3 class="form-label">Please Type Your Information</h3>
 							<form class="pt-4">
 								<div class="form-group">
-									<span class="form-label">Your Room</span>
-									<input class="form-control" type="text" placeholder="Enter a room number or type of room">
+									<span class="form-label">Your Name</span>
+									<input class="form-control" type="text" placeholder="Please Type Your Name">
+								</div>
+								<div class="form-group">
+									<span class="form-label">Your Email</span>
+									<input class="form-control" type="text" placeholder="Please Check Your Email Carefully">
 								</div>
 								<div class="row">
 									<div class="col-sm-6">
@@ -114,7 +118,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .section {
 	position: relative;
 	height: 100vh;
