@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-14">
+  <div class="container section pt-14">
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 mt-80">
             <div class="card bg-white d-flex align-items-center justify-content-center ">
@@ -69,6 +69,11 @@
 </div>
 </template>
 <style scoped>
+.section {
+  position: relative;
+  height: 100vh;
+}
+
 * {
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif

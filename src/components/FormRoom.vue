@@ -1,6 +1,6 @@
 <template>
   <div class="w-auto h-full pt-4">
-    <div class="container">
+    <div class="container section">
       <!-- section -->
       <div class="mb-3">
         <label class="form-label font-bold">Room No</label>
@@ -242,5 +242,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.section {
+  position: relative;
+  height: 80vh;
+}
 </style>
