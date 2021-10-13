@@ -47,7 +47,7 @@ import {useStore} from 'vuex';
 export default {
  methods:{
    viewImg(roomTypeId) {
-      return "http://localhost:8081/api/rooms/showImage/" + roomTypeId; //change ip
+      return  "http://localhost:8081/api/rooms/showImage/" + roomTypeId; //change ip
     },
  },
 setup() {

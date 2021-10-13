@@ -26,7 +26,7 @@
                            <div class="mt-2 pr-3 content"> 
                             <p> Bed: {{req.bedType}} |<span> ฿:{{req.roomCharge}}</span> (starter price per day)</p>
                            </div>
-                    <div class="buttons d-flex flex-row gap-3"> <button class="btn btn-outline-primary">Book Now</button> <button class="btn btn-primary">Add to Cart</button> </div>
+                    <div class="buttons d-flex flex-row gap-3"> <router-link class="btn btn-outline-primary" :to="{name:'Booking',param:{roomDetails:req}}">Book Now</router-link> <button class="btn btn-primary">Add to Cart</button> </div>
                     </div>
                 </div>
             </div>
@@ -133,8 +133,8 @@ setup(props) {
 }
 
 .buttons .btn {
-    height: 50px;
-    width: 150px;
+    height: 40px;
+    width: 140px;
     border-radius: 0px !important
 }
 </style>

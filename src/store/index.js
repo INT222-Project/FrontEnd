@@ -10,6 +10,7 @@ export default createStore({
     token:localStorage.getItem('token') || '',
     user:{},
     //room
+    package:[],
     roomReq:[],
     rooms:[],
     rType:[],
@@ -25,6 +26,10 @@ export default createStore({
     //     const response = await axios.post(`${API_URL}/api/login`,user)
 
     // },
+    async getPackages({commit}){
+      const response = await axios.get(`${API_URL}/api/packages`);
+      commit('setPackages',response.data)
+    },
     async getRooms({commit}){
       const response = await axios.get(`${API_URL}/api/rooms`);
       commit('setRooms',response.data)
@@ -80,24 +85,26 @@ export default createStore({
       setRoomTypeById(state,data){
         state.rTypeById = data
       },
+      setPackages(state,data){
+        state.package = data
+      },
 
 
-
-      auth_request(state){
-        state.status = 'loading'
-      },
-      auth_success(state, token, user){
-        state.status = 'success'
-        state.token = token
-        state.user = user
-      },
-      auth_error(state){
-        state.status = 'error'
-      },
-      logout(state){
-        state.status = ''
-        state.token = ''
-      },
+      // auth_request(state){
+      //   state.status = 'loading'
+      // },
+      // auth_success(state, token, user){
+      //   state.status = 'success'
+      //   state.token = token
+      //   state.user = user
+      // },
+      // auth_error(state){
+      //   state.status = 'error'
+      // },
+      // logout(state){
+      //   state.status = ''
+      //   state.token = ''
+      // },
   },
   modules: {
   }
