@@ -14,7 +14,7 @@
               </div>
         </div>
         <hr class="my-4" />
-      <div class="row row-cols-lg-2 g-2 ">
+      <div class="row row-cols-lg-2 g-4 ">
     <div v-for="r in rType" :key="r.roomTypeId">
       <div class="col">
         <div class="card shadow-md">

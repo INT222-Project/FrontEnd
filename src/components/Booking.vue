@@ -67,6 +67,9 @@
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
                           </select>
                           <span class="select-arrow"></span>
                         </div>
@@ -101,16 +104,20 @@
                       </div>
                     </div>
                     <div class="form-btn">
-                      <button class="submit-btn">Check Out</button>
+                      <button class="submit-btn">Confirm</button>
                     </div>
                   </form>
                 </div>
               </div>
-              <div class="col-md-5 md-4">
+              <div class="col-md-3 md-4">
                 <div class="booking-form">
                   <div class="form-group">
-					<div><span class="form-label">Room Charge (1 Room)</span> 1500</div>
-					<div><span class="form-label">Package price</span> 1500</div>
+                    <div>
+                      <span class="form-label">Room Charge (1 Room)</span> 1500
+                    </div>
+                    <div>
+                      <span class="form-label">Package price</span> 1500
+                    </div>
                     <div><span class="form-label">Sub total</span> ฿5000</div>
                   </div>
                 </div>
@@ -148,7 +155,7 @@ export default {
 <style scoped>
 .section {
   position: relative;
-  height: 120vh;
+  height: 140vh;
 }
 
 .section .section-center {
