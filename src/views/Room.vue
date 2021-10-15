@@ -1,5 +1,5 @@
 <template>
-  <div id="room" class="section w-auto h-full pt-4">
+  <div id="room" class="section w-auto h-full pt-4 pb-12">
     <div class="container pt-14 ">
       <!-- <div class="jumbotron">
         <h1 class="display-2">All Rooms</h1>
@@ -60,7 +60,6 @@
 
 <script>
 // @ is an alias to /src
-// import {mapState} from 'vuex';
 import {computed} from 'vue';
 import {useStore} from 'vuex';
 
@@ -122,7 +121,7 @@ export default {
       this.old_bedtype = room.bedType
       this.old_roomtype = room.roomType
       this.old_roomCharge = room.roomCharge
-      this.old_Img = "http://localhost:8081/api/rooms/getImageSource/"+room.roomId //change ip
+      this.old_Img =  this.$store.state.url +"/api/rooms/showImage/" +room.roomId //change ip
       this.activeTab = "FormRoom";
     },
     editRoom(room){

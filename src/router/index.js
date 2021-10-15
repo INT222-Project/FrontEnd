@@ -7,6 +7,7 @@ import FormRoom from '../components/FormRoom.vue'
 import Booking from '../components/Booking.vue'
 import Home from '../views/Home.vue'
 import RoomDetails from '../components/RoomDetails.vue'
+import ReservationStaff from '../components/ReservationStaff.vue'
 const routes = [
   {
     path: '/',
@@ -50,7 +51,14 @@ const routes = [
     name:'Booking',
     props: true,
     component: Booking
-  }
+  },
+  {
+    path:'/reservationStaff',
+    name:'reservationStaff',
+    props: true,
+    component: ReservationStaff
+  },
+
 ]
 
 const router = createRouter({

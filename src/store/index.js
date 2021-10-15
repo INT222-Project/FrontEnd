@@ -2,9 +2,9 @@
 import axios from "axios";
 const API_URL = "http://localhost:8081";
 import { createStore } from "vuex";
-
 export default createStore({
   state: {  
+    url:"http://localhost:8081",
     //user
     status:'',
     token:localStorage.getItem('token') || '',

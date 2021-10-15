@@ -14,7 +14,7 @@
               </div>
             </div>
             <div class="d-flex gap-4">
-              <div class="col-md-7 col-md-pull-6">
+              <div class="col-md-6 col-md-pull-6">
                 <div class="booking-form">
                   <h4 class="form-label">Please Type Your Information</h4>
                   <form class="pt-4">
@@ -109,7 +109,7 @@
                   </form>
                 </div>
               </div>
-              <div class="col-md-3 md-4">
+              <div class="col-md-4">
                 <div class="booking-form">
                   <div class="form-group">
                     <div>
@@ -155,7 +155,7 @@ export default {
 <style scoped>
 .section {
   position: relative;
-  height: 140vh;
+  height: 130vh;
 }
 
 .section .section-center {

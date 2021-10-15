@@ -39,6 +39,7 @@
               <li><a class="dropdown-item"><router-link to="/login">login</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item"><router-link to="/room">Room Management</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/reservationStaff">Reservation Mnanagement</router-link></a></li>
             <span v-if="isLoggedIn"><li><a @click="logout" class="dropdown-item"><router-link to="/">Log out</router-link></a></li></span>
           </ul>
         </div>

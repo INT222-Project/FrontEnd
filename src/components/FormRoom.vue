@@ -1,5 +1,5 @@
 <template>
-  <div class="w-auto h-full pt-4">
+  <div class="w-auto h-full pt-4 pb-12">
     <div class="container section">
       <!-- section -->
       <div class="mb-3">
@@ -243,8 +243,8 @@ export default {
 </script>
 
 <style scoped>
-.section {
+/* .section {
   position: relative;
   height: 80vh;
-}
+} */
 </style>

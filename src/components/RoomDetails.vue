@@ -48,7 +48,7 @@ methods:{
     this.$router.push('/') 
   },
    viewImg(roomTypeId) {
-      return "http://localhost:8081/api/rooms/showImage/" + roomTypeId; //change ip
+      return this.$store.state.url +"/api/rooms/showImage/" + roomTypeId; //change ip
     },
 },
 setup(props) {

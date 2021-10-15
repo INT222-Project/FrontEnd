@@ -25,7 +25,6 @@
   </div>
 </template>
 <script>
-// import RoomDataService from "../service/RoomDataService";
 export default {
   emits: ["delete-room", "edit-room"],
    props: {
@@ -37,7 +36,8 @@ export default {
   },
   methods: {
     viewImg(roomId) {
-      return "http://localhost:8081/api/rooms/showImage/" + roomId; //change ip
+      console.log("url: "+this.$store.state.url)
+      return this.$store.state.url +"/api/rooms/showImage/" + roomId;
     },
     deleteRoom(room) {
       this.$emit("delete-room",room);

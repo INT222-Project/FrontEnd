@@ -1,5 +1,5 @@
 <template>
-<div class="container pt-16">
+<div class="container pt-16 pb-12">
 <div class="jumbotron">
         <h1 class="display-2">Room Offer</h1>
         <p class="lead">
@@ -12,6 +12,7 @@
               <input type="text" class="form-control" placeholder="Have a question? Ask Now"> 
               <button class="btn btn-primary">Search</button> 
               </div>
+        </div>
         </div>
         <hr class="my-4" />
       <div class="row row-cols-lg-2 g-4 ">
@@ -35,39 +36,37 @@
       </div>
       </div>
   </div>
-  </div>
 </div>
 </div>
 </template>
 
 <script>
-import {computed} from 'vue';
-import {useStore} from 'vuex';
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
- methods:{
-   viewImg(roomTypeId) {
-      return  "http://localhost:8081/api/rooms/showImage/" + roomTypeId; //change ip
+  methods: {
+    viewImg(roomTypeId) {
+      return "http://localhost:8081/api/rooms/showImage/" + roomTypeId; //change ip
     },
- },
-setup() {
+  },
+  setup() {
     const store = useStore();
     store.dispatch("getRoomType");
-    let rType = computed(function(){
-      return store.state.rType
+    let rType = computed(function () {
+      return store.state.rType;
     });
     return {
-      rType
+      rType,
     };
   },
-}
-
+};
 </script>
 <style>
- li a {
-    text-decoration: none;
-  }
-  span a{
-    text-decoration: none;
-  }
+li a {
+  text-decoration: none;
+}
+span a {
+  text-decoration: none;
+}
 </style>
