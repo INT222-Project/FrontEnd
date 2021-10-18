@@ -5,8 +5,8 @@
         <div class="row g-0">
             <div class="col-md-6 border-end">
                 <div class="d-flex flex-column justify-content-center">
-                  <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div>
-                    <!-- <div class="main_image"> <img src="https://i.imgur.com/TAzli1U.jpg" id="main_product_image" width="350"> </div> -->
+                  <!-- <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div> -->
+                    <div class="main_image"> <img src="https://i.imgur.com/TAzli1U.jpg" id="main_product_image" width="350"> </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -26,7 +26,9 @@
                            <div class="mt-2 pr-3 content"> 
                             <p> Bed: {{req.bedType}} |<span> ฿:{{req.roomCharge}}</span> (starter price per day)</p>
                            </div>
-                    <div class="buttons d-flex flex-row gap-3"> <router-link class="btn btn-outline-primary" :to="{name:'Booking',param:{roomDetails:req}}">Book Now</router-link> <button class="btn btn-primary">Add to Cart</button> </div>
+                    <div class="buttons d-flex flex-row gap-3">
+                         <router-link class="btn btn-outline-primary" :to="{name:'Booking',params:{roomDetails:req.roomId}}">Book Now</router-link> 
+                         <button class="btn btn-primary">Add to Cart</button> </div>
                     </div>
                 </div>
             </div>
@@ -48,7 +50,7 @@ methods:{
     this.$router.push('/') 
   },
    viewImg(roomTypeId) {
-      return this.$store.state.url +"/api/rooms/showImage/" + roomTypeId; //change ip
+      return this.$store.state.url +"/api/rooms/showImage/" + roomTypeId; 
     },
 },
 setup(props) {

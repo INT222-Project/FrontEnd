@@ -8,6 +8,8 @@ import Booking from '../components/Booking.vue'
 import Home from '../views/Home.vue'
 import RoomDetails from '../components/RoomDetails.vue'
 import ReservationStaff from '../components/ReservationStaff.vue'
+import Profile from '../components/user/Profile.vue'
+import EditProfile from '../components/user/EditProfile.vue'
 const routes = [
   {
     path: '/',
@@ -54,11 +56,20 @@ const routes = [
   },
   {
     path:'/reservationStaff',
-    name:'reservationStaff',
+    name:'ReservationStaff',
     props: true,
     component: ReservationStaff
   },
-
+  {
+    path:'/profile',
+    name:'Profile',
+    component: Profile
+  },
+  {
+    path:'/editProfile',
+    name:'EditProfile',
+    component: EditProfile
+  }
 ]
 
 const router = createRouter({

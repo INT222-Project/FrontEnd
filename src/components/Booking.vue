@@ -17,34 +17,18 @@
               <div class="col-md-6 col-md-pull-6">
                 <div class="booking-form">
                   <h4 class="form-label">Please Type Your Information</h4>
-                  <form class="pt-4">
-                    <div class="form-group">
-                      <span class="form-label">Your Name</span>
-                      <input
-                        class="form-control"
-                        type="text"
-                        placeholder="Please Type Your Name"
-                      />
-                    </div>
-                    <div class="form-group">
-                      <span class="form-label">Your Email</span>
-                      <input
-                        class="form-control"
-                        type="text"
-                        placeholder="Please Check Your Email Carefully"
-                      />
-                    </div>
+                  <form class="pt-4" @submit.prevent="confirmBooking">
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
                           <span class="form-label">Check In</span>
-                          <input class="form-control" type="date" required />
+                          <input class="form-control" v-model="checkIn" type="date" />
                         </div>
                       </div>
                       <div class="col-sm-6">
                         <div class="form-group">
                           <span class="form-label">Check out</span>
-                          <input class="form-control" type="date" required />
+                          <input class="form-control" v-model="checkOut" type="date"/>
                         </div>
                       </div>
                     </div>
@@ -62,8 +46,8 @@
                       </div>
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <span class="form-label">Adults</span>
-                          <select class="form-control">
+                          <span class="form-label">NumberOfRest</span>
+                          <select v-model="numOfRest" class="form-control">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -76,11 +60,9 @@
                       </div>
                       <div class="col-sm-4">
                         <div class="form-group">
-                          <span class="form-label">Children</span>
-                          <select class="form-control">
-                            <option>0</option>
-                            <option>1</option>
-                            <option>2</option>
+                          <span class="form-label">PaymentMethod</span>
+                          <select v-model="paymentMethod" class="form-control">                     
+                            <option v-for="item in payment" :key="item.paymentMethodId" :value="item">{{item.paymentMethodName}}</option>
                           </select>
                           <span class="select-arrow"></span>
                         </div>
@@ -96,10 +78,11 @@
                         <input
                           class="form-check-input"
                           type="checkbox"
-                          :value="v"
+                          :value="p"
+                          v-model="selectedPackages"
                         />
                         <label class="form-check-label">
-                          {{ p.name }}
+                          {{ p.name }} ({{p.packageCharge}}฿)
                         </label>
                       </div>
                     </div>
@@ -112,13 +95,14 @@
               <div class="col-md-4">
                 <div class="booking-form">
                   <div class="form-group">
+                    <!-- {{room}} -->
                     <div>
-                      <span class="form-label">Room Charge (1 Room)</span> 1500
+                      <span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}
                     </div>
                     <div>
-                      <span class="form-label">Package price</span> 1500
+                      <span class="form-label">Package Price</span> {{packagePrice}}
                     </div>
-                    <div><span class="form-label">Sub total</span> ฿5000</div>
+                    <div><span class="form-label">Subtotal</span> <span class="text-red-500 font-bold">{{subtotal}}</span></div>
                   </div>
                 </div>
               </div>
@@ -134,20 +118,89 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
+  props:['roomDetails'],
   data() {
     return {
+      customer:{"customerId":"c103","email":"sahachai.senarak@hotmail.com",
+      "password":"123456789","telNo":"0945542211","address":
+      "102/10 bkk 10140","lname":"Senarak","fname":"Sahachai"},
+      checkIn:null,
+      checkOut:null,
+      numOfRest:0,
+      paymentMethod:null,
       selectedPackages: [],
+      total:0
     };
   },
-  methods: {},
-  setup() {
+  methods: {
+    confirmBooking(){
+      const currentDate = new Date();
+      var numberOfDay = 3;
+      const paymentDate = new Date();
+      paymentDate.setDate(paymentDate.getDate() + numberOfDay); 
+
+      for(let i=0;i<this.selectedPackages.length;i++){
+        this.total+=this.selectedPackages[i].packageCharge;
+      }
+      this.total += this.room.roomCharge
+
+      console.log(this.customer.customerId +','+this.paymentMethod+','+this.total+','+currentDate+','+paymentDate)
+      const booking = {
+        customerId : this.customer,
+        paymentMethodId : this.paymentMethod,
+        subTotal : this.total,
+        reservationDate : currentDate,
+        paymentDate : paymentDate
+      }
+    this.createFormData(booking)
+    },
+    createFormData(booking){
+      console.log(booking.customerId)
+       const jsonNewRoom = JSON.stringify(booking);
+        const blob = new Blob([jsonNewRoom],{
+          type: "application/json",
+        })
+        let formData = new FormData();
+        formData.append("newReservation",blob)
+        this.$store.dispatch("addReservation",formData);
+    }
+  },
+  computed:{
+    packagePrice(){
+      // console.log(this.selectedPackages[0].packageCharge)
+      let total = 0;
+      for(let i=0;i<this.selectedPackages.length;i++){
+        total+=this.selectedPackages[i].packageCharge;
+      }
+      return total
+    },
+    subtotal(){
+      let total = 0;
+      for(let i=0;i<this.selectedPackages.length;i++){
+        total+=this.selectedPackages[i].packageCharge;
+      }
+      return total+this.room.roomCharge
+    }
+  }
+  ,
+  setup(props) {
     const store = useStore();
     store.dispatch("getPackages");
+    store.dispatch("getPaymentMethods");
+    store.dispatch("getRoomById",props.roomDetails)
     let packages = computed(function () {
       return store.state.package;
     });
+    let room = computed(function () {
+      return store.state.room;
+    });
+    let payment = computed(function () {
+      return store.state.payment;
+    });
     return {
+      room,
       packages,
+      payment
     };
   },
 };

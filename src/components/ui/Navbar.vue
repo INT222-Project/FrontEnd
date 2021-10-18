@@ -22,9 +22,9 @@
              <!-- <li class="nav-item">
               <router-link class="nav-link" to="/RoomDetails">RoomDetails</router-link>
             </li> -->
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <router-link class="nav-link" to="/booking">Booking</router-link>
-            </li>
+            </li> -->
             <li class="nav-item">
               <router-link class="nav-link" to="/about">Aboutus</router-link>
             </li>
@@ -34,7 +34,7 @@
             <i class="far fa-user"></i>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item"><router-link to="/">Profile</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/profile">Profile</router-link></a></li>
               <li><a class="dropdown-item"><router-link to="/register">register</router-link></a></li>
               <li><a class="dropdown-item"><router-link to="/login">login</router-link></a></li>
             <li><hr class="dropdown-divider"></li>

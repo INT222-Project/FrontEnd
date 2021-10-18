@@ -10,11 +10,15 @@ export default createStore({
     token:localStorage.getItem('token') || '',
     user:{},
     //room
-    package:[],
-    roomReq:[],
     rooms:[],
     rType:[],
+    //roomDetails , Booking
+    room:{},
+    roomReq:[],
     rTypeById:[],
+    payment:[],
+    package:[],
+    reservation:[],
   },
   getter:{
     isLoggedIn: state => !!state.token,
@@ -30,9 +34,25 @@ export default createStore({
       const response = await axios.get(`${API_URL}/api/packages`);
       commit('setPackages',response.data)
     },
+    async getPaymentMethods({commit}){
+      const response = await axios.get(`${API_URL}/api/paymentMethods`);
+      commit('setPaymentMethods',response.data)
+    },
     async getRooms({commit}){
       const response = await axios.get(`${API_URL}/api/rooms`);
       commit('setRooms',response.data)
+    },
+    async getUnsuccessReservation({commit}){
+      const response = await axios.get(`${API_URL}/api/reservations/unsuccessReservation`);
+      commit('setReservationsUnsuccess',response.data)
+    },
+    async getRoomById({commit},roomId){
+      const response = await axios.get(`${API_URL}/api/rooms/${roomId}`);
+      commit('setRoomById',response.data)
+    },
+    async getRoomByRoomtypeId({commit},roomTypeId){
+      const response = await axios.get(`${API_URL}/api/rooms/roomType/${roomTypeId}`);
+      commit('setRoomByRoomtypeId',response.data)
     },
     async getRoomRequirementById({commit},id){
       const response = await axios.get(`${API_URL}/api/rooms/roomRequirement/${id}`)
@@ -46,6 +66,10 @@ export default createStore({
       const response = await axios.get(`${API_URL}/api/roomTypes`);
       commit('setRoomType',response.data)
     },
+    async getRoomTypeById({commit},roomTypeId){
+      const response = await axios.get(`${API_URL}/api/roomTypes/${roomTypeId}`);
+      commit('setRoomTypeById',response.data)
+    },
     async addRoom({commit}, formData){
       const response = await axios.post(`${API_URL}/api/rooms/add`,formData);
       commit('newRoom',response.data);
@@ -58,9 +82,9 @@ export default createStore({
       const response = await axios.put(`${API_URL}/api/rooms/edit/${roomId}`,formData);
       commit('editedRoom',response.data);
     },
-    async getRoomTypeById({commit},roomTypeId){
-      const response = await axios.get(`${API_URL}/api/roomTypes/${roomTypeId}`);
-      commit('setRoomTypeById',response.data)
+    async addReservation({commit}, formData){
+      const response = await axios.post(`${API_URL}/api/reservations/add`,formData);
+      commit('newReservation',response.data);
     }
  },
   mutations: {
@@ -88,7 +112,21 @@ export default createStore({
       setPackages(state,data){
         state.package = data
       },
-
+      setRoomById(state,data){
+        state.room = data
+      },
+      setPaymentMethods(state,data){
+        state.payment = data
+      },
+      newReservation(state,data){
+        state.reservation = data
+      },
+      setReservationsUnsuccess(state,data){
+        state.reservation = data
+      },
+      setRoomByRoomtypeId(state,data){
+        state.rooms = data
+      },
 
       // auth_request(state){
       //   state.status = 'loading'

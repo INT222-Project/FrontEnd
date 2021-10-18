@@ -1,67 +1,45 @@
 <template>
-  <div class="container section pt-14">
+ <div class="container pt-14">
     <div class="row">
-        <div class="col-lg-3 col-md-6 col-sm-6 mt-80">
-            <div class="card bg-white d-flex align-items-center justify-content-center ">
-                <div class="w-100"><img src="https://images.pexels.com/photos/7467850/pexels-photo-7467850.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="rounded-circle"></div>
-                <div class="text-center ">
-                    <p class="name">Jason Smith</p>
-                    <p class="job">ENGINE MECHANIC</p>
-                    <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                        <li class="icon "><span class="fab fa-twitter"></span></li>
-                        <li class="icon mx-2"><span class="fab fa-facebook"></span></li>
-                        <li class="icon me-2"><span class="fab fa-google-plus"></span></li>
-                        <li class="icon "><span class="fab fa-instagram"></span></li>
+        <div class="col-lg-4">
+            <div class="card p-0">
+                <div class="card-image"> <img src="https://images.pexels.com/photos/2746187/pexels-photo-2746187.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt=""> </div>
+                <div class="card-content d-flex flex-column align-items-center">
+                    <h4 class="pt-2">SomeOne Famous</h4>
+                    <h5>Creative Desinger</h5>
+                    <ul class="social-icons d-flex justify-content-center">
+                        <li style="--i:1"> <a href="#"> <span class="fab fa-facebook"></span> </a> </li>
+                        <li style="--i:2"> <a href="#"> <span class="fab fa-twitter"></span> </a> </li>
+                        <li style="--i:3"> <a href="#"> <span class="fab fa-instagram"></span> </a> </li>
                     </ul>
-                    <p class="dis pb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur.</p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 mt-80">
-            <div class="card bg-white d-flex align-items-center justify-content-center">
-                <div class="w-100"><img src="https://images.pexels.com/photos/7467850/pexels-photo-7467850.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="rounded-circle"></div>
-                <div class="text-center ">
-                    <p class="name">Jason Smith</p>
-                    <p class="job">ENGINE MECHANIC</p>
-                    <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                        <li class="icon "><span class="fab fa-twitter"></span></li>
-                        <li class="icon mx-2"><span class="fab fa-facebook"></span></li>
-                        <li class="icon me-2"><span class="fab fa-google-plus"></span></li>
-                        <li class="icon "><span class="fab fa-instagram"></span></li>
+        <div class="col-lg-4">
+            <div class="card p-0">
+                <div class="card-image"> <img src="https://images.pexels.com/photos/381843/pexels-photo-381843.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt=""> </div>
+                <div class="card-content d-flex flex-column align-items-center">
+                    <h4 class="pt-2">SomeOne Famous</h4>
+                    <h5>Creative Desinger</h5>
+                    <ul class="social-icons d-flex justify-content-center">
+                        <li style="--i:1"> <a href="#"> <span class="fab fa-facebook"></span> </a> </li>
+                        <li style="--i:2"> <a href="#"> <span class="fab fa-twitter"></span> </a> </li>
+                        <li style="--i:3"> <a href="#"> <span class="fab fa-instagram"></span> </a> </li>
                     </ul>
-                    <p class="dis pb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur.</p>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 mt-80">
-            <div class="card bg-white d-flex align-items-center justify-content-center">
-                <div class="w-100"><img src="https://images.pexels.com/photos/7467850/pexels-photo-7467850.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="rounded-circle"></div>
-                <div class="text-center ">
-                    <p class="name">Jason Smith</p>
-                    <p class="job">ENGINE MECHANIC</p>
-                    <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                        <li class="icon "><span class="fab fa-twitter"></span></li>
-                        <li class="icon mx-2"><span class="fab fa-facebook"></span></li>
-                        <li class="icon me-2"><span class="fab fa-google-plus"></span></li>
-                        <li class="icon "><span class="fab fa-instagram"></span></li>
+        <div class="col-lg-4">
+            <div class="card p-0">
+                <div class="card-image"> <img src="https://images.pexels.com/photos/139829/pexels-photo-139829.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500" alt=""> </div>
+                <div class="card-content d-flex flex-column align-items-center">
+                    <h4 class="pt-2">SomeOne Famous</h4>
+                    <h5>Creative Desinger</h5>
+                    <ul class="social-icons d-flex justify-content-center">
+                        <li style="--i:1"> <a href="#"> <span class="fab fa-facebook"></span> </a> </li>
+                        <li style="--i:2"> <a href="#"> <span class="fab fa-twitter"></span> </a> </li>
+                        <li style="--i:3"> <a href="#"> <span class="fab fa-instagram"></span> </a> </li>
                     </ul>
-                    <p class="dis pb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur.</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6 mt-80">
-            <div class="card bg-white d-flex align-items-center justify-content-center">
-                <div class="w-100"><img src="https://images.pexels.com/photos/7467850/pexels-photo-7467850.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" class="rounded-circle"></div>
-                <div class="text-center ">
-                    <p class="name">Jason Smith</p>
-                    <p class="job">ENGINE MECHANIC</p>
-                    <ul class="d-flex align-items-center justify-content-center list-unstyled icons">
-                        <li class="icon "><span class="fab fa-twitter"></span></li>
-                        <li class="icon mx-2"><span class="fab fa-facebook"></span></li>
-                        <li class="icon me-2"><span class="fab fa-google-plus"></span></li>
-                        <li class="icon "><span class="fab fa-instagram"></span></li>
-                    </ul>
-                    <p class="dis pb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur.</p>
                 </div>
             </div>
         </div>
@@ -69,91 +47,127 @@
 </div>
 </template>
 <style scoped>
-.section {
-  position: relative;
-  height: 100vh;
-}
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-* {
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif
-}
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: 'Poppins', sans-serif
+ }
 
-body {
-    background-color: #eee
-}
+ body {
+     min-height: 100vh;
+     background: linear-gradient(to bottom, #000428, #004683)
+ }
 
-img {
-    height: 150px;
-    width: 150px;
-    border: 8px solid #eee;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, -50%)
-}
+ .container {
+     margin-top: 100px
+ }
 
-.card {
-    position: relative;
-    width: 100%;
-    border-radius: 5px;
-    border: none
-}
+ .container .row .col-lg-4 {
+     display: flex;
+     justify-content: center
+ }
 
-.name {
-    font-size: 20px;
-    margin-bottom: 6px;
-    padding-top: 90px
-}
+ .card {
+     position: relative;
+     padding: 0;
+     margin: 0 !important;
+     border-radius: 20px;
+     overflow: hidden;
+     max-width: 280px;
+     max-height: 340px;
+     cursor: pointer;
+     border: none;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2)
+ }
 
-.job {
-    color: #fa2525;
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 8px
-}
+ .card .card-image {
+     width: 100%;
+     max-height: 340px
+ }
 
-.container .card .icons .icon {
-    font-size: 14px;
-    width: 30px;
-    height: 30px;
-    color: white;
-    background-color: #fa2525;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer
-}
+ .card .card-image img {
+     width: 100%;
+     max-height: 340px;
+     object-fit: cover
+ }
 
-.dis {
-    color: #7e7c7c;
-    line-height: 2
-}
+ .card .card-content {
+     position: absolute;
+     bottom: -180px;
+     color: #fff;
+     background: rgba(255, 255, 255, 0.2);
+     backdrop-filter: blur(15px);
+     min-height: 140px;
+     width: 100%;
+     transition: bottom .4s ease-in;
+     box-shadow: 0 -10px 10px rgba(255, 255, 255, 0.1);
+     border-top: 1px solid rgba(255, 255, 255, 0.2)
+ }
 
-.container .card:hover .icons .icon {
-    background-color: #f06d6d
-}
+ .card:hover .card-content {
+     bottom: 0px
+ }
 
-.container .card:hover .text-center {
-    background-color: #fa2525;
-    color: white
-}
+ .card:hover .card-content h4,
+ .card:hover .card-content h5 {
+     transform: translateY(10px);
+     opacity: 1
+ }
 
-.container .card:hover .job,
-.container .card:hover .name {
-    color: white
-}
+ .card .card-content h4,
+ .card .card-content h5 {
+     font-size: 1.1rem;
+     text-transform: uppercase;
+     letter-spacing: 3px;
+     text-align: center;
+     transition: 0.8s;
+     font-weight: 500;
+     opacity: 0;
+     transform: translateY(-40px);
+     transition-delay: 0.2s
+ }
 
-.container .card:hover .dis {
-    color: #c4c4c4
-}
+ .card .card-content h5 {
+     transition: 0.5s;
+     font-weight: 200;
+     font-size: 0.8rem;
+     letter-spacing: 2px
+ }
 
-.container .card .icons .icon:hover {
-    background-color: rgb(235, 123, 103)
-}
+ .card .card-content .social-icons {
+     list-style: none;
+     padding: 0
+ }
 
-.mt-80 {
-    margin-top: 80px
-}
+ .card .card-content .social-icons li {
+     margin: 10px;
+     transition: 0.5s;
+     transition-delay: calc(0.15s * var(--i));
+     transform: translateY(50px)
+ }
+
+ .card:hover .card-content .social-icons li {
+     transform: translateY(20px)
+ }
+
+ .card .card-content .social-icons li a {
+     color: #fff
+ }
+
+ .card .card-content .social-icons li a span {
+     font-size: 1.3rem
+ }
+
+ @media(max-width: 991.5px) {
+     .container {
+         margin-top: 20px
+     }
+
+     .container .row .col-lg-4 {
+         margin: 20px 0px
+     }
+ }
 </style>
