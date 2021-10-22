@@ -92,7 +92,8 @@
                     <div>
                       Package Price <span class="yellow">{{packagePrice}}</span>
                     </div>
-                    <h1 class="mb-0 yellow">฿{{subtotal}}</h1>
+                    <div><h1 class="mb-0 yellow">฿{{subtotal}}</h1>
+                    </div>
                 </div> <span>Enjoy all the features and perk after you complete the payment</span> 
                 <div class="hightlight"> <span>100% Guaranteed support and update for the next 5 years.</span> </div>
             </div>
@@ -133,11 +134,16 @@ export default {
 
       console.log(this.customer.customerId +','+this.paymentMethod+','+this.total+','+currentDate+','+paymentDate)
       const booking = {
-        customerId : this.customer,
-        paymentMethodId : this.paymentMethod,
-        subTotal : this.total,
+        customer : this.customer,
+        paymentMethod : this.paymentMethod,
         reservationDate : currentDate,
-        paymentDate : paymentDate
+        paymentDate : paymentDate,
+        subtotal : this.total,
+        checkInDate : this.checkIn,
+        checkOutDate : this.checkOut,
+        numOfRest : this.numOfRest,
+        roomCharge : this.room.roomCharge,
+        packages : this.selectedPackages
       }
     this.createFormData(booking)
     },
