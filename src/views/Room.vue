@@ -1,21 +1,6 @@
 <template>
   <div id="room" class="section w-auto h-full pt-4 pb-12">
     <div class="container pt-14 ">
-      <!-- <div class="jumbotron">
-        <h1 class="display-2">All Rooms</h1>
-        <p class="lead">
-          All rooms in our hotels can accommodate different levels of travellers.
-        </p>
-        <div class="row height d-flex justify-content-center align-items-center ">
-        <div class="col-md-12">
-            <div class="search"> 
-              <i class="fa fa-search"></i> 
-              <input type="text" class="form-control" placeholder="Have a question? Ask Now"> 
-              <button class="btn btn-primary">Search</button> 
-              </div>
-        </div>
-    </div>
-        <hr class="my-4" /> -->
         <div class="space-x-2">
         <button
         @click="activeTab = 'RoomList'"
@@ -27,7 +12,6 @@
         @click="activeTab = 'FormRoom'"
         type="button" class="btn btn-dark">Edit Room</button>
         </div>
-      <!-- </div> -->
       
       <div v-if="activeTab === 'RoomList'">
           <room-list 
@@ -102,7 +86,12 @@ export default {
         RoomDataService.addNewRoom(formData).then((response)=>{
           console.log(response.data)
         })
-        this.activeTab = "RoomList"
+         setTimeout(()=>{
+          this.$store.state.showLoading = true;
+          this.activeTab = "RoomList";
+        },2000)
+          location.reload()
+        this.$store.state.showLoading = false;
       }
     },
      deleteRoom(room) {
@@ -111,7 +100,10 @@ export default {
       if(response){
          this.$store.dispatch('deleteRoom',room.roomId);
       }
-      location.reload();
+      setTimeout(()=>{
+          this.$store.state.showLoading = true;
+          location.reload()
+        },2000)
     },
     editBtn(room){
       console.log("Room No editing : " + room);
@@ -125,6 +117,8 @@ export default {
       this.activeTab = "FormRoom";
     },
     editRoom(room){
+      let response = confirm(`Are you sure you want to add room: ${room.roomNo}`)
+      if(response){
       let editRoom = {
         roomId:room.roomId,
         roomNo:room.roomNo,
@@ -151,7 +145,13 @@ export default {
           console.log(response.data)
         })
         this.isEdit = false;
-        this.activeTab = "RoomList";
+        setTimeout(()=>{
+          this.$store.state.showLoading = true;
+          this.activeTab = "RoomList";
+          location.reload()
+        },2000)
+        this.$store.state.showLoading = false;
+        }
     }
   },
   setup(){
@@ -167,39 +167,4 @@ export default {
 };
 </script>
 <style>
-body {
-    background-color: rgb(255, 255, 255);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300
-}
-.search {
-    position: relative;
-    box-shadow: 0 0 40px rgba(51, 51, 51, .1)
-}
-
-.search input {
-    height: 60px;
-    text-indent: 20px;
-    border: 2px solid #d6d4d4
-}
-
-.search input:focus {
-    box-shadow: none;
-    border: 2px solid blue
-}
-
-.search .fa-search {
-    position: absolute;
-    top: 20px;
-    left: 16px
-}
-
-.search button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    height: 50px;
-    width: 110px;
-    background: blue
-}
 </style>

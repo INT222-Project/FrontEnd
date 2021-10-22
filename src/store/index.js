@@ -9,6 +9,7 @@ export default createStore({
     status:'',
     token:localStorage.getItem('token') || '',
     user:{},
+    showLoading:false,
     //room
     rooms:[],
     rType:[],

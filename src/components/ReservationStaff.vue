@@ -1,5 +1,6 @@
 <template>
-    <div class="container mt-5 px-2 pt-12">
+    <div class="container mt-5 px-2 pt-12 mb-20">
+        <div class="card shadow-md ">
     <div class="mb-2 d-flex justify-content-between align-items-center">
         <div class="position-relative"> <span class="position-absolute search"></span> <input class="form-control w-100" placeholder="Search by order#, name..."> </div>
         <!-- <div class="px-2"> <span>Filters <i class="fa fa-angle-down"></i></span> <i class="fa fa-ellipsis-h ms-3"></i> </div> -->
@@ -42,6 +43,7 @@
                 </tr>
             </tbody>
         </table>
+    </div>
     </div>
 </div>
 </template>

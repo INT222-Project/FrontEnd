@@ -1,5 +1,6 @@
 <template>
   <div class="w-auto h-full pt-4 pb-12">
+    <div class="card shadow-md">
     <div class="container section">
       <!-- section -->
       <div class="mb-3">
@@ -111,6 +112,7 @@
         <button class="btn btn-danger" @click="clear">Cancel</button>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

@@ -102,6 +102,7 @@ export default {
     };
   },
   methods: {
+    //make spinner true
     register() {
       const data={
         first_name:this.first_name,
@@ -114,6 +115,7 @@ export default {
       console.log(data)
       // this.$store.dispatch('register',data).then(()=>this.$router.push('/')).catch(err=>console.log(err))
     },
+    //make spinner false
   },
 };
 </script>

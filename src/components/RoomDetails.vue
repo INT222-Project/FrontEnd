@@ -72,25 +72,25 @@ setup(props) {
 </script>
 
 <style scoped>
-.section {
+ /* .section {
 	position: relative;
-	height: 100vh;
-}
-.section .section-center {
+	height: 90vh;
+}  */
+/* .section .section-center {
 	position: absolute;
 	top: 40%;
 	left: 0;
 	right: 0;
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
-}
-#details{
+} */
+/* #details{
     font-family: 'Montserrat', sans-serif;
 	background-image: url('../assets/img/background.jpg');
 	background-size: cover;
 	background-position: center;
-}
-#details::before {
+} */
+/* #details::before {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -98,7 +98,7 @@ setup(props) {
 	bottom: 0;
 	top: 0;
 	background: rgba(47, 103, 177, 0.6);
-}
+} */
 .card {
     border: none;
     overflow: hidden;
