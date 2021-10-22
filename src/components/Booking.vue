@@ -146,11 +146,16 @@ export default {
 
       console.log(this.customer.customerId +','+this.paymentMethod+','+this.total+','+currentDate+','+paymentDate)
       const booking = {
-        customerId : this.customer,
-        paymentMethodId : this.paymentMethod,
-        subTotal : this.total,
+        customer : this.customer,
+        paymentMethod : this.paymentMethod,
         reservationDate : currentDate,
-        paymentDate : paymentDate
+        paymentDate : paymentDate,
+        subtotal : this.total,
+        checkInDate : this.checkIn,
+        checkOutDate : this.checkOut,
+        numOfRest : this.numOfRest,
+        roomCharge : this.room.roomCharge,
+        packages : this.selectedPackages
       }
     this.createFormData(booking)
     },

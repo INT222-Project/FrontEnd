@@ -27,7 +27,7 @@
                     <td>{{item.reservNo}}</td>
                     <td>{{item.reservationDate}}</td>
                     <td v-if="item.paymentMethodId != null"><i class="fa fa-check-circle-o green"></i><span class="ms-1">{{item.paymentMethodId.paymentMethodName}}</span></td>
-                    <td v-else-if="item.paymentMethodId == null"><i class="fa fa-check-circle-o green"></i><span class="ms-1">null</span></td>
+                    <td v-else-if="item.paymentMethodId == null"><i class="fa fa-check-circle-o green"></i><span class="ms-1">-</span></td>
                     <td><img src="https://i.imgur.com/VKOeFyS.png" width="25">{{item.customerId.fname}} {{item.customerId.lname}}</td>
                     <td>{{item.subTotal}}</td>
                     <td>
