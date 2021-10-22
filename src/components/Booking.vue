@@ -1,23 +1,14 @@
 <template>
-  <div class="w-auto h-full pt-4">
-    <div id="booking" class="section">
-      <div class="section-center">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-8 col-md-push-5">
-              <div class="booking-cta">
-                <h1>Make your reservation</h1>
-                <p>
-                  From comfortable standard rooms to the hippest suites in the
-                  heart of the city.
-                </p>
-              </div>
-            </div>
-            <div class="d-flex gap-4">
-              <div class="col-md-6 col-md-pull-6">
+   <div class="container mt-5 px-5 pt-14">
+    <div class="mb-4">
+        <h2>Confirm order and pay</h2> <span>please make the payment, after that you can enjoy all the features and benefits.</span>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <form @submit.prevent="confirmBooking">
+            <div class="card p-3">
                 <div class="booking-form">
                   <h4 class="form-label">Please Type Your Information</h4>
-                  <form class="pt-4" @submit.prevent="confirmBooking">
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group">
@@ -86,32 +77,28 @@
                         </label>
                       </div>
                     </div>
-                    <div class="form-btn">
-                      <button class="submit-btn">Confirm</button>
-                    </div>
-                  </form>
                 </div>
-              </div>
-              <div class="col-md-4">
-                <div class="booking-form">
-                  <div class="form-group">
-                    <!-- {{room}} -->
-                    <div>
-                      <span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}
-                    </div>
-                    <div>
-                      <span class="form-label">Package Price</span> {{packagePrice}}
-                    </div>
-                    <div><span class="form-label">Subtotal</span> <span class="text-red-500 font-bold">{{subtotal}}</span></div>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
+            <div class="mt-4 mb-4 d-flex justify-content-between"><button class="btn btn-success px-3">Pay ฿{{subtotal}}</button></div>
+             </form>
+       </div>
+        <div class="col-md-4">
+            <div class="card card-blue p-3 text-white mb-3"> <span>You have to pay</span>
+                <div class="d-flex flex-row align-items-end mb-3">
+                    <!-- <h1 class="mb-0"><span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}</h1> -->
+                     <div>
+                    Room Charge (1 Room)<span class="yellow"> {{room.roomCharge}}</span>
+                    </div>
+                    <div>
+                      Package Price <span class="yellow">{{packagePrice}}</span>
+                    </div>
+                    <h1 class="mb-0 yellow">฿{{subtotal}}</h1>
+                </div> <span>Enjoy all the features and perk after you complete the payment</span> 
+                <div class="hightlight"> <span>100% Guaranteed support and update for the next 5 years.</span> </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 </template>
 
 <script>
@@ -146,16 +133,11 @@ export default {
 
       console.log(this.customer.customerId +','+this.paymentMethod+','+this.total+','+currentDate+','+paymentDate)
       const booking = {
-        customer : this.customer,
-        paymentMethod : this.paymentMethod,
+        customerId : this.customer,
+        paymentMethodId : this.paymentMethod,
+        subTotal : this.total,
         reservationDate : currentDate,
-        paymentDate : paymentDate,
-        subtotal : this.total,
-        checkInDate : this.checkIn,
-        checkOutDate : this.checkOut,
-        numOfRest : this.numOfRest,
-        roomCharge : this.room.roomCharge,
-        packages : this.selectedPackages
+        paymentDate : paymentDate
       }
     this.createFormData(booking)
     },
@@ -211,43 +193,9 @@ export default {
 };
 </script>
 <style scoped>
-.section {
-  position: relative;
-  height: 130vh;
-}
-
-.section .section-center {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
-#booking {
-  font-family: "Montserrat", sans-serif;
-  background-image: url("../assets/img/background.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
-#booking::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  background: rgba(47, 103, 177, 0.6);
-}
-
 .booking-form {
   background-color: #fff;
   padding: 50px 20px;
-  -webkit-box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
 }
 
 .booking-form .form-group {
@@ -348,5 +296,42 @@ export default {
 .booking-cta p {
   font-size: 16px;
   color: rgba(255, 255, 255, 0.8);
+}
+.card-blue {
+    background-color: #492bc4
+}
+
+.hightlight {
+    background-color: #5737d9;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 15px;
+    font-size: 14px
+}
+
+.yellow {
+    color: #fdcc49
+}
+
+.decoration {
+    text-decoration: none;
+    font-size: 14px
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #492bc4;
+    border-color: #492bc4
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #492bc4;
+    border-color: #492bc4
+}
+
+.decoration:hover {
+    text-decoration: none;
+    color: #fdcc49
 }
 </style>

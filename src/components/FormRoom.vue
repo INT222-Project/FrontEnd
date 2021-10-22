@@ -1,6 +1,6 @@
 <template>
   <div class="w-auto h-full pt-4 pb-12">
-    <div class="card shadow-md">
+    <div class="card shadow-md p-4">
     <div class="container section">
       <!-- section -->
       <div class="mb-3">

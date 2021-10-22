@@ -5,46 +5,93 @@
     </div>
     <div class="row">
         <div class="col-md-8">
+            <form @submit.prevent="confirmBooking">
             <div class="card p-3">
-                <h6 class="text-uppercase">Payment details</h6>
-                <div class="inputbox mt-3"> <input type="text" name="name" class="form-control" required="required"> <span>Name on card</span> </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <i class="fa fa-credit-card"></i> <span>Card Number</span> </div>
+                <div class="booking-form">
+                  <h4 class="form-label">Please Type Your Information</h4>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <span class="form-label">Check In</span>
+                          <input class="form-control" v-model="checkIn" type="date" />
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <span class="form-label">Check out</span>
+                          <input class="form-control" v-model="checkOut" type="date"/>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="d-flex flex-row">
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>Expiry</span> </div>
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>CVV</span> </div>
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <span class="form-label">Rooms</span>
+                          <select class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                          </select>
+                          <span class="select-arrow"></span>
                         </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <span class="form-label">NumberOfRest</span>
+                          <select v-model="numOfRest" class="form-control">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                          </select>
+                          <span class="select-arrow"></span>
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="form-group">
+                          <span class="form-label">PaymentMethod</span>
+                          <select v-model="paymentMethod" class="form-control">                     
+                            <option v-for="item in payment" :key="item.paymentMethodId" :value="item">{{item.paymentMethodName}}</option>
+                          </select>
+                          <span class="select-arrow"></span>
+                        </div>
+                      </div>
                     </div>
-                </div>
-                <div class="mt-4 mb-4">
-                    <h6 class="text-uppercase">Billing Address</h6>
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>Street Address</span> </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>City</span> </div>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>State/Province</span> </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="inputbox mt-3 mr-2"> <input type="text" name="name" class="form-control" required="required"> <span>Zip code</span> </div>
-                        </div>
+                    <div class="row">
+                      <span class="form-label">Packages (extra charge)</span>
+                      <div
+                        class="form-check col-sm-6"
+                        v-for="p in packages"
+                        :key="p.packageId"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          :value="p"
+                          v-model="selectedPackages"
+                        />
+                        <label class="form-check-label">
+                          {{ p.name }} ({{p.packageCharge}}฿)
+                        </label>
+                      </div>
                     </div>
                 </div>
             </div>
-            <div class="mt-4 mb-4 d-flex justify-content-between"> <span>Previous step</span> <button class="btn btn-success px-3">Pay $840</button> </div>
-        </div>
+            <div class="mt-4 mb-4 d-flex justify-content-between"><button class="btn btn-success px-3">Pay ฿{{subtotal}}</button></div>
+             </form>
+       </div>
         <div class="col-md-4">
             <div class="card card-blue p-3 text-white mb-3"> <span>You have to pay</span>
                 <div class="d-flex flex-row align-items-end mb-3">
-                    <p><span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}</p>
+                    <!-- <h1 class="mb-0"><span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}</h1> -->
+                     <div>
+                      <span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}
+                    </div>
+                    <div>
+                      <span class="form-label">Package Price</span> {{packagePrice}}
+                    </div>
                     <h1 class="mb-0 yellow">฿{{subtotal}}</h1>
                 </div> <span>Enjoy all the features and perk after you complete the payment</span> <a href="#" class="yellow decoration">Know all the features</a>
                 <div class="hightlight"> <span>100% Guaranteed support and update for the next 5 years.</span> </div>
@@ -145,19 +192,118 @@ export default {
 };
 </script>
 <style scoped>
-    body {
-    background-color: #eee
+.booking-form {
+  /* background-color: #fff; */
+  padding: 50px 20px;
+  /* -webkit-box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3); */
+  /* box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3); */
+  /* border-radius: 4px; */
 }
 
-.container {
-    height: 100vh
+.booking-form .form-group {
+  position: relative;
+  margin-bottom: 30px;
 }
 
+.booking-form .form-control {
+  background-color: #ebecee;
+  border-radius: 4px;
+  border: none;
+  height: 40px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #3e485c;
+  font-size: 14px;
+}
+
+.booking-form .form-control::-webkit-input-placeholder {
+  color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form .form-control:-ms-input-placeholder {
+  color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form .form-control::placeholder {
+  color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form input[type="date"].form-control:invalid {
+  color: rgba(62, 72, 92, 0.3);
+}
+
+.booking-form select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.booking-form select.form-control + .select-arrow {
+  position: absolute;
+  right: 0px;
+  bottom: 4px;
+  width: 32px;
+  line-height: 32px;
+  height: 32px;
+  text-align: center;
+  pointer-events: none;
+  color: rgba(62, 72, 92, 0.3);
+  font-size: 14px;
+}
+
+.booking-form select.form-control + .select-arrow:after {
+  content: "\279C";
+  display: block;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.booking-form .form-label {
+  display: inline-block;
+  color: #3e485c;
+  font-weight: 700;
+  margin-bottom: 6px;
+  margin-left: 7px;
+}
+
+.booking-form .submit-btn {
+  display: inline-block;
+  color: #fff;
+  background-color: #1e62d8;
+  font-weight: 700;
+  padding: 14px 30px;
+  border-radius: 4px;
+  border: none;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+}
+
+.booking-form .submit-btn:hover,
+.booking-form .submit-btn:focus {
+  opacity: 0.9;
+}
+
+.booking-cta {
+  margin-top: 80px;
+  margin-bottom: 30px;
+}
+
+.booking-cta h1 {
+  font-size: 52px;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 700;
+}
+
+.booking-cta p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
 .card {
     border: none
 }
 
-.form-control {
+/* .form-control {
     border-bottom: 2px solid #eee !important;
     border: none;
     font-weight: 600
@@ -208,7 +354,7 @@ input::-webkit-inner-spin-button {
 .inputbox input:valid~span {
     transform: translateX(-0px) translateY(-15px);
     font-size: 12px
-}
+} */
 
 .card-blue {
     background-color: #492bc4
@@ -247,4 +393,5 @@ input::-webkit-inner-spin-button {
     text-decoration: none;
     color: #fdcc49
 }
+
 </style>
