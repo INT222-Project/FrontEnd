@@ -8,7 +8,7 @@ import Booking from '../components/Booking.vue'
 import Home from '../views/Home.vue'
 import RoomDetails from '../components/RoomDetails.vue'
 import ReservationStaff from '../components/ReservationStaff.vue'
-import Profile from '../components/user/Profile.vue'
+import Profile from '../components/user/profile.vue'
 import EditProfile from '../components/user/EditProfile.vue'
 import Cart from '../components/Cart.vue'
 const routes = [
