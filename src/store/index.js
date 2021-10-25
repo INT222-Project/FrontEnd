@@ -20,6 +20,7 @@ export default createStore({
     payment:[],
     package:[],
     reservation:[],
+    reservationDetail: [],
   },
   getter:{
     isLoggedIn: state => !!state.token,
@@ -86,6 +87,10 @@ export default createStore({
     async addReservation({commit}, formData){
       const response = await axios.post(`${API_URL}/api/reservations/add`,formData);
       commit('newReservation',response.data);
+    },
+    async getReservationDetailByReservationNo({commit}, reservNo){
+      const response = await axios.get(`${API_URL}/api/reservationDetails/byReservationNo/${reservNo}`);
+      commit('setReservationDetailByReservationNo', response.data);
     }
  },
   mutations: {
@@ -127,6 +132,9 @@ export default createStore({
       },
       setRoomByRoomtypeId(state,data){
         state.rooms = data
+      },
+      setReservationDetailByReservationNo(state,data){
+        state.reservationDetail = data
       },
 
       // auth_request(state){

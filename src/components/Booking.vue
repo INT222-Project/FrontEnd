@@ -142,7 +142,7 @@ export default {
         checkInDate : this.checkIn,
         checkOutDate : this.checkOut,
         numOfRest : this.numOfRest,
-        roomCharge : this.room.roomCharge,
+        room : this.room,
         packages : this.selectedPackages
       }
     this.createFormData(booking)
