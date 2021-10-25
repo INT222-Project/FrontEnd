@@ -20,6 +20,9 @@ export default createStore({
     payment:[],
     package:[],
     reservation:[],
+
+    cartItems:[],
+    cartItemCount:0
   },
   getter:{
     isLoggedIn: state => !!state.token,
@@ -86,6 +89,12 @@ export default createStore({
     async addReservation({commit}, formData){
       const response = await axios.post(`${API_URL}/api/reservations/add`,formData);
       commit('newReservation',response.data);
+    },
+    addRoomToCart({commit},room){
+      commit('addToCart',room)
+    },
+    removeCartItem({commit},room){
+      commit('removeItem',room)
     }
  },
   mutations: {
@@ -128,6 +137,18 @@ export default createStore({
       setRoomByRoomtypeId(state,data){
         state.rooms = data
       },
+      addToCart(state,room){
+        state.cartItems.push(room)
+        state.cartItemCount++
+      },
+      removeItem(state,room){
+        if(state.cartItems.length>0){
+          let bool = state.cartItems.some(i => i.roomId === room.roomId)
+          if(bool){
+            state.cartItemCount--
+          }
+        }
+      }
 
       // auth_request(state){
       //   state.status = 'loading'

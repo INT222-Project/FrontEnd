@@ -1,95 +1,48 @@
 <template>
-    <div class="pt-14">
-      test
+  <div class="container pt-14 ">
+    <div class="row">
+      <div class="col-md-8 mb-3">
+        <h1>this cart is empty you can go to homepage and view rooms</h1>
+        <div class="card p-3">
+          <div v-for="item in itemInCart" :key="item.roomId"> 
+          {{item.roomType.name}} | {{item.bedType}}
+              <button @click="removeItem(item.roomId)" class="btn btn-primary p-2">Remove</button>
+                <hr/> 
+           </div>
+        </div>
+      </div>
     </div>
+    <button class="btn btn-success p-2">Check out</button>
+  </div>
 </template>
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
-  props:['roomDetails'],
   data() {
-    return {
-      customer:{"customerId":"c103","email":"sahachai.senarak@hotmail.com",
-      "password":"123456789","telNo":"0945542211","address":
-      "102/10 bkk 10140","lname":"Senarak","fname":"Sahachai"},
-      checkIn:null,
-      checkOut:null,
-      numOfRest:0,
-      paymentMethod:null,
-      selectedPackages: [],
-      total:0
-    };
+    return {};
   },
   methods: {
-    confirmBooking(){
-      const currentDate = new Date();
-      var numberOfDay = 3;
-      const paymentDate = new Date();
-      paymentDate.setDate(paymentDate.getDate() + numberOfDay); 
-
-      for(let i=0;i<this.selectedPackages.length;i++){
-        this.total+=this.selectedPackages[i].packageCharge;
-      }
-      this.total += this.room.roomCharge
-
-      console.log(this.customer.customerId +','+this.paymentMethod+','+this.total+','+currentDate+','+paymentDate)
-      const booking = {
-        customerId : this.customer,
-        paymentMethodId : this.paymentMethod,
-        subTotal : this.total,
-        reservationDate : currentDate,
-        paymentDate : paymentDate
-      }
-    this.createFormData(booking)
-    },
-    createFormData(booking){
-      console.log(booking.customerId)
-       const jsonNewRoom = JSON.stringify(booking);
-        const blob = new Blob([jsonNewRoom],{
-          type: "application/json",
-        })
-        let formData = new FormData();
-        formData.append("newReservation",blob)
-        this.$store.dispatch("addReservation",formData);
+    removeItem(roomId){
+      this.$store.dispatch("removeCartItem",roomId)
     }
   },
-  computed:{
-    packagePrice(){
-      // console.log(this.selectedPackages[0].packageCharge)
-      let total = 0;
-      for(let i=0;i<this.selectedPackages.length;i++){
-        total+=this.selectedPackages[i].packageCharge;
-      }
-      return total
+  computed: {
+    itemInCart() {
+      return this.$store.state.cartItems;
     },
-    subtotal(){
-      let total = 0;
-      for(let i=0;i<this.selectedPackages.length;i++){
-        total+=this.selectedPackages[i].packageCharge;
-      }
-      return total+this.room.roomCharge
+    count(){
+      return this.$store.state.cartItemCount;
     }
-  }
-  ,
-  setup(props) {
+  },
+  setup() {
     const store = useStore();
     store.dispatch("getPackages");
-    store.dispatch("getPaymentMethods");
-    store.dispatch("getRoomById",props.roomDetails)
     let packages = computed(function () {
       return store.state.package;
     });
-    let room = computed(function () {
-      return store.state.room;
-    });
-    let payment = computed(function () {
-      return store.state.payment;
-    });
     return {
-      room,
       packages,
-      payment
     };
   },
 };
@@ -203,7 +156,7 @@ export default {
   color: rgba(255, 255, 255, 0.8);
 }
 .card {
-    border: none
+  border: none;
 }
 
 /* .form-control {
@@ -260,41 +213,40 @@ input::-webkit-inner-spin-button {
 } */
 
 .card-blue {
-    background-color: #492bc4
+  background-color: #492bc4;
 }
 
 .hightlight {
-    background-color: #5737d9;
-    padding: 10px;
-    border-radius: 10px;
-    margin-top: 15px;
-    font-size: 14px
+  background-color: #5737d9;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 15px;
+  font-size: 14px;
 }
 
 .yellow {
-    color: #fdcc49
+  color: #fdcc49;
 }
 
 .decoration {
-    text-decoration: none;
-    font-size: 14px
+  text-decoration: none;
+  font-size: 14px;
 }
 
 .btn-success {
-    color: #fff;
-    background-color: #492bc4;
-    border-color: #492bc4
+  color: #fff;
+  background-color: #492bc4;
+  border-color: #492bc4;
 }
 
 .btn-success:hover {
-    color: #fff;
-    background-color: #492bc4;
-    border-color: #492bc4
+  color: #fff;
+  background-color: #492bc4;
+  border-color: #492bc4;
 }
 
 .decoration:hover {
-    text-decoration: none;
-    color: #fdcc49
+  text-decoration: none;
+  color: #fdcc49;
 }
-
 </style>
