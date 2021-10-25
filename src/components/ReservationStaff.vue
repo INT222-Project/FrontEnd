@@ -71,7 +71,7 @@ export default {
             console.log(reservation);
             let booking = {
                 reservNo : reservation.reservNo,
-                customerId : reservation.customer,
+                customerId : reservation.customerId,
                 paymentDate : reservation.paymentDate,
                 reservationDate : reservation.reservationDate,
                 paymentMethodId : reservation.paymentMethodId,
