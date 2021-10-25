@@ -69,7 +69,26 @@ export default {
                 reservation.reservationDetailList[i].status = 'done';
             }
             console.log(reservation);
-
+            let booking = {
+                reservNo : reservation.reservNo,
+                customerId : reservation.customer,
+                paymentDate : reservation.paymentDate,
+                reservationDate : reservation.reservationDate,
+                paymentMethodId : reservation.paymentMethodId,
+                subTotal : reservation.subTotal,
+                repId : reservation.repId,
+                reservationDetailList : reservation.reservationDetailList
+            }
+            this.createFormData(booking);
+        },
+        createFormData(booking){
+            const jsonNewRoom = JSON.stringify(booking);
+            const blob = new Blob([jsonNewRoom],{
+                type: "application/json",
+            })
+            let formData = new FormData();
+            formData.append("editReservation",blob)
+            this.$store.dispatch("editReservation",formData);
         },
         getListRoom(room){
             const showRoom = this.rooms.filter(temp => (temp.bedType == room.bedType && temp.roomType.roomTypeId == room.roomType.roomTypeId && temp.roomId > 20));

@@ -88,6 +88,11 @@ export default createStore({
       const response = await axios.post(`${API_URL}/api/reservations/add`,formData);
       commit('newReservation',response.data);
     },
+    async editReservation({commit} , formData){
+      const response = await axios.put(`${API_URL}/api/reservations/edit`,formData);
+      commit('editReservation',response.data);
+    }
+    ,
     async getReservationDetailByReservationNo({commit}, reservNo){
       const response = await axios.get(`${API_URL}/api/reservationDetails/byReservationNo/${reservNo}`);
       commit('setReservationDetailByReservationNo', response.data);
@@ -127,6 +132,10 @@ export default createStore({
       newReservation(state,data){
         state.reservation = data
       },
+      editReservation(state,data){
+        state.reservation = data
+      }
+      ,
       setReservationsUnsuccess(state,data){
         state.reservation = data
       },
