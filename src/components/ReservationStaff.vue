@@ -32,23 +32,25 @@
                     <td><img src="https://i.imgur.com/VKOeFyS.png" width="25">{{item.customerId.fname}} {{item.customerId.lname}}</td>
                     <td>{{item.subTotal}}</td>
                     <td>
+                        <div v-for="reservationDetail in item.reservationDetailList" :key="reservationDetail.reservDetailId">
+                        {{reservationDetail.status}}
                         <select v-model="seletectedRoom">
-                        <option v-for="room in rooms" :key="room.roomId"><span>{{room.roomNo}}</span></option>
+                        <option v-for="room in getListRoom(reservationDetail.room)" :key="room.roomId" :value="room"><span>{{room.roomNo}}</span></option>
                         </select>
+                    </div>
                     </td>
-
-                    <!-- <td class="text-end"><span class="fw-bolder">{{item.subTotal}}</span> ฿</td> -->
-                    <td @click="preferRoom()" class="btn btn-outline-primary"><span class="text-end">Accept</span></td>
-        
+                    <td>{{item.status}}</td>
+                    <td @click.prevent="preferRoom(item)" class="btn btn-outline-primary"><span class="text-end">Accept</span></td>
                 </tr>
             </tbody>
         </table>
+
     </div>
     </div>
 </div>
 </template>
 <script>
-import { computed } from "vue";
+import { computed} from "vue";
 import { useStore } from "vuex";
 export default {
     data(){
@@ -56,12 +58,42 @@ export default {
         seletectedRoom:[],
         receptionist:{"repId":"r110","email":"admin10@hotmail.com",
         "password":"123456789","fName":"Kimberly","lName":"Porter",
-        "telNo":"0900864032","address":"260/31 bkk 85000"}
+        "telNo":"0900864032","address":"260/31 bkk 85000"},
         }
     },
     methods:{
-        preferRoom(){
-            console.log('Hello')
+        preferRoom(reservation){
+            reservation.repId = this.receptionist;
+            for(let i = 0 ; i < reservation.reservationDetailList.length ; i++){
+                reservation.reservationDetailList[i].room = this.seletectedRoom;
+                reservation.reservationDetailList[i].status = 'done';
+            }
+            console.log(reservation);
+            let booking = {
+                reservNo : reservation.reservNo,
+                customerId : reservation.customerId,
+                paymentDate : reservation.paymentDate,
+                reservationDate : reservation.reservationDate,
+                paymentMethodId : reservation.paymentMethodId,
+                subTotal : reservation.subTotal,
+                repId : reservation.repId,
+                reservationDetailList : reservation.reservationDetailList
+            }
+            this.createFormData(booking);
+        },
+        createFormData(booking){
+            const jsonNewRoom = JSON.stringify(booking);
+            const blob = new Blob([jsonNewRoom],{
+                type: "application/json",
+            })
+            let formData = new FormData();
+            formData.append("editReservation",blob)
+            this.$store.dispatch("editReservation",formData);
+            location.reload();
+        },
+        getListRoom(room){
+            const showRoom = this.rooms.filter(temp => (temp.bedType == room.bedType && temp.roomType.roomTypeId == room.roomType.roomTypeId && temp.roomId > 20));
+            return showRoom;
         }
     },
     setup() {

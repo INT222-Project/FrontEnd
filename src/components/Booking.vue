@@ -9,115 +9,126 @@
     </div>
     <div class="row">
       <div class="col-md-8">
-        <form @submit.prevent="confirmBooking">
-          <div class="card p-3">
-            <div class="booking-form">
-              <h4 class="form-label mb-4">Please Type Your Information</h4>
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <span class="form-label">Check In</span>
-                    <input class="form-control" v-model="checkIn" type="date" />
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <span class="form-label">Check out</span>
-                    <input
-                      class="form-control"
-                      v-model="checkOut"
-                      type="date"
-                    />
+        <!-- <form @submit.prevent="confirmBooking"> -->
+        <div class="card p-3">
+          <div class="booking-form">
+            <h4 class="form-label">Please Type Your Information</h4>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <span class="form-label">Check In</span>
+                  <input class="form-control" v-model="checkIn" type="date" />
+                  <div v-if="this.invCheckIn" class="text-red-500 text-sm">
+                    Please select checkIn date.
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <span class="form-label">Rooms</span>
-                    <select class="form-control">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                    </select>
-                    <span class="select-arrow"></span>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <span class="form-label">Check out</span>
+                  <input class="form-control" v-model="checkOut" type="date" />
+                  <div v-if="this.invCheckOut" class="text-red-500 text-sm">
+                    Please select checkOut date.
                   </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <span class="form-label">NumberOfRest</span>
-                    <select v-model="numOfRest" class="form-control">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                    </select>
-                    <span class="select-arrow"></span>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <span class="form-label">PaymentMethod</span>
-                    <select v-model="paymentMethod" class="form-control">
-                      <option
-                        v-for="item in payment"
-                        :key="item.paymentMethodId"
-                        :value="item"
-                      >
-                        {{ item.paymentMethodName }}
-                      </option>
-                    </select>
-                    <span class="select-arrow"></span>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <span class="form-label">Packages (extra charge)</span>
-                <div
-                  class="form-check col-sm-6"
-                  v-for="p in packages"
-                  :key="p.packageId"
-                >
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    :value="p"
-                    v-model="selectedPackages"
-                  />
-                  <label class="form-check-label">
-                    {{ p.name }} ({{ p.packageCharge }}฿)
-                  </label>
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <span class="form-label">Rooms</span>
+                  <select class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                  </select>
+                  <span class="select-arrow"></span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <span class="form-label">NumberOfRest</span>
+                  <select v-model="numOfRest" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                  </select>
+                  <div v-if="this.invNumOfRest" class="text-red-500 text-sm">
+                    Please select NumOfRest.
+                  </div>
+                  <span class="select-arrow"></span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <span class="form-label">PaymentMethod</span>
+                  <select v-model="paymentMethod" class="form-control">
+                    <option
+                      v-for="item in payment"
+                      :key="item.paymentMethodId"
+                      :value="item"
+                    >
+                      {{ item.paymentMethodName }}
+                    </option>
+                  </select>
+                  <span class="select-arrow"></span>
+                  <div v-if="this.invPaymentMethod" class="text-red-500 text-sm">
+                    Please select PaymentMethod.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <span class="form-label">Packages (extra charge)</span>
+              <div
+                class="form-check col-sm-6"
+                v-for="p in packages"
+                :key="p.packageId"
+              >
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  :value="p"
+                  v-model="selectedPackages"
+                />
+                <label class="form-check-label">
+                  {{ p.name }} ({{ p.packageCharge }}฿)
+                </label>
+              </div>
+            </div>
           </div>
-          <!-- <button class="btn btn-success px-3">Cart</button> -->
-          <div class="mt-4 mb-4 d-flex justify-content-between">
-            <button class="btn btn-primary px-3">Pay ฿{{ subtotal }}</button>
-          </div>
-        </form>
+        </div>
+        <div class="mt-4 mb-4 d-flex justify-content-between">
+          <button @click="goBack()" class="btn btn-secondary">
+            Booking More
+          </button>
+          <button @click="addToCart()" class="btn btn-primary px-3">
+            Add to Cart
+          </button>
+          <button @click="confirmBooking()" class="btn btn-success px-3">
+            Pay Now ฿{{ subtotal }}
+          </button>
+        </div>
+        <!-- </form> -->
       </div>
       <div class="col-md-4">
         <div class="card card-blue p-3 text-white mb-3">
           <span>You have to pay</span>
-          <div class="d-flex flex-wrap align-items-end mb-3">
+          <div class="d-flex flex-row align-items-end mb-3">
+            <!-- <h1 class="mb-0"><span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}</h1> -->
             <div>
-              Room Type <span class="mb-0 yellow">
-               {{room.roomType.name}}
-              </span>
+              Room Charge (1 Room)<span class="yellow">
+                {{ room.roomCharge }}</span
+              >
             </div>
             <div>
-              Room Charge (1 Room) <span class="mb-0 yellow">
-                {{ room.roomCharge }}
-              </span>
+              Package Price <span class="yellow">{{ packagePrice }}</span>
             </div>
             <div>
-              Package Price <span class="mb-0 yellow">{{ packagePrice }}</span>
-            </div>
-            <div>
-              Subtotal<span class="mb-0 yellow"> ฿{{ subtotal }}</span>
+              <h1 class="mb-0 yellow">฿{{ subtotal }}</h1>
             </div>
           </div>
           <span
@@ -132,17 +143,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="row row-cols-md-3">
-      <div class="card col">
-        test
-      </div> 
-      <div class="card col">
-        test
-      </div> 
-      <div class="card col">
-        test
-      </div> 
-   </div>     -->
   </div>
 </template>
 
@@ -165,23 +165,36 @@ export default {
       checkIn: null,
       checkOut: null,
       numOfRest: 0,
+      rooms:0,
       paymentMethod: null,
       selectedPackages: [],
       total: 0,
+      invCheckIn: false,
+      invCheckOut: false,
+      invNumOfRest: false,
+      invPaymentMethod: false,
     };
   },
   methods: {
     confirmBooking() {
+      this.invCheckIn = this.checkIn === null ? true : false;
+      this.invCheckOut = this.checkOut === null ? true : false;
+      this.invPaymentMethod = this.paymentMethod === null ? true : false;
+      this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
+      if (
+        !this.invCheckIn &&
+        !this.invCheckOut &&
+        !this.invPaymentMethod &&
+        !this.invNumOfRest 
+      ) {
       const currentDate = new Date();
       var numberOfDay = 3;
       const paymentDate = new Date();
       paymentDate.setDate(paymentDate.getDate() + numberOfDay);
-
       for (let i = 0; i < this.selectedPackages.length; i++) {
         this.total += this.selectedPackages[i].packageCharge;
       }
       this.total += this.room.roomCharge;
-
       console.log(
         this.customer.customerId +
           "," +
@@ -202,10 +215,12 @@ export default {
         checkInDate: this.checkIn,
         checkOutDate: this.checkOut,
         numOfRest: this.numOfRest,
-        roomCharge: this.room.roomCharge,
+        room: this.room,
+        rooms:this.rooms,
         packages: this.selectedPackages,
       };
       this.createFormData(booking);
+      }
     },
     createFormData(booking) {
       console.log(booking.customerId);
@@ -215,11 +230,56 @@ export default {
       });
       let formData = new FormData();
       formData.append("newReservation", blob);
-      setTimeout(() => {
-        this.$store.state.showLoading = true;
-        window.location.href = this.$store.state.url + "/";
-        this.$store.dispatch("addReservation", formData);
-      }, 3000);
+      this.$store.dispatch("addReservation", formData);
+    },
+    addToCart() {
+      this.invCheckIn = this.checkIn === null ? true : false;
+      this.invCheckOut = this.checkOut === null ? true : false;
+      this.invPaymentMethod = this.paymentMethod === null ? true : false;
+      this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
+      if (
+        !this.invCheckIn &&
+        !this.invCheckOut &&
+        !this.invPaymentMethod &&
+        !this.invNumOfRest 
+      ) {
+        const currentDate = new Date();
+        var numberOfDay = 3;
+        const paymentDate = new Date();
+        paymentDate.setDate(paymentDate.getDate() + numberOfDay);
+        for (let i = 0; i < this.selectedPackages.length; i++) {
+          this.total += this.selectedPackages[i].packageCharge;
+        }
+        this.total += this.room.roomCharge;
+        console.log(
+          this.customer.customerId +
+            "," +
+            this.paymentMethod +
+            "," +
+            this.total +
+            "," +
+            currentDate +
+            "," +
+            paymentDate
+        );
+        const booking = {
+          customer: this.customer,
+          paymentMethod: this.paymentMethod,
+          reservationDate: currentDate,
+          paymentDate: paymentDate,
+          subtotal: this.total,
+          checkInDate: this.checkIn,
+          checkOutDate: this.checkOut,
+          numOfRest: this.numOfRest,
+          room: this.room,
+          packages: this.selectedPackages,
+        };
+        this.$store.dispatch("addRoomToCart", booking);
+        this.$router.push({ name: "Cart" });
+      }
+    },
+    goBack() {
+      this.$router.push({ name: "RoomDetails" });
     },
   },
   computed: {
@@ -266,12 +326,10 @@ export default {
   background-color: #fff;
   padding: 50px 20px;
 }
-
 .booking-form .form-group {
   position: relative;
   margin-bottom: 30px;
 }
-
 .booking-form .form-control {
   background-color: #ebecee;
   border-radius: 4px;
@@ -282,29 +340,23 @@ export default {
   color: #3e485c;
   font-size: 14px;
 }
-
 .booking-form .form-control::-webkit-input-placeholder {
   color: rgba(62, 72, 92, 0.3);
 }
-
 .booking-form .form-control:-ms-input-placeholder {
   color: rgba(62, 72, 92, 0.3);
 }
-
 .booking-form .form-control::placeholder {
   color: rgba(62, 72, 92, 0.3);
 }
-
 .booking-form input[type="date"].form-control:invalid {
   color: rgba(62, 72, 92, 0.3);
 }
-
 .booking-form select.form-control {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 }
-
 .booking-form select.form-control + .select-arrow {
   position: absolute;
   right: 0px;
@@ -317,14 +369,12 @@ export default {
   color: rgba(62, 72, 92, 0.3);
   font-size: 14px;
 }
-
 .booking-form select.form-control + .select-arrow:after {
   content: "\279C";
   display: block;
   -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
-
 .booking-form .form-label {
   display: inline-block;
   color: #3e485c;
@@ -332,7 +382,6 @@ export default {
   margin-bottom: 6px;
   margin-left: 7px;
 }
-
 .booking-form .submit-btn {
   display: inline-block;
   color: #fff;
@@ -344,24 +393,20 @@ export default {
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
 }
-
 .booking-form .submit-btn:hover,
 .booking-form .submit-btn:focus {
   opacity: 0.9;
 }
-
 .booking-cta {
   margin-top: 80px;
   margin-bottom: 30px;
 }
-
 .booking-cta h1 {
   font-size: 52px;
   text-transform: uppercase;
   color: #fff;
   font-weight: 700;
 }
-
 .booking-cta p {
   font-size: 16px;
   color: rgba(255, 255, 255, 0.8);
@@ -369,7 +414,6 @@ export default {
 .card-blue {
   background-color: #492bc4;
 }
-
 .hightlight {
   background-color: #5737d9;
   padding: 10px;
@@ -377,37 +421,22 @@ export default {
   margin-top: 15px;
   font-size: 14px;
 }
-
 .yellow {
   color: #fdcc49;
 }
-
 .decoration {
   text-decoration: none;
   font-size: 14px;
 }
-
-.btn-primary {
-  color: #fff;
-  background-color: #492bc4;
-  border-color: #492bc4;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #492bc4;
-  border-color: #492bc4;
-}
 .btn-success {
   color: #fff;
-  background-color: #187006;
-  border-color: #187006;
+  background-color: #492bc4;
+  border-color: #492bc4;
 }
-
 .btn-success:hover {
   color: #fff;
-  background-color: #187006;
-  border-color: #187006;
+  background-color: #492bc4;
+  border-color: #492bc4;
 }
 .decoration:hover {
   text-decoration: none;

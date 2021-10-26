@@ -1,7 +1,9 @@
 // store/index.js
 import axios from "axios";
-const API_URL = "http://localhost:8081";
 import { createStore } from "vuex";
+const API_URL = "http://localhost:8081";
+let cartItems = window.localStorage.getItem('cartItems') ;
+let cartItemCount = window.localStorage.getItem('cartItemCount')
 export default createStore({
   state: {  
     url:"http://localhost:8081",
@@ -21,8 +23,9 @@ export default createStore({
     package:[],
     reservation:[],
 
-    cartItems:[],
-    cartItemCount:0
+    cartItems: cartItems ? JSON.parse(cartItems) : [],
+    cartItemCount: cartItemCount ? JSON.parse(cartItemCount) : 0,
+    reservationDetail: [],
   },
   getter:{
     isLoggedIn: state => !!state.token,
@@ -95,6 +98,15 @@ export default createStore({
     },
     removeCartItem({commit},room){
       commit('removeItem',room)
+    },
+    async editReservation({commit} , formData){
+      const response = await axios.put(`${API_URL}/api/reservations/edit`,formData);
+      commit('editReservation',response.data);
+    }
+    ,
+    async getReservationDetailByReservationNo({commit}, reservNo){
+      const response = await axios.get(`${API_URL}/api/reservationDetails/byReservationNo/${reservNo}`);
+      commit('setReservationDetailByReservationNo', response.data);
     }
  },
   mutations: {
@@ -131,6 +143,10 @@ export default createStore({
       newReservation(state,data){
         state.reservation = data
       },
+      editReservation(state,data){
+        state.reservation = data
+      }
+      ,
       setReservationsUnsuccess(state,data){
         state.reservation = data
       },
@@ -140,15 +156,25 @@ export default createStore({
       addToCart(state,room){
         state.cartItems.push(room)
         state.cartItemCount++
+        this.commit('saveData');
+        this.commit('saveCountData')
       },
       removeItem(state,room){
-        if(state.cartItems.length>0){
-          let bool = state.cartItems.some(i => i.roomId === room.roomId)
-          if(bool){
-            state.cartItemCount--
-          }
-        }
-      }
+        let index = state.cartItems.indexOf(room);
+        state.cartItems.splice(index,1);
+        state.cartItemCount--
+        this.commit('saveData');
+        this.commit('saveCountData')
+      },
+      saveData(state){
+        window.localStorage.setItem('cartItems',JSON.stringify(state.cartItems))
+      },
+      saveCountData(state){
+        window.localStorage.setItem('cartItemCount',JSON.stringify(state.cartItemCount))
+      },
+      setReservationDetailByReservationNo(state,data){
+        state.reservationDetail = data
+      },
 
       // auth_request(state){
       //   state.status = 'loading'

@@ -18,7 +18,7 @@
           <div class="col-md-6">
             <div class="p-3 right-side">
               <div class="d-flex justify-content-between align-items-center">
-                <h2>{{ rTypeById.name }}</h2>{{details}}
+                <h2>{{ rTypeById.name }}</h2>
                 <span class="heart"><i class="bx bx-heart"></i></span>
               </div>
               <div class="mt-2 pr-3 content">
@@ -45,9 +45,9 @@
                     }"
                     >Book Now</router-link
                   >
-                  <button class="btn btn-primary" @click="addToCart(req)">
+                  <!-- <button class="btn btn-primary" @click="addToCart(req)">
                     Add to Cart
-                  </button>
+                  </button> --> 
                 </div>
               </div>
             </div>
@@ -78,10 +78,10 @@ export default {
     viewImg(roomTypeId) {
       return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId;
     },
-    addToCart(req) {
-      console.log(req);
-      this.$store.dispatch("addRoomToCart", req);
-    },
+    // addToCart(req) {
+    //   console.log(req);
+    //   this.$store.dispatch("addRoomToCart", req);
+    // },
   },
 //   created() {
 //     if (this.$route.params.id !== undefined) {
@@ -111,33 +111,6 @@ export default {
 </script>
 
 <style scoped>
-/* .section {
-	position: relative;
-	height: 90vh;
-}  */
-/* .section .section-center {
-	position: absolute;
-	top: 40%;
-	left: 0;
-	right: 0;
-	-webkit-transform: translateY(-50%);
-	transform: translateY(-50%);
-} */
-/* #details{
-    font-family: 'Montserrat', sans-serif;
-	background-image: url('../assets/img/background.jpg');
-	background-size: cover;
-	background-position: center;
-} */
-/* #details::before {
-	content: '';
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	top: 0;
-	background: rgba(47, 103, 177, 0.6);
-} */
 .card {
   border: none;
   overflow: hidden;
@@ -146,7 +119,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* border-bottom: 1px solid #eee; */
   height: 400px;
   width: 100%;
   overflow: hidden;
