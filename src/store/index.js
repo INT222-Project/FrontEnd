@@ -99,6 +99,9 @@ export default createStore({
     removeCartItem({commit},room){
       commit('removeItem',room)
     },
+    clearItemInCart({commit}){
+      commit('clearItem')
+    },
     async editReservation({commit} , formData){
       const response = await axios.put(`${API_URL}/api/reservations/edit`,formData);
       commit('editReservation',response.data);
@@ -142,6 +145,10 @@ export default createStore({
       },
       newReservation(state,data){
         state.reservation = data
+        // state.cartItemCount = 0;
+        // state.cartItems = []
+        // this.commit('saveData');
+        // this.commit('saveCountData')
       },
       editReservation(state,data){
         state.reservation = data
@@ -152,6 +159,9 @@ export default createStore({
       },
       setRoomByRoomtypeId(state,data){
         state.rooms = data
+      },
+      setReservationDetailByReservationNo(state,data){
+        state.reservationDetail = data
       },
       addToCart(state,room){
         state.cartItems.push(room)
@@ -166,14 +176,17 @@ export default createStore({
         this.commit('saveData');
         this.commit('saveCountData')
       },
+      clearItem(state){
+        state.cartItemCount = 0;
+        state.cartItems = []
+        this.commit('saveData');
+        this.commit('saveCountData')
+      },
       saveData(state){
         window.localStorage.setItem('cartItems',JSON.stringify(state.cartItems))
       },
       saveCountData(state){
         window.localStorage.setItem('cartItemCount',JSON.stringify(state.cartItemCount))
-      },
-      setReservationDetailByReservationNo(state,data){
-        state.reservationDetail = data
       },
 
       // auth_request(state){

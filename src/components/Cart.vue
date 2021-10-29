@@ -31,9 +31,9 @@
           <div class="card-body cart">
             <div v-for="item in items" :key="item.roomId" class="col-sm-12">
                 <div class="mt-4 mb-4 d-flex justify-content-between">
-                  {{item.room.roomType.name}} | {{item.room.bedType}} | 
-                  <div>Packages:<div v-for="p in item.packages" :key="p.packageId">{{p.name}}</div></div>
-                  | ฿ {{item.subtotal}} 
+                  <div>{{item.room.roomType.name}} | {{item.room.bedType}} | ฿ {{item.subtotal}} | {{item.amount}} room | {{item.numOfRest}} guest  </div>
+                  <!-- Packages:<span v-for="p in item.packages" :key="p.packageId">{{p.name}}</span> -->
+    
                   <span class="float-right"><button @click="removeItem(item)">x</button></span>
                 </div>
                   <!-- {{item}} -->
@@ -70,8 +70,10 @@ export default {
       this.$store.dispatch("removeCartItem", item);
     },
     checkOut(){
-      this.createFormData(this.items);
-      console.log("test")
+      if(this.$store.state.cartItemCount > 0){
+        this.createFormData(this.items);
+      }
+      console.log("hi")
     },
     createFormData(items) {
       const jsonNewRoom = JSON.stringify(items);
@@ -80,7 +82,9 @@ export default {
       });
       let formData = new FormData();
       formData.append("newReservation", blob);
-      this.$store.dispatch("addReservation", formData);
+       // this.$store.dispatch("addReservation", formData);
+      this.$store.dispatch("clearItemInCart");
+      
     },
     backToHome(){
       this.$router.push("/");

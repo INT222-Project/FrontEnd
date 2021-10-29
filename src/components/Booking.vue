@@ -37,12 +37,15 @@
               <div class="col-sm-4">
                 <div class="form-group">
                   <span class="form-label">Rooms</span>
-                  <select class="form-control">
+                  <select v-model="amount" class="form-control">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                   </select>
                   <span class="select-arrow"></span>
+                  <div v-if="this.invAmount" class="text-red-500 text-sm">
+                    Please select Amount of Room.
+                  </div>
                 </div>
               </div>
               <div class="col-sm-4">
@@ -165,14 +168,15 @@ export default {
       checkIn: null,
       checkOut: null,
       numOfRest: 0,
-      rooms:0,
+      amount:0,
       paymentMethod: null,
       selectedPackages: [],
       total: 0,
       invCheckIn: false,
-      invCheckOut: false,
+      invCheckOut: false, 
       invNumOfRest: false,
       invPaymentMethod: false,
+      invAmount: false,
     };
   },
   methods: {
@@ -181,11 +185,13 @@ export default {
       this.invCheckOut = this.checkOut === null ? true : false;
       this.invPaymentMethod = this.paymentMethod === null ? true : false;
       this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
+      this.invAmount = this.amount <= 0 ? true : false;
       if (
         !this.invCheckIn &&
         !this.invCheckOut &&
         !this.invPaymentMethod &&
-        !this.invNumOfRest 
+        !this.invNumOfRest &&
+        !this.invAmount
       ) {
       const currentDate = new Date();
       var numberOfDay = 3;
@@ -216,7 +222,7 @@ export default {
         checkOutDate: this.checkOut,
         numOfRest: this.numOfRest,
         room: this.room,
-        rooms:this.rooms,
+        amount: this.amount,
         packages: this.selectedPackages,
       };
       this.createFormData(booking);
@@ -237,11 +243,13 @@ export default {
       this.invCheckOut = this.checkOut === null ? true : false;
       this.invPaymentMethod = this.paymentMethod === null ? true : false;
       this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
+      this.invAmount = this.amount <= 0 ? true : false;
       if (
         !this.invCheckIn &&
         !this.invCheckOut &&
         !this.invPaymentMethod &&
-        !this.invNumOfRest 
+        !this.invNumOfRest  &&
+        !this.invAmount
       ) {
         const currentDate = new Date();
         var numberOfDay = 3;
@@ -271,7 +279,8 @@ export default {
           checkInDate: this.checkIn,
           checkOutDate: this.checkOut,
           numOfRest: this.numOfRest,
-          room: this.room,
+          room : this.room,
+          amount: this.amount,
           packages: this.selectedPackages,
         };
         this.$store.dispatch("addRoomToCart", booking);
