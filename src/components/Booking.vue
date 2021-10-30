@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5 px-5 pt-14">
     <div class="mb-4">
-      <h2>Confirm order and pay</h2>
+      <h2>Confirm package and pay</h2>
       <span
         >please make the payment, after that you can enjoy all the features and
         benefits.</span
@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-sm-4">
+              <div class="col-sm-6">
                 <div class="form-group">
                   <span class="form-label">Rooms</span>
                   <select v-model="amount" class="form-control">
@@ -42,22 +42,22 @@
                     <option>2</option>
                     <option>3</option>
                   </select>
-                  <span class="select-arrow"></span>
                   <div v-if="this.invAmount" class="text-red-500 text-sm">
                     Please select Amount of Room.
                   </div>
+                  <span class="select-arrow"></span>
                 </div>
               </div>
-              <div class="col-sm-4">
+              <div class="col-sm-6">
                 <div class="form-group">
-                  <span class="form-label">NumberOfRest</span>
+                  <span class="form-label">Number Of Guest</span>
                   <select v-model="numOfRest" class="form-control">
-                    <option>1</option>
+                    <option >1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
-                    <option>6</option>
+                    <option>6</option>  
                   </select>
                   <div v-if="this.invNumOfRest" class="text-red-500 text-sm">
                     Please select NumOfRest.
@@ -65,7 +65,7 @@
                   <span class="select-arrow"></span>
                 </div>
               </div>
-              <div class="col-sm-4">
+              <!-- <div class="col-sm-4">
                 <div class="form-group">
                   <span class="form-label">PaymentMethod</span>
                   <select v-model="paymentMethod" class="form-control">
@@ -82,7 +82,7 @@
                     Please select PaymentMethod.
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="row">
               <span class="form-label">Packages (extra charge)</span>
@@ -108,23 +108,23 @@
           <button @click="goBack()" class="btn btn-secondary">
             Booking More
           </button>
-          <button @click="addToCart()" class="btn btn-primary px-3">
+          <button @click="addToCart()" class="btn btn-success px-3">
             Add to Cart
           </button>
-          <button @click="confirmBooking()" class="btn btn-success px-3">
+          <!-- <button @click="confirmBooking()" class="btn btn-success px-3">
             Pay Now ฿{{ subtotal }}
-          </button>
+          </button> -->
         </div>
         <!-- </form> -->
       </div>
       <div class="col-md-4">
         <div class="card card-blue p-3 text-white mb-3">
-          <span>You have to pay</span>
-          <div class="d-flex flex-row align-items-end mb-3">
+          <span>You have to pay - <span class="yellow">{{room.roomType.name}}</span></span>
+          <div class="d-flex flex-md-row space-x-2 align-items-end mb-3">
             <!-- <h1 class="mb-0"><span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}</h1> -->
             <div>
-              Room Charge (1 Room)<span class="yellow">
-                {{ room.roomCharge }}</span
+              Room Charge(1 Room)<span class="yellow">
+                {{ room.roomCharge }}</span 
               >
             </div>
             <div>
@@ -180,74 +180,72 @@ export default {
     };
   },
   methods: {
-    confirmBooking() {
-      this.invCheckIn = this.checkIn === null ? true : false;
-      this.invCheckOut = this.checkOut === null ? true : false;
-      this.invPaymentMethod = this.paymentMethod === null ? true : false;
-      this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
-      this.invAmount = this.amount <= 0 ? true : false;
-      if (
-        !this.invCheckIn &&
-        !this.invCheckOut &&
-        !this.invPaymentMethod &&
-        !this.invNumOfRest &&
-        !this.invAmount
-      ) {
-      const currentDate = new Date();
-      var numberOfDay = 3;
-      const paymentDate = new Date();
-      paymentDate.setDate(paymentDate.getDate() + numberOfDay);
-      for (let i = 0; i < this.selectedPackages.length; i++) {
-        this.total += this.selectedPackages[i].packageCharge;
-      }
-      this.total += this.room.roomCharge;
-      console.log(
-        this.customer.customerId +
-          "," +
-          this.paymentMethod +
-          "," +
-          this.total +
-          "," +
-          currentDate +
-          "," +
-          paymentDate
-      );
-      const booking = {
-        customer: this.customer,
-        paymentMethod: this.paymentMethod,
-        reservationDate: currentDate,
-        paymentDate: paymentDate,
-        subtotal: this.total,
-        checkInDate: this.checkIn,
-        checkOutDate: this.checkOut,
-        numOfRest: this.numOfRest,
-        room: this.room,
-        amount: this.amount,
-        packages: this.selectedPackages,
-      };
-      this.createFormData(booking);
-      }
-    },
-    createFormData(booking) {
-      console.log(booking.customerId);
-      const jsonNewRoom = JSON.stringify(booking);
-      const blob = new Blob([jsonNewRoom], {
-        type: "application/json",
-      });
-      let formData = new FormData();
-      formData.append("newReservation", blob);
-      this.$store.dispatch("addReservation", formData);
-    },
+    // confirmBooking() {
+    //   this.invCheckIn = this.checkIn === null ? true : false;
+    //   this.invCheckOut = this.checkOut === null ? true : false;
+    //   this.invPaymentMethod = this.paymentMethod === null ? true : false;
+    //   this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
+    //   this.invAmount = this.amount <= 0 ? true : false;
+    //   if (
+    //     !this.invCheckIn &&
+    //     !this.invCheckOut &&
+    //     !this.invPaymentMethod &&
+    //     !this.invNumOfRest &&
+    //     !this.invAmount
+    //   ) {
+    //   const currentDate = new Date();
+    //   var numberOfDay = 3;
+    //   const paymentDate = new Date();
+    //   paymentDate.setDate(paymentDate.getDate() + numberOfDay);
+    //   for (let i = 0; i < this.selectedPackages.length; i++) {
+    //     this.total += this.selectedPackages[i].packageCharge;
+    //   }
+    //   this.total += this.room.roomCharge;
+    //   console.log(
+    //     this.customer.customerId +
+    //       "," +
+    //       this.paymentMethod +
+    //       "," +
+    //       this.total +
+    //       "," +
+    //       currentDate +
+    //       "," +
+    //       paymentDate
+    //   );
+    //   const booking = {
+    //     customer: this.customer,
+    //     paymentMethod: this.paymentMethod,
+    //     reservationDate: currentDate,
+    //     paymentDate: paymentDate,
+    //     subtotal: this.total,
+    //     checkInDate: this.checkIn,
+    //     checkOutDate: this.checkOut,
+    //     numOfRest: this.numOfRest,
+    //     room: this.room,
+    //     amount: this.amount,
+    //     packages: this.selectedPackages,
+    //   };
+    //   this.createFormData(booking);
+    //   }
+    // },
+    // createFormData(booking) {
+    //   console.log(booking.customerId);
+    //   const jsonNewRoom = JSON.stringify(booking);
+    //   const blob = new Blob([jsonNewRoom], {
+    //     type: "application/json",
+    //   });
+    //   let formData = new FormData();
+    //   formData.append("newReservation", blob);
+    //   this.$store.dispatch("addReservation", formData);
+    // },
     addToCart() {
       this.invCheckIn = this.checkIn === null ? true : false;
       this.invCheckOut = this.checkOut === null ? true : false;
-      this.invPaymentMethod = this.paymentMethod === null ? true : false;
       this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
       this.invAmount = this.amount <= 0 ? true : false;
       if (
         !this.invCheckIn &&
         !this.invCheckOut &&
-        !this.invPaymentMethod &&
         !this.invNumOfRest  &&
         !this.invAmount
       ) {
@@ -272,7 +270,6 @@ export default {
         );
         const booking = {
           customer: this.customer,
-          paymentMethod: this.paymentMethod,
           reservationDate: currentDate,
           paymentDate: paymentDate,
           subtotal: this.total,

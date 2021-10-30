@@ -26,21 +26,34 @@
         <div v-if="$store.state.cartItemCount > 0" class="col-md-12">
           <div class="card">
           <div class="card-header">
-            <h5>My Cart : {{$store.state.cartItemCount}} | Total Charge : {{total}}  </h5>
+            <h5 class="font-bold blue">Your Cart : {{$store.state.cartItemCount}} | Total (฿) : ฿ {{total}}  </h5>
           </div>
           <div class="card-body cart">
             <div v-for="item in items" :key="item.roomId" class="col-sm-12">
                 <div class="mt-4 mb-4 d-flex justify-content-between">
                   <div>{{item.room.roomType.name}} | {{item.room.bedType}} | ฿ {{item.subtotal}} | {{item.amount}} room | {{item.numOfRest}} guest  </div>
-                  <!-- Packages:<span v-for="p in item.packages" :key="p.packageId">{{p.name}}</span> -->
-    
                   <span class="float-right"><button @click="removeItem(item)">x</button></span>
                 </div>
-                  <!-- {{item}} -->
-                   <!-- "this.$store.commit('removeItem',item) -->
             </div>
           </div>
            <div class="card-footer">
+           <div class="col-sm-4">
+                <div class="form-group">
+                  <div class="mb-2"><span class="form-label font-bold">Payment</span></div>
+                  <div  v-for="item in payment"
+                      :key="item.paymentMethodId" 
+                      class="form-check">
+                    <input class="form-check-input"  v-model="paymentMethod" :value="item" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                       <label class="form-check-label" for="flexRadioDefault1" >
+                         {{item.paymentMethodName}}
+                        </label>
+                  </div>
+                  <span class="select-arrow"></span>
+                  <div v-if="this.invPaymentMethod" class="text-red-500 text-sm">
+                    Please select PaymentMethod.
+                  </div>
+                </div>
+            </div>
              <button @click="backToHome()"
                   class="btn btn-secondary cart-btn-transform m-3"
                   data-abc="true"
@@ -63,6 +76,8 @@ export default {
     return {
       checkEmpty: this.$store.state.cartItemCount,
       items: this.$store.state.cartItems,
+      paymentMethod: null,
+      invPaymentMethod: false,
     };
   },
   methods: {
@@ -70,18 +85,28 @@ export default {
       this.$store.dispatch("removeCartItem", item);
     },
     checkOut(){
+      console.log(this.paymentMethod)
+      this.invPaymentMethod = this.paymentMethod === null ? true : false;
+      if(!this.invPaymentMethod){
       if(this.$store.state.cartItemCount > 0){
-        this.createFormData(this.items);
+        const booking = {
+          items : this.items,
+          paymentMethod : this.paymentMethod
+        }
+        this.createFormData(booking);
       }
-      console.log("hi")
+     }
     },
-    createFormData(items) {
-      const jsonNewRoom = JSON.stringify(items);
+    createFormData(booking) {
+      this.invPaymentMethod = this.paymentMethod === null ? true : false;
+      if(!this.invPaymentMethod){
+      const jsonNewRoom = JSON.stringify(booking);
       const blob = new Blob([jsonNewRoom], {
         type: "application/json",
       });
       let formData = new FormData();
       formData.append("newReservation", blob);
+      }
        // this.$store.dispatch("addReservation", formData);
       this.$store.dispatch("clearItemInCart");
       
@@ -101,12 +126,12 @@ export default {
   },
   setup() {
     const store = useStore();
-    store.dispatch("getPackages");
-    let packages = computed(function () {
-      return store.state.package;
+    store.dispatch("getPaymentMethods");
+    let payment = computed(function () {
+      return store.state.payment;
     });
     return {
-      packages,
+      payment,
     };
   },
 };
@@ -115,6 +140,9 @@ export default {
 body {
   background-color: #eee;
   font-family: "Calibri", sans-serif !important;
+}
+.blue{
+  color: #0000FF;
 }
 
 .mt-100 {
