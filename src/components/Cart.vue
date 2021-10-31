@@ -90,7 +90,7 @@ export default {
       if(!this.invPaymentMethod){
       if(this.$store.state.cartItemCount > 0){
         const booking = {
-          items : this.items,
+          reservationRequirements : this.items,
           paymentMethod : this.paymentMethod
         }
         this.createFormData(booking);
@@ -106,8 +106,8 @@ export default {
       });
       let formData = new FormData();
       formData.append("newReservation", blob);
+      this.$store.dispatch("addReservation", formData);
       }
-       // this.$store.dispatch("addReservation", formData);
       this.$store.dispatch("clearItemInCart");
       
     },

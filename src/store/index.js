@@ -110,6 +110,10 @@ export default createStore({
     async getReservationDetailByReservationNo({commit}, reservNo){
       const response = await axios.get(`${API_URL}/api/reservationDetails/byReservationNo/${reservNo}`);
       commit('setReservationDetailByReservationNo', response.data);
+    }, 
+    async getReservationByCustomerId({commit}, customerId){
+      const response = await axios.get(`${API_URL}/api/reservations/byCustomerId/${customerId}`);
+      commit('setReservationByCustomerId',response.data);
     }
  },
   mutations: {
@@ -188,6 +192,9 @@ export default createStore({
       saveCountData(state){
         window.localStorage.setItem('cartItemCount',JSON.stringify(state.cartItemCount))
       },
+      setReservationByCustomerId(state,data){
+        state.reservation = data;
+      }
 
       // auth_request(state){
       //   state.status = 'loading'
