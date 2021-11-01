@@ -1,5 +1,5 @@
 <template>
-    <div class="container h-screen mt-5 px-2 pt-12 mb-20">
+    <div class="container h-auto mt-5 pb-12 px-2 pt-12 mb-20">
     <div class="table-responsive">
         <h1>Reservation</h1>
         <table v-if="reservation != null" class="table table-light caption-top table-responsive table-bordered">
