@@ -9,7 +9,6 @@
     </div>
     <div class="row">
       <div class="col-md-8">
-        <!-- <form @submit.prevent="confirmBooking"> -->
         <div class="card p-3">
           <div class="booking-form">
             <h4 class="form-label">Please Type Your Information</h4>
@@ -26,9 +25,14 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <span class="form-label">Check out</span>
-                  <input class="form-control" v-model="checkOut" type="date" />
+                  <input
+                    class="form-control"
+                    v-model="checkOut"
+                    :min="minValue"
+                    type="date"
+                  />
                   <div v-if="this.invCheckOut" class="text-red-500 text-sm">
-                    Please select checkOut date.
+                    Please select date for rest atleast 1 night.
                   </div>
                 </div>
               </div>
@@ -52,12 +56,12 @@
                 <div class="form-group">
                   <span class="form-label">Number Of Guest</span>
                   <select v-model="numOfRest" class="form-control">
-                    <option >1</option>
+                    <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
                     <option>5</option>
-                    <option>6</option>  
+                    <option>6</option>
                   </select>
                   <div v-if="this.invNumOfRest" class="text-red-500 text-sm">
                     Please select NumOfRest.
@@ -65,24 +69,6 @@
                   <span class="select-arrow"></span>
                 </div>
               </div>
-              <!-- <div class="col-sm-4">
-                <div class="form-group">
-                  <span class="form-label">PaymentMethod</span>
-                  <select v-model="paymentMethod" class="form-control">
-                    <option
-                      v-for="item in payment"
-                      :key="item.paymentMethodId"
-                      :value="item"
-                    >
-                      {{ item.paymentMethodName }}
-                    </option>
-                  </select>
-                  <span class="select-arrow"></span>
-                  <div v-if="this.invPaymentMethod" class="text-red-500 text-sm">
-                    Please select PaymentMethod.
-                  </div>
-                </div>
-              </div> -->
             </div>
             <div class="row">
               <span class="form-label">Packages (extra charge)</span>
@@ -111,20 +97,15 @@
           <button @click="addToCart()" class="btn btn-success px-3">
             Add to Cart
           </button>
-          <!-- <button @click="confirmBooking()" class="btn btn-success px-3">
-            Pay Now ฿{{ subtotal }}
-          </button> -->
         </div>
-        <!-- </form> -->
       </div>
       <div class="col-md-4">
         <div class="card card-blue p-3 text-white mb-3">
-          <span>You have to pay - <span class="yellow">{{room.roomType.name}}</span></span>
+          <span>You have to pay</span>
           <div class="d-flex flex-md-row space-x-2 align-items-end mb-3">
-            <!-- <h1 class="mb-0"><span class="form-label">Room Charge (1 Room)</span> {{room.roomCharge}}</h1> -->
             <div>
               Room Charge(1 Room)<span class="yellow">
-                {{ room.roomCharge }}</span 
+                {{ room.roomCharge }}</span
               >
             </div>
             <div>
@@ -165,88 +146,43 @@ export default {
         lname: "Senarak",
         fname: "Sahachai",
       },
+      // new Date().toISOString().substr(0, 10)
       checkIn: null,
       checkOut: null,
       numOfRest: 0,
-      amount:0,
+      amount: 0,
       paymentMethod: null,
       selectedPackages: [],
       total: 0,
       invCheckIn: false,
-      invCheckOut: false, 
+      invCheckOut: false,
       invNumOfRest: false,
       invPaymentMethod: false,
       invAmount: false,
     };
   },
   methods: {
-    // confirmBooking() {
-    //   this.invCheckIn = this.checkIn === null ? true : false;
-    //   this.invCheckOut = this.checkOut === null ? true : false;
-    //   this.invPaymentMethod = this.paymentMethod === null ? true : false;
-    //   this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
-    //   this.invAmount = this.amount <= 0 ? true : false;
-    //   if (
-    //     !this.invCheckIn &&
-    //     !this.invCheckOut &&
-    //     !this.invPaymentMethod &&
-    //     !this.invNumOfRest &&
-    //     !this.invAmount
-    //   ) {
-    //   const currentDate = new Date();
-    //   var numberOfDay = 3;
-    //   const paymentDate = new Date();
-    //   paymentDate.setDate(paymentDate.getDate() + numberOfDay);
-    //   for (let i = 0; i < this.selectedPackages.length; i++) {
-    //     this.total += this.selectedPackages[i].packageCharge;
-    //   }
-    //   this.total += this.room.roomCharge;
-    //   console.log(
-    //     this.customer.customerId +
-    //       "," +
-    //       this.paymentMethod +
-    //       "," +
-    //       this.total +
-    //       "," +
-    //       currentDate +
-    //       "," +
-    //       paymentDate
-    //   );
-    //   const booking = {
-    //     customer: this.customer,
-    //     paymentMethod: this.paymentMethod,
-    //     reservationDate: currentDate,
-    //     paymentDate: paymentDate,
-    //     subtotal: this.total,
-    //     checkInDate: this.checkIn,
-    //     checkOutDate: this.checkOut,
-    //     numOfRest: this.numOfRest,
-    //     room: this.room,
-    //     amount: this.amount,
-    //     packages: this.selectedPackages,
-    //   };
-    //   this.createFormData(booking);
-    //   }
-    // },
-    // createFormData(booking) {
-    //   console.log(booking.customerId);
-    //   const jsonNewRoom = JSON.stringify(booking);
-    //   const blob = new Blob([jsonNewRoom], {
-    //     type: "application/json",
-    //   });
-    //   let formData = new FormData();
-    //   formData.append("newReservation", blob);
-    //   this.$store.dispatch("addReservation", formData);
-    // },
+    calculateDay() {
+      const temp1 = new Date(this.checkIn);
+      const temp2 = new Date(this.checkOut);
+      var diffTime = temp2.getTime() - temp1.getTime();
+      var diffDays = diffTime / (1000 * 3600 * 24);
+      console.log("diff days : " + diffDays);
+      return diffDays;
+    },
     addToCart() {
       this.invCheckIn = this.checkIn === null ? true : false;
-      this.invCheckOut = this.checkOut === null ? true : false;
-      this.invNumOfRest = this.numOfRest <= 0 ? true : false;  
+      if (this.checkOut === null || this.calculateDay() == 0) {
+        this.invCheckOut = true;
+      } else {
+        this.invCheckOut = false;
+      }
+      this.invNumOfRest = this.numOfRest <= 0 ? true : false;
       this.invAmount = this.amount <= 0 ? true : false;
       if (
         !this.invCheckIn &&
         !this.invCheckOut &&
-        !this.invNumOfRest  &&
+        !this.invNumOfRest &&
         !this.invAmount
       ) {
         const currentDate = new Date();
@@ -256,7 +192,7 @@ export default {
         for (let i = 0; i < this.selectedPackages.length; i++) {
           this.total += this.selectedPackages[i].packageCharge;
         }
-        this.total += this.room.roomCharge;
+        this.total += this.room.roomCharge * this.calculateDay();
         console.log(
           this.customer.customerId +
             "," +
@@ -276,7 +212,7 @@ export default {
           checkInDate: this.checkIn,
           checkOutDate: this.checkOut,
           numOfRest: this.numOfRest,
-          room : this.room,
+          room: this.room,
           amount: this.amount,
           packages: this.selectedPackages,
         };
@@ -289,8 +225,10 @@ export default {
     },
   },
   computed: {
+    minValue() {
+      return this.checkIn;
+    },
     packagePrice() {
-      // console.log(this.selectedPackages[0].packageCharge)
       let total = 0;
       for (let i = 0; i < this.selectedPackages.length; i++) {
         total += this.selectedPackages[i].packageCharge;
@@ -302,9 +240,10 @@ export default {
       for (let i = 0; i < this.selectedPackages.length; i++) {
         total += this.selectedPackages[i].packageCharge;
       }
-      return total + this.room.roomCharge;
+      return total + this.room.roomCharge * this.calculateDay();
     },
   },
+
   setup(props) {
     const store = useStore();
     store.dispatch("getPackages");

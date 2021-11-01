@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-5 px-2 pt-12 mb-20">
+    <div class="container h-screen  mt-5 px-2 pt-12 mb-20">
         <h1>Reservation History</h1>
         <div v-for="item in reservation" :key="item.reservNo" class="list-order">
             Reservation No {{item.reservNo}} Reservation Date {{item.reservationDate}} cost {{item.subTotal}}
