@@ -163,6 +163,7 @@ export default {
   },
   methods: {
     calculateDay() {
+      if (this.checkIn == null || this.checkOut == null) return 1;
       const temp1 = new Date(this.checkIn);
       const temp2 = new Date(this.checkOut);
       var diffTime = temp2.getTime() - temp1.getTime();
@@ -213,10 +214,13 @@ export default {
           checkOutDate: this.checkOut,
           numOfRest: this.numOfRest,
           room: this.room,
-          amount: this.amount,
           packages: this.selectedPackages,
         };
-        this.$store.dispatch("addRoomToCart", booking);
+        let i = 0;
+        while (i < this.amount) {
+          this.$store.dispatch("addRoomToCart", booking);
+          i++;
+        }
         this.$router.push({ name: "Cart" });
       }
     },

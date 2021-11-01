@@ -31,7 +31,7 @@
           <div class="card-body cart">
             <div v-for="item in items" :key="item.roomId" class="col-sm-12">
                 <div class="mt-4 mb-4 d-flex justify-content-between">
-                  <div>{{item.room.roomType.name}} | {{item.room.bedType}} | ฿ {{item.subtotal}} | {{item.amount}} room | {{item.numOfRest}} guest  </div>
+                  <div>{{item.room.roomType.name}} | {{item.room.bedType}} | ฿ {{item.subtotal}} | {{item.numOfRest}} guest  </div>
                   <span class="float-right"><button @click="removeItem(item)">x</button></span>
                 </div>
             </div>
