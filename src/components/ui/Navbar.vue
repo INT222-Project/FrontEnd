@@ -1,5 +1,5 @@
 <template>
-  <div id="nav">
+<div id="nav">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
         <a class="navbar-brand">BBooking.com</a>
@@ -19,16 +19,14 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/">Home</router-link>
             </li>
-             <!-- <li class="nav-item">
-              <router-link class="nav-link" to="/RoomDetails">RoomDetails</router-link>
-            </li> -->
-            <!-- <li class="nav-item">
-              <router-link class="nav-link" to="/booking">Booking</router-link>
-            </li> -->
             <li class="nav-item">
-              <router-link class="nav-link" to="/about">Aboutus</router-link>
+              <router-link class="nav-link" to="/about">About</router-link>
             </li>
+            <!-- <li class="nav-item">
+              <router-link class="nav-link" to="/cart"><i class="fas fa-shopping-cart cart-icon"></i><span class="cart-count">{{count}}</span></router-link>
+            </li> -->
           </ul>
+          <router-link class="nav-link" to="/cart"><i class="fas fa-shopping-cart cart-icon"></i><span class="cart-count">{{count}}</span></router-link>
           <div class="dropdown text-end  mb-2 mb-lg-0">
           <a href="#" class="dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="far fa-user"></i>
@@ -39,7 +37,8 @@
               <li><a class="dropdown-item"><router-link to="/login">login</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item"><router-link to="/room">Room Management</router-link></a></li>
-            <li><a class="dropdown-item"><router-link to="/reservationStaff">Reservation Mnanagement</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/reservationStaff">Reservation Management</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/reservationUser">Reservation History</router-link></a></li>
             <span v-if="isLoggedIn"><li><a @click="logout" class="dropdown-item"><router-link to="/">Log out</router-link></a></li></span>
           </ul>
         </div>
@@ -47,7 +46,6 @@
       </div>
     </nav>
   </div>
-  
 </template>
 <script>
 export default {
@@ -61,9 +59,31 @@ export default {
   computed:{
     isLoggedIn(){
       return this.$store.getters.isLoggedIn
+    },
+    count(){
+      return this.$store.state.cartItemCount
     }
   }
 }
 </script>
 <style>
+.cart-count{
+  font-size:10px;
+  color: #d4570cf2;
+  padding : 0 5px;
+  margin-left : -10px;
+  background: white;
+  height: 20px;
+  border-radius: 50%;
+  width: 20px;
+}
+.cart-icon{
+  line-height: 10px;
+  font-size:25px;
+  color:#0044ff;
+  cursor:pointer;
+}
+.cart-icon:hover{
+  color:#6d94ff;
+}
 </style>

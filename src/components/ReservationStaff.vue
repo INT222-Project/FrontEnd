@@ -89,6 +89,7 @@ export default {
             let formData = new FormData();
             formData.append("editReservation",blob)
             this.$store.dispatch("editReservation",formData);
+            location.reload();
         },
         getListRoom(room){
             const showRoom = this.rooms.filter(temp => (temp.bedType == room.bedType && temp.roomType.roomTypeId == room.roomType.roomTypeId && temp.roomId > 20));

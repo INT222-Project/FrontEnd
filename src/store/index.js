@@ -1,7 +1,9 @@
 // store/index.js
 import axios from "axios";
-const API_URL = "http://localhost:8081";
 import { createStore } from "vuex";
+const API_URL = "http://localhost:8081";
+let cartItems = window.localStorage.getItem('cartItems') ;
+let cartItemCount = window.localStorage.getItem('cartItemCount')
 export default createStore({
   state: {  
     url:"http://localhost:8081",
@@ -20,6 +22,9 @@ export default createStore({
     payment:[],
     package:[],
     reservation:[],
+
+    cartItems: cartItems ? JSON.parse(cartItems) : [],
+    cartItemCount: cartItemCount ? JSON.parse(cartItemCount) : 0,
     reservationDetail: [],
   },
   getter:{
@@ -88,6 +93,15 @@ export default createStore({
       const response = await axios.post(`${API_URL}/api/reservations/add`,formData);
       commit('newReservation',response.data);
     },
+    addRoomToCart({commit},room){
+      commit('addToCart',room)
+    },
+    removeCartItem({commit},room){
+      commit('removeItem',room)
+    },
+    clearItemInCart({commit}){
+      commit('clearItem')
+    },
     async editReservation({commit} , formData){
       const response = await axios.put(`${API_URL}/api/reservations/edit`,formData);
       commit('editReservation',response.data);
@@ -96,6 +110,10 @@ export default createStore({
     async getReservationDetailByReservationNo({commit}, reservNo){
       const response = await axios.get(`${API_URL}/api/reservationDetails/byReservationNo/${reservNo}`);
       commit('setReservationDetailByReservationNo', response.data);
+    }, 
+    async getReservationByCustomerId({commit}, customerId){
+      const response = await axios.get(`${API_URL}/api/reservations/byCustomerId/${customerId}`);
+      commit('setReservationByCustomerId',response.data);
     }
  },
   mutations: {
@@ -131,6 +149,10 @@ export default createStore({
       },
       newReservation(state,data){
         state.reservation = data
+        // state.cartItemCount = 0;
+        // state.cartItems = []
+        // this.commit('saveData');
+        // this.commit('saveCountData')
       },
       editReservation(state,data){
         state.reservation = data
@@ -145,6 +167,34 @@ export default createStore({
       setReservationDetailByReservationNo(state,data){
         state.reservationDetail = data
       },
+      addToCart(state,room){
+        state.cartItems.push(room)
+        state.cartItemCount++
+        this.commit('saveData');
+        this.commit('saveCountData')
+      },
+      removeItem(state,room){
+        let index = state.cartItems.indexOf(room);
+        state.cartItems.splice(index,1);
+        state.cartItemCount--
+        this.commit('saveData');
+        this.commit('saveCountData')
+      },
+      clearItem(state){
+        state.cartItemCount = 0;
+        state.cartItems = []
+        this.commit('saveData');
+        this.commit('saveCountData')
+      },
+      saveData(state){
+        window.localStorage.setItem('cartItems',JSON.stringify(state.cartItems))
+      },
+      saveCountData(state){
+        window.localStorage.setItem('cartItemCount',JSON.stringify(state.cartItemCount))
+      },
+      setReservationByCustomerId(state,data){
+        state.reservation = data;
+      }
 
       // auth_request(state){
       //   state.status = 'loading'

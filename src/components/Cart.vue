@@ -1,300 +1,194 @@
 <template>
-    <div class="pt-14">
-      test
+  <div class="container pt-14">
+    <div class="container-fluid mt-100">
+      <div class="row">
+        <div class="col-md-12">
+          <div v-if="$store.state.cartItemCount == 0" class="card">
+            <div class="card-header">
+              <h5>Cart</h5>
+            </div>
+            <div class="card-body cart">
+              <div class="col-sm-12 text-center">
+                <div class="d-flex justify-center"><img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="mb-4 mr-3" /></div>
+                <h3><strong>Your Cart is Empty</strong></h3>
+                <h4>Add something to make me happy :)</h4>
+                <button
+                  class="btn btn-primary cart-btn-transform m-3"
+                  data-abc="true"
+                  @click="backToHome()"
+                >
+                  continue booking
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="$store.state.cartItemCount > 0" class="col-md-12">
+          <div class="card">
+          <div class="card-header">
+            <h5 class="font-bold blue">Your Cart : {{$store.state.cartItemCount}} | Total (฿) : ฿ {{total}}  </h5>
+          </div>
+          <div class="card-body cart">
+            <div v-for="item in items" :key="item.roomId" class="col-sm-12">
+                <div class="mt-4 mb-4 d-flex justify-content-between">
+                  <div>{{item.room.roomType.name}} | {{item.room.bedType}} | ฿ {{item.subtotal}} | {{item.amount}} room | {{item.numOfRest}} guest  </div>
+                  <span class="float-right"><button @click="removeItem(item)">x</button></span>
+                </div>
+            </div>
+          </div>
+           <div class="card-footer">
+           <div class="col-sm-4">
+                <div class="form-group">
+                  <div class="mb-2"><span class="form-label font-bold">Payment</span></div>
+                  <div  v-for="item in payment"
+                      :key="item.paymentMethodId" 
+                      class="form-check">
+                    <input class="form-check-input"  v-model="paymentMethod" :value="item" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                       <label class="form-check-label" for="flexRadioDefault1" >
+                         {{item.paymentMethodName}}
+                        </label>
+                  </div>
+                  <span class="select-arrow"></span>
+                  <div v-if="this.invPaymentMethod" class="text-red-500 text-sm">
+                    Please select PaymentMethod.
+                  </div>
+                </div>
+            </div>
+             <button @click="backToHome()"
+                  class="btn btn-secondary cart-btn-transform m-3"
+                  data-abc="true"
+                >
+                  continue booking
+                </button>
+                <button class="btn btn-primary" @click="checkOut()">check out</button>
+           </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
-  props:['roomDetails'],
   data() {
     return {
-      customer:{"customerId":"c103","email":"sahachai.senarak@hotmail.com",
-      "password":"123456789","telNo":"0945542211","address":
-      "102/10 bkk 10140","lname":"Senarak","fname":"Sahachai"},
-      checkIn:null,
-      checkOut:null,
-      numOfRest:0,
-      paymentMethod:null,
-      selectedPackages: [],
-      total:0
+      checkEmpty: this.$store.state.cartItemCount,
+      items: this.$store.state.cartItems,
+      paymentMethod: null,
+      invPaymentMethod: false,
     };
   },
   methods: {
-    confirmBooking(){
-      const currentDate = new Date();
-      var numberOfDay = 3;
-      const paymentDate = new Date();
-      paymentDate.setDate(paymentDate.getDate() + numberOfDay); 
-
-      for(let i=0;i<this.selectedPackages.length;i++){
-        this.total+=this.selectedPackages[i].packageCharge;
-      }
-      this.total += this.room.roomCharge
-
-      console.log(this.customer.customerId +','+this.paymentMethod+','+this.total+','+currentDate+','+paymentDate)
-      const booking = {
-        customerId : this.customer,
-        paymentMethodId : this.paymentMethod,
-        subTotal : this.total,
-        reservationDate : currentDate,
-        paymentDate : paymentDate
-      }
-    this.createFormData(booking)
+    removeItem(item) {
+      this.$store.dispatch("removeCartItem", item);
     },
-    createFormData(booking){
-      console.log(booking.customerId)
-       const jsonNewRoom = JSON.stringify(booking);
-        const blob = new Blob([jsonNewRoom],{
-          type: "application/json",
-        })
-        let formData = new FormData();
-        formData.append("newReservation",blob)
-        this.$store.dispatch("addReservation",formData);
+    checkOut(){
+      console.log(this.paymentMethod)
+      this.invPaymentMethod = this.paymentMethod === null ? true : false;
+      if(!this.invPaymentMethod){
+      if(this.$store.state.cartItemCount > 0){
+        const booking = {
+          reservationRequirements : this.items,
+          paymentMethod : this.paymentMethod
+        }
+        this.createFormData(booking);
+      }
+     }
+    },
+    createFormData(booking) {
+      this.invPaymentMethod = this.paymentMethod === null ? true : false;
+      if(!this.invPaymentMethod){
+      const jsonNewRoom = JSON.stringify(booking);
+      const blob = new Blob([jsonNewRoom], {
+        type: "application/json",
+      });
+      let formData = new FormData();
+      formData.append("newReservation", blob);
+      this.$store.dispatch("addReservation", formData);
+      }
+      this.$store.dispatch("clearItemInCart");
+      
+    },
+    backToHome(){
+      this.$router.push("/");
     }
   },
-  computed:{
-    packagePrice(){
-      // console.log(this.selectedPackages[0].packageCharge)
+  computed: {
+    total(){
       let total = 0;
-      for(let i=0;i<this.selectedPackages.length;i++){
-        total+=this.selectedPackages[i].packageCharge;
+      for (let i = 0; i < this.items.length; i++) {
+        total += this.items[i].subtotal;
       }
       return total
-    },
-    subtotal(){
-      let total = 0;
-      for(let i=0;i<this.selectedPackages.length;i++){
-        total+=this.selectedPackages[i].packageCharge;
-      }
-      return total+this.room.roomCharge
     }
-  }
-  ,
-  setup(props) {
+  },
+  setup() {
     const store = useStore();
-    store.dispatch("getPackages");
     store.dispatch("getPaymentMethods");
-    store.dispatch("getRoomById",props.roomDetails)
-    let packages = computed(function () {
-      return store.state.package;
-    });
-    let room = computed(function () {
-      return store.state.room;
-    });
     let payment = computed(function () {
       return store.state.payment;
     });
     return {
-      room,
-      packages,
-      payment
+      payment,
     };
   },
 };
 </script>
 <style scoped>
-.booking-form {
-  /* background-color: #fff; */
-  padding: 50px 20px;
-  /* -webkit-box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3); */
-  /* box-shadow: 0px 5px 20px -5px rgba(0, 0, 0, 0.3); */
-  /* border-radius: 4px; */
+body {
+  background-color: #eee;
+  font-family: "Calibri", sans-serif !important;
+}
+.blue{
+  color: #0000FF;
 }
 
-.booking-form .form-group {
-  position: relative;
-  margin-bottom: 30px;
+.mt-100 {
+  margin-top: 100px;
 }
 
-.booking-form .form-control {
-  background-color: #ebecee;
-  border-radius: 4px;
-  border: none;
-  height: 40px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  color: #3e485c;
-  font-size: 14px;
-}
-
-.booking-form .form-control::-webkit-input-placeholder {
-  color: rgba(62, 72, 92, 0.3);
-}
-
-.booking-form .form-control:-ms-input-placeholder {
-  color: rgba(62, 72, 92, 0.3);
-}
-
-.booking-form .form-control::placeholder {
-  color: rgba(62, 72, 92, 0.3);
-}
-
-.booking-form input[type="date"].form-control:invalid {
-  color: rgba(62, 72, 92, 0.3);
-}
-
-.booking-form select.form-control {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.booking-form select.form-control + .select-arrow {
-  position: absolute;
-  right: 0px;
-  bottom: 4px;
-  width: 32px;
-  line-height: 32px;
-  height: 32px;
-  text-align: center;
-  pointer-events: none;
-  color: rgba(62, 72, 92, 0.3);
-  font-size: 14px;
-}
-
-.booking-form select.form-control + .select-arrow:after {
-  content: "\279C";
-  display: block;
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-
-.booking-form .form-label {
-  display: inline-block;
-  color: #3e485c;
-  font-weight: 700;
-  margin-bottom: 6px;
-  margin-left: 7px;
-}
-
-.booking-form .submit-btn {
-  display: inline-block;
-  color: #fff;
-  background-color: #1e62d8;
-  font-weight: 700;
-  padding: 14px 30px;
-  border-radius: 4px;
-  border: none;
-  -webkit-transition: 0.2s all;
-  transition: 0.2s all;
-}
-
-.booking-form .submit-btn:hover,
-.booking-form .submit-btn:focus {
-  opacity: 0.9;
-}
-
-.booking-cta {
-  margin-top: 80px;
-  margin-bottom: 30px;
-}
-
-.booking-cta h1 {
-  font-size: 52px;
-  text-transform: uppercase;
-  color: #fff;
-  font-weight: 700;
-}
-
-.booking-cta p {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
-}
 .card {
-    border: none
+  margin-bottom: 30px;
+  border: 0;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  border-radius: 8px;
+  -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, 0.05);
+  box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, 0.05);
 }
 
-/* .form-control {
-    border-bottom: 2px solid #eee !important;
-    border: none;
-    font-weight: 600
+.card .card-header {
+  background-color: #fff;
+  border-bottom: none;
+  padding: 24px;
+  border-bottom: 2px solid #d3d3d3;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.card .card-footer {
+  background-color: #fff;
+  border-bottom: none;
+  padding: 24px;
+  border-bottom: 3px solid #d3d3d3;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.card-header:first-child {
+  border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
 
-.form-control:focus {
-    color: #495057;
-    background-color: #fff;
-    border-color: #8bbafe;
-    outline: 0;
-    box-shadow: none;
-    border-radius: 0px;
-    border-bottom: 2px solid blue !important
+.card .card-body {
+  padding: 30px;
+  background-color: transparent;
 }
 
-.inputbox {
-    position: relative;
-    margin-bottom: 20px;
-    width: 100%
+.btn-primary,
+.btn-primary.disabled,
+.btn-primary:disabled {
+  background-color: #4466f2 !important;
+  border-color: #4466f2 !important;
 }
-
-.inputbox span {
-    position: absolute;
-    top: 7px;
-    left: 11px;
-    transition: 0.5s
-}
-
-.inputbox i {
-    position: absolute;
-    top: 13px;
-    right: 8px;
-    transition: 0.5s;
-    color: #3F51B5
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0
-}
-
-.inputbox input:focus~span {
-    transform: translateX(-0px) translateY(-15px);
-    font-size: 12px
-}
-
-.inputbox input:valid~span {
-    transform: translateX(-0px) translateY(-15px);
-    font-size: 12px
-} */
-
-.card-blue {
-    background-color: #492bc4
-}
-
-.hightlight {
-    background-color: #5737d9;
-    padding: 10px;
-    border-radius: 10px;
-    margin-top: 15px;
-    font-size: 14px
-}
-
-.yellow {
-    color: #fdcc49
-}
-
-.decoration {
-    text-decoration: none;
-    font-size: 14px
-}
-
-.btn-success {
-    color: #fff;
-    background-color: #492bc4;
-    border-color: #492bc4
-}
-
-.btn-success:hover {
-    color: #fff;
-    background-color: #492bc4;
-    border-color: #492bc4
-}
-
-.decoration:hover {
-    text-decoration: none;
-    color: #fdcc49
-}
-
 </style>
