@@ -5,14 +5,14 @@
         <div class="row g-0">
           <div class="col-md-6 border-end">
             <div class="d-flex flex-column justify-content-center">
-              <!-- <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div> -->
-              <div class="main_image">
+              <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div>
+              <!-- <div class="main_image">
                 <img
                   src="https://i.imgur.com/TAzli1U.jpg"
                   id="main_product_image"
                   width="350"
                 />
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="col-md-6">
