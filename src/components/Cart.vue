@@ -88,8 +88,6 @@ export default {
       console.log(this.paymentMethod)
       this.invPaymentMethod = this.paymentMethod === null ? true : false;
       if(!this.invPaymentMethod){
-         let response = confirm(`Are you sure you want to check out ${this.checkEmpty} room right now`)
-      if(response){
       if(this.$store.state.cartItemCount > 0){
         const booking = {
           reservationRequirements : this.items,
@@ -97,7 +95,6 @@ export default {
         }
         this.createFormData(booking);
       }
-     }
      }
     },
     createFormData(booking) {
