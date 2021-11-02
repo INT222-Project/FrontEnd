@@ -1,6 +1,16 @@
 <template>
-  <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pt-4">
-    <div v-for="room in itemInRooms" :key="room.roomid">
+<div>
+  <div class="row height d-flex justify-content-center align-items-center pb-2 pt-4">
+        <div class="col-md-12">
+            <div class="search"> 
+              <i class="fa fa-search"></i> 
+              <input type="text" class="form-control" v-model="search" placeholder="Search for the room type you want to booking: Standard, Suite"> 
+              </div>
+        </div>
+        </div>
+  <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pt-4 container">
+     <!-- {{itemInRooms}} -->
+    <div v-for="room in filteredRoom" :key="room.roomid">
       <div class="col">
         <div class="card shadow-md">
           <div class="inner">
@@ -23,6 +33,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 <script>
 export default {
@@ -32,9 +43,13 @@ export default {
   },
   data() {
     return {
+      search: '',
     };
   },
   methods: {
+    reset(){
+      this.notFound = false
+    },
     viewImg(roomId) {
       console.log("url: "+this.$store.state.url)
       return this.$store.state.url +"/api/rooms/showImage/" + roomId;
@@ -43,10 +58,19 @@ export default {
       this.$emit("delete-room",room);
     },
     editRoom(room){
-      console.log(room)
       this.$emit("edit-room",room)
     }
   },
+  computed:{
+    filteredRoom:function(){
+      return this.itemInRooms.filter((room)=>{
+        if(room.roomType.name.toLowerCase().match(this.search.toLowerCase())){
+            this.notFound = false;
+            return room.roomType.name.toLowerCase().match(this.search.toLowerCase())
+        }
+      });
+    }
+  }
 };
 </script>
 <style>
