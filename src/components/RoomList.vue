@@ -65,7 +65,6 @@ export default {
     filteredRoom:function(){
       return this.itemInRooms.filter((room)=>{
         if(room.roomType.name.toLowerCase().match(this.search.toLowerCase())){
-            this.notFound = false;
             return room.roomType.name.toLowerCase().match(this.search.toLowerCase())
         }
       });

@@ -1,5 +1,5 @@
 <template>
-<div class="loading-box">
+  <div class="loading-box">
   <div class="lds-roller">
     <div></div>
     <div></div>
@@ -12,20 +12,23 @@
   </div>
   <div>{{text}}</div>
 </div>
+
 </template>
 <script>
 export default {
-    props:{
-        text:{
-            require: false,
-            type: String,
-            default: 'Loading',
-        }
-    }
+  props: {
+    text: {
+      require: false,
+      type: String,
+      default: "Loading Process",
+    },
+  },
 };
 </script>
 <style scoped>
-.loading-box{
+.loading-box {
+  border-radius: 25px;
+  border: 3px solid #202fff;
   position: fixed;
   top: 40%;
   width: 25%;
@@ -33,10 +36,10 @@ export default {
   background: #fff;
   box-shadow: 0px 0px 9px -2px #000;
   z-index: 999;
-  left:0px;
-  right:0px;
-  text-align:center;
-  padding:10px;
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  padding: 40px;
 }
 .lds-roller {
   display: inline-block;
@@ -122,4 +125,5 @@ export default {
     transform: rotate(360deg);
   }
 }
+
 </style>

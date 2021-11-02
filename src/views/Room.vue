@@ -86,12 +86,9 @@ export default {
         RoomDataService.addNewRoom(formData).then((response)=>{
           console.log(response.data)
         })
-         setTimeout(()=>{
-          this.$store.state.showLoading = true;
-          this.activeTab = "RoomList";
-        },2000)
-          location.reload()
-        this.$store.state.showLoading = false;
+        this.$store.state.showLoading = true;
+       setTimeout(()=>{this.activeTab = "RoomList"
+        location.reload()},2000);
       }
     },
      deleteRoom(room) {
@@ -100,10 +97,11 @@ export default {
       if(response){
          this.$store.dispatch('deleteRoom',room.roomId);
       }
+      this.$store.state.showLoading = true;
       setTimeout(()=>{
-          this.$store.state.showLoading = true;
-          location.reload()
+        location.reload()
         },2000)
+        
     },
     editBtn(room){
       console.log("Room No editing : " + room);
@@ -145,13 +143,13 @@ export default {
           console.log(response.data)
         })
         this.isEdit = false;
+        this.$store.state.showLoading = true;
         setTimeout(()=>{
-          this.$store.state.showLoading = true;
           this.activeTab = "RoomList";
           location.reload()
         },2000)
-        this.$store.state.showLoading = false;
         }
+
     }
   },
   setup(){
