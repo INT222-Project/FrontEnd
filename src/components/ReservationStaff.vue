@@ -65,8 +65,8 @@
               }}
               {{ item.customerId.lname }}
             </td>
-            <td>{{ item.subTotal }}</td>
-             <td v-if="item.reservationDetailList.length  == 1">
+          <td>{{ item.subTotal }}</td>
+             <td>
               <div v-for="reservationDetail in item.reservationDetailList"
                 :key="reservationDetail.reservDetailId">
                 {{ reservationDetail.status }} 
@@ -80,39 +80,7 @@
                   </option>
                 </select>
                 </div>
-              </td>
-            <td v-if="item.reservationDetailList.length  == 2">
-              <div v-for="reservationDetail in item.reservationDetailList"
-                :key="reservationDetail.reservDetailId">
-                {{ reservationDetail.status }} 
-                 <select v-model="selectedRoom">
-                  <option
-                    v-for="room in getListRoom(reservationDetail.room)"
-                    :key="room.roomId"
-                    :value="room"
-                  >
-                    <span>{{ room.roomNo }}</span>
-                  </option>
-                </select>
-                </div>
-              </td>
-
-              <td v-if="item.reservationDetailList.length  == 3">
-              <div v-for="reservationDetail in item.reservationDetailList"
-                :key="reservationDetail.reservDetailId">
-                {{ reservationDetail.status }} 
-                 <select v-model="selectedRoom">
-                  <option
-                    v-for="room in getListRoom(reservationDetail.room)"
-                    :key="room.roomId"
-                    :value="room"
-                  >
-                    <span>{{ room.roomNo }}</span>
-                  </option>
-                </select>
-                </div>
-              </td>
-
+            </td>
             <td @click.prevent="preferRoom(item)" class="accept font-bold">
               Accept
             </td>
