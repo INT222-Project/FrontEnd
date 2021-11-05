@@ -91,11 +91,11 @@
           </div>
         </div>
         <div class="mt-4 mb-4 d-flex justify-content-between">
-          <button @click="goBack()" class="btn btn-secondary">
-            Booking More
+          <button @click="goBack()" class="btn btn-outline-dark">
+           - Booking More
           </button>
           <button @click="addToCart()" class="btn btn-success px-3">
-            Add to Cart
+            Add to Cart >
           </button>
         </div>
       </div>
@@ -134,7 +134,7 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
-  props: ["roomDetails"],
+  props: ["roomDetails","pageId"],
   data() {
     return {
       customer: {
@@ -146,7 +146,6 @@ export default {
         lname: "Senarak",
         fname: "Sahachai",
       },
-      // new Date().toISOString().substr(0, 10)
       checkIn: null,
       checkOut: null,
       numOfRest: 0,
@@ -225,7 +224,8 @@ export default {
       }
     },
     goBack() {
-      this.$router.push({ name: "RoomDetails" });
+      this.$router.push({ name: "RoomDetails",params:{id:this.pageId}});
+      
     },
   },
   computed: {

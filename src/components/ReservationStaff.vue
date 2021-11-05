@@ -4,7 +4,7 @@
       <h1>Reservation</h1>
       <div class="col-md-12 pt-2">
         <div v-if="reservation == ''" class="card p-28">
-          <div class="card-body cart">
+          <div class="card-body">
             <div class="col-sm-12 text-center">
               <div class="d-flex justify-center">
                 <img
@@ -52,39 +52,117 @@
           </tr>
         </thead>
         <tbody v-for="item in reservation" :key="item.reservNo">
-          <tr v-for="reservationDetail in item.reservationDetailList"
-              :key="reservationDetail.reservDetailId">
-              <td>{{ reservationDetail.reservDetailId }} ({{item.reservNo}})</td>
-              <td>{{ item.reservationDate }}</td>
-              <td v-if="item.paymentMethodId != null">
-                <i class="fa fa-check-circle-o green"></i
-                ><span class="ms-1">{{
-                  item.paymentMethodId.paymentMethodName
-                }}</span>
-              </td>
-              <td v-else-if="item.paymentMethodId == null">
-                <i class="fa fa-check-circle-o green"></i
-                ><span class="ms-1">-</span>
-              </td>
-              <td>
-                <img src="https://i.imgur.com/VKOeFyS.png" width="25" />{{
-                  item.customerId.fname
-                }}
-                {{ item.customerId.lname }}
-              </td>
-              <td>{{ reservationDetail.total }}</td>
-              {{ reservationDetail.status }}
-              <select v-model="selectedRoom">
-                <option
-                  v-for="room in getListRoom(reservationDetail.room)"
-                  :key="room.roomId"
-                  :value="room"
-                >
-                  <span>{{ room.roomNo }}</span>
-                </option>
-              </select>
-            <td @click.prevent="preferRoom(item,reservationDetail)" class="accept font-bold">
-              Accept
+          <tr
+            v-for="reservationDetail in item.reservationDetailList"
+            :key="reservationDetail.reservDetailId"
+          >
+            <td>
+              {{ reservationDetail.reservDetailId }} ({{ item.reservNo }})
+            </td>
+            <td>{{ item.reservationDate }}</td>
+            <td v-if="item.paymentMethodId != null">
+              <i class="fa fa-check-circle-o green"></i
+              ><span class="ms-1">{{
+                item.paymentMethodId.paymentMethodName
+              }}</span>
+            </td>
+            <td v-else-if="item.paymentMethodId == null">
+              <i class="fa fa-check-circle-o green"></i
+              ><span class="ms-1">-</span>
+            </td>
+            <td>
+              <img src="https://i.imgur.com/VKOeFyS.png" width="25" />{{
+                item.customerId.fname
+              }}
+              {{ item.customerId.lname }}
+            </td>
+            <td>{{ reservationDetail.total }}</td>
+            <div
+              class="modal fade"
+              id="staticBackdrop"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header bg-blue-600">
+                    <h5 class="modal-title text-white" id="staticBackdropLabel">
+                      Choose Room for Customer
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="container">
+                      <div class="border p-4 rounded">
+                        <div class="row">
+                          <div
+                            v-for="room in getListRoom(reservationDetail.room)"
+                            :key="room.roomId"
+                            class="form-check form-check-inline"
+                          >
+                            <div class="col-md-6">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                name="inlineRadioOptions"
+                                id="inlineRadio1"
+                                v-model="selectedRoom"
+                                :value="room"
+                              />
+                              <span>Room: {{ room.roomNo }} , {{room.roomType.name}}, {{room.bedType}}</span>
+
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <select v-model="selectedRoom">
+                          <option v-for="room in getListRoom(reservationDetail.room)" :key="room.roomId"
+                          >
+                            <span>{{ room.roomNo }}</span>
+                          </option>
+                        </select> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <td>
+              <button
+                type="button"
+                class="btn btn-primary p-3"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                Select Room {{ reservationDetail.status }}
+              </button>
+            </td>
+            <td>
+              <button
+                class="btn btn-success p-3"
+                @click.prevent="preferRoom(item, reservationDetail)"
+              >
+                Confirm
+              </button>
             </td>
           </tr>
         </tbody>
@@ -98,8 +176,6 @@ import { useStore } from "vuex";
 export default {
   data() {
     return {
-      selectedRoom3: null,
-      selectedRoom2: null,
       selectedRoom: null,
       receptionist: {
         repId: "r110",
@@ -113,16 +189,17 @@ export default {
     };
   },
   methods: {
-    preferRoom(reservation,reservationDetail) {
+    preferRoom(reservation, reservationDetail) {
+      if(reservationDetail.status == "undone" && this.selectedRoom != null){
       reservationDetail.room = this.selectedRoom;
       reservationDetail.status = "done";
       let list = reservation.reservationDetailList;
-      if(list.length > 0){
-        let count = 0
-        for(let i = 0 ; i < list.length ; i++){
-          if(list[i].status == "done") count++;
+      if (list.length > 0) {
+        let count = 0;
+        for (let i = 0; i < list.length; i++) {
+          if (list[i].status == "done") count++;
         }
-        if(count == list.length ) reservation.status = "done";
+        if (count == list.length) reservation.status = "done";
       }
       console.log(reservation);
       let booking = {
@@ -132,11 +209,19 @@ export default {
         reservationDate: reservation.reservationDate,
         paymentMethodId: reservation.paymentMethodId,
         subTotal: reservation.subTotal,
-        status : reservation.status,
+        status: reservation.status,
         repId: reservation.repId,
         reservationDetailList: reservation.reservationDetailList,
       };
       this.createFormData(booking);
+      }else{
+        if(reservationDetail.status == "done"){
+          alert("Already select room")
+        }
+        if(reservationDetail.status == "undone" && this.selectedRoom == null){
+          alert("Please select room for customer first")
+        }
+      }
     },
     createFormData(booking) {
       const jsonNewRoom = JSON.stringify(booking);
@@ -176,10 +261,24 @@ export default {
 };
 </script>
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap"); */
 
-body {
+/* body {
   font-family: "Open Sans", sans-serif;
+} */
+label.radio {
+    cursor: pointer;
+    width: 100% !important;
+    margin-top: 9px
+}
+
+label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none;
+    width: 100%
 }
 
 .search {
@@ -199,8 +298,5 @@ body {
 
 .green {
   color: green;
-}
-.accept:hover {
-  background-color: rgb(60, 104, 250);
 }
 </style>

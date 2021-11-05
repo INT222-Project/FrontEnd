@@ -20,7 +20,7 @@ const routes = [
     component: Home
   },
   {
-    path:'/RoomDetails',
+    path:'/RoomDetails/:id',
     name:'RoomDetails',
     props: true,
     component: RoomDetails
@@ -51,7 +51,7 @@ const routes = [
     component: FormRoom
   },
   {
-    path:'/booking',
+    path:'/booking/:roomDetails',
     name:'Booking',
     props: true,
     component: Booking

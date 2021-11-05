@@ -41,10 +41,9 @@
                     class="btn btn-outline-primary"
                     :to="{
                       name: 'Booking',
-                      params: { roomDetails: req.roomId },
+                      params: { roomDetails: req.roomId, pageId:this.id}
                     }"
-                    >Book Now</router-link
-                  >
+                    >Book Now</router-link>
                   <!-- <button class="btn btn-primary" @click="addToCart(req)">
                     Add to Cart
                   </button> --> 
@@ -68,7 +67,6 @@ export default {
   props: ["id"],
   data() {
     return {
-        // details:this.$route.params
     };
   },
   methods: {
@@ -78,20 +76,8 @@ export default {
     viewImg(roomTypeId) {
       return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId;
     },
-    // addToCart(req) {
-    //   console.log(req);
-    //   this.$store.dispatch("addRoomToCart", req);
-    // },
   },
-//   created() {
-//     if (this.$route.params.id !== undefined) {
-//       localStorage.setItem("details",JSON.stringify(this.$route.params));
-//     }
-//   },
-//   mounted(){
-//       this.details = JSON.parse(localStorage.getItem("details"));
-//       this.$route.params.id = this.details;
-//   },
+
   setup(props) {
     const store = useStore();
     store.dispatch("getRoomTypeById", props.id);
