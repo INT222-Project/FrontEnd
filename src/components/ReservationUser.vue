@@ -5,7 +5,7 @@
             Reservation No {{item.reservNo}} Reservation Date {{item.reservationDate}} cost {{item.subTotal}}
             <button>V</button>
             <div v-for="reservationDetail in item.reservationDetailList" :key="reservationDetail.reservDetailId">
-                {{reservationDetail.status}}
+                {{reservationDetail.reservDetailId}} || {{reservationDetail.room.roomType.name}} || {{reservationDetail.room.bedType}} || {{reservationDetail.status}}
             </div>
         </div>
     </div>
