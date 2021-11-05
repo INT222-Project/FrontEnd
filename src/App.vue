@@ -4,7 +4,7 @@
   <page-loader v-if="showLoading"></page-loader>
   <router-view/>
   </div>
-  <footer-bar></footer-bar>
+  <!-- <footer-bar></footer-bar> -->
 </template>
 <script>
 import PageLoader from './components/ui/PageLoader'
