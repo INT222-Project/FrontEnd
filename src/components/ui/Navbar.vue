@@ -22,13 +22,11 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/about">About</router-link>
             </li>
-            <!-- <li class="nav-item">
-              <router-link class="nav-link" to="/cart"><i class="fas fa-shopping-cart cart-icon"></i><span class="cart-count">{{count}}</span></router-link>
-            </li> -->
           </ul>
           <router-link class="nav-link" to="/cart"><i class="fas fa-shopping-cart cart-icon"></i><span class="cart-count">{{count}}</span></router-link>
-          <div class="dropdown text-end  mb-2 mb-lg-0">
-          <a href="#" class="dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+          
+          <div class="dropdown mb-2 mb-lg-0">
+             <a href="#" class="dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="far fa-user"></i>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -67,6 +65,16 @@ export default {
 }
 </script>
 <style>
+.navbar-toggler {
+    border: 0;
+}
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
+    border: 0;
+}
 .cart-count{
   font-size:10px;
   color: #d4570cf2;

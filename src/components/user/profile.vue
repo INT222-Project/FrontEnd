@@ -161,7 +161,7 @@
         </div>
     </div>
     </div>
-<!-- Modal -->
+    
 </template>
 <style scoped>
 body{

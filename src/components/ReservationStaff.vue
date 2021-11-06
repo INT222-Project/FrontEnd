@@ -106,7 +106,7 @@
                           <div
                             v-for="room in getListRoom(reservationDetail.room)"
                             :key="room.roomId"
-                            class="form-check form-check-inline"
+                            class="form-check form-check-inline "
                           >
                             <div class="col-md-6">
                               <input
@@ -118,15 +118,14 @@
                                 :value="room"
                               />
                               <span>Room: {{ room.roomNo }} , {{room.roomType.name}}, {{room.bedType}}</span>
-
                             </div>
                           </div>
                         </div>
-                        <!-- <select v-model="selectedRoom">
-                          <option v-for="room in getListRoom(reservationDetail.room)" :key="room.roomId"
+                           <!-- <select v-model="selectedRoom">
+                         <option v-for="room in getListRoom(reservationDetail.room)" :key="room.roomId"
                           >
-                            <span>{{ room.roomNo }}</span>
-                          </option>
+                             <span>{{ room.roomNo }}</span>
+                           </option>
                         </select> -->
                       </div>
                     </div>
@@ -139,7 +138,11 @@
                     >
                       Close
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      data-bs-dismiss="modal"
+                    >
                       Save Changes
                     </button>
                   </div>
@@ -174,6 +177,7 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
+  components: {},
   data() {
     return {
       selectedRoom: null,
@@ -190,36 +194,36 @@ export default {
   },
   methods: {
     preferRoom(reservation, reservationDetail) {
-      if(reservationDetail.status == "undone" && this.selectedRoom != null){
-      reservationDetail.room = this.selectedRoom;
-      reservationDetail.status = "done";
-      let list = reservation.reservationDetailList;
-      if (list.length > 0) {
-        let count = 0;
-        for (let i = 0; i < list.length; i++) {
-          if (list[i].status == "done") count++;
+      if (reservationDetail.status == "undone" && this.selectedRoom != null) {
+        reservationDetail.room = this.selectedRoom;
+        reservationDetail.status = "done";
+        let list = reservation.reservationDetailList;
+        if (list.length > 0) {
+          let count = 0;
+          for (let i = 0; i < list.length; i++) {
+            if (list[i].status == "done") count++;
+          }
+          if (count == list.length) reservation.status = "done";
         }
-        if (count == list.length) reservation.status = "done";
-      }
-      console.log(reservation);
-      let booking = {
-        reservNo: reservation.reservNo,
-        customerId: reservation.customerId,
-        paymentDate: reservation.paymentDate,
-        reservationDate: reservation.reservationDate,
-        paymentMethodId: reservation.paymentMethodId,
-        subTotal: reservation.subTotal,
-        status: reservation.status,
-        repId: reservation.repId,
-        reservationDetailList: reservation.reservationDetailList,
-      };
-      this.createFormData(booking);
-      }else{
-        if(reservationDetail.status == "done"){
-          alert("Already select room")
+        console.log(reservation);
+        let booking = {
+          reservNo: reservation.reservNo,
+          customerId: reservation.customerId,
+          paymentDate: reservation.paymentDate,
+          reservationDate: reservation.reservationDate,
+          paymentMethodId: reservation.paymentMethodId,
+          subTotal: reservation.subTotal,
+          status: reservation.status,
+          repId: reservation.repId,
+          reservationDetailList: reservation.reservationDetailList,
+        };
+        this.createFormData(booking);
+      } else {
+        if (reservationDetail.status == "done") {
+          alert("Already select room");
         }
-        if(reservationDetail.status == "undone" && this.selectedRoom == null){
-          alert("Please select room for customer first")
+        if (reservationDetail.status == "undone" && this.selectedRoom == null) {
+          alert("Please select room for customer first");
         }
       }
     },
@@ -266,20 +270,6 @@ export default {
 /* body {
   font-family: "Open Sans", sans-serif;
 } */
-label.radio {
-    cursor: pointer;
-    width: 100% !important;
-    margin-top: 9px
-}
-
-label.radio input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    visibility: hidden;
-    pointer-events: none;
-    width: 100%
-}
 
 .search {
   top: 6px;
@@ -295,8 +285,30 @@ label.radio input {
   border: none;
   box-shadow: none;
 }
-
-.green {
-  color: green;
+body{
+ margin:0;
+ padding: 0;
+ font-family: sans-serif;
+ 
 }
+
+input[type="radio"] + label span {
+    transition: background .2s, transform .2s;
+}
+
+input[type="radio"] + label span:hover,
+input[type="radio"] + label:hover span{
+  transform: scale(1.2);
+} 
+
+input[type="radio"]:checked + label span {
+  background-color: #3490DC; 
+  box-shadow: 0px 0px 0px 2px white inset;
+}
+
+input[type="radio"]:checked + label{
+   color: #3490DC; 
+}
+
+
 </style>
