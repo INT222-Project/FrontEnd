@@ -20,19 +20,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div v-if="reservation != ''">
-              <div class="col-12">
-                <div v-for="item in reservation" :key="item.reservNo">
-                  <div class="card">
-                    {{item.reservNo}}
-                    {{item.reservationDate}}
-                    {{item.customerId.fname}}
-                    {{ item.customerId.lname }}
-                    </div>
-                </div>
-          </div>
-        </div> -->
       <table
         v-if="reservation != ''"
         class="table table-light caption-top table-responsive table-bordered"
@@ -77,6 +64,25 @@
               {{ item.customerId.lname }}
             </td>
             <td>{{ reservationDetail.total }}</td>
+            <td v-if="reservationDetail.status === 'undone'">
+              <button
+                type="button"
+                class="btn btn-primary p-3"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                Select Room {{ reservationDetail.status }}
+              </button>
+            </td>
+            <td v-if="reservationDetail.status === 'done'">
+              <button
+                type="button"
+                class="btn btn-secondary p-3"
+    
+              >
+                Select Room {{ reservationDetail.status }}
+              </button>
+            </td>
             <div
               class="modal fade"
               id="staticBackdrop"
@@ -100,17 +106,16 @@
                     ></button>
                   </div>
                   <div class="modal-body">
-                    <div class="container">
-                      <div class="border p-4 rounded">
-                        <div class="row">
+                    <div class="container p-4">
+                        <div class="row p-4">
                           <div
                             v-for="room in getListRoom(reservationDetail.room)"
                             :key="room.roomId"
-                            class="form-check form-check-inline "
+                            class="form-check form-check-inline bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow "
                           >
-                            <div class="col-md-6">
+                            <div class="col-md-8 p-4">
                               <input
-                                class="form-check-input"
+                                class="form-check-input p-2"
                                 type="radio"
                                 name="inlineRadioOptions"
                                 id="inlineRadio1"
@@ -127,7 +132,6 @@
                              <span>{{ room.roomNo }}</span>
                            </option>
                         </select> -->
-                      </div>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -149,16 +153,6 @@
                 </div>
               </div>
             </div>
-            <td>
-              <button
-                type="button"
-                class="btn btn-primary p-3"
-                data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop"
-              >
-                Select Room {{ reservationDetail.status }}
-              </button>
-            </td>
             <td>
               <button
                 class="btn btn-success p-3"
@@ -290,24 +284,6 @@ body{
  padding: 0;
  font-family: sans-serif;
  
-}
-
-input[type="radio"] + label span {
-    transition: background .2s, transform .2s;
-}
-
-input[type="radio"] + label span:hover,
-input[type="radio"] + label:hover span{
-  transform: scale(1.2);
-} 
-
-input[type="radio"]:checked + label span {
-  background-color: #3490DC; 
-  box-shadow: 0px 0px 0px 2px white inset;
-}
-
-input[type="radio"]:checked + label{
-   color: #3490DC; 
 }
 
 

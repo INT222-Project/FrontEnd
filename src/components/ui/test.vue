@@ -1,5 +1,5 @@
 <template>
-<div class="container pt-22">
+<div class="container p-20">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
@@ -35,6 +35,7 @@
       </form>
     </div>
   </div>
+
 </nav>
 </div>
 </template>

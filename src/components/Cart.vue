@@ -54,13 +54,14 @@
                   </div>
                 </div>
             </div>
+            <hr >
              <button @click="backToHome()"
                   class="btn btn-secondary cart-btn-transform m-3"
                   data-abc="true"
                 >
                   continue booking
                 </button>
-                <button class="btn btn-primary" @click="checkOut()">check out</button>
+                <button class="btn btn-primary" @click="checkOut()">continue to check out</button>
            </div>
           </div>
         </div>
