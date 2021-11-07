@@ -12,14 +12,7 @@ import Profile from '../components/user/Profile.vue'
 import EditProfile from '../components/user/EditProfile.vue'
 import Cart from '../components/Cart.vue'
 import ReservationUser from '../components/ReservationUser.vue'
-import test from '../components/ui/test.vue'
 const routes = [
-  {
-    path: '/test',
-    name: 'test',
-    props: true,
-    component: test
-  },
   {
     path: '/',
     name: 'Home',

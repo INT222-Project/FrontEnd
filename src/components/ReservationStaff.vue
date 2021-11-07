@@ -35,6 +35,7 @@
             <th scope="col" width="15%">Customer</th>
             <th scope="col" width="15%">Total</th>
             <th scope="col" width="15%">Status - Room</th>
+            <th scope="col" width="15%">Status - Room</th>
             <th scope="col" class="text-end" width="5%">Confirm</th>
           </tr>
         </thead>
@@ -63,10 +64,18 @@
               }}
               {{ item.customerId.lname }}
             </td>
-            <td>{{ reservationDetail.total }}</td>
+            <td>
+              {{ reservationDetail.total }} {{ reservationDetail.status }}
+            </td>
+            <td>
+              <div v-for="r in reservationDetail.room" :key="r.roomId">
+                {{ r.name }}
+              </div>
+            </td>
             <td v-if="reservationDetail.status === 'undone'">
               <button
                 type="button"
+                @click="getListRoom(reservationDetail.room)"
                 class="btn btn-primary p-3"
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop"
@@ -75,11 +84,7 @@
               </button>
             </td>
             <td v-if="reservationDetail.status === 'done'">
-              <button
-                type="button"
-                class="btn btn-secondary p-3"
-    
-              >
+              <button type="button" class="btn btn-secondary p-3">
                 Select Room {{ reservationDetail.status }}
               </button>
             </td>
@@ -107,36 +112,45 @@
                   </div>
                   <div class="modal-body">
                     <div class="container p-4">
-                        <div class="row p-4">
-                          <div
-                            v-for="room in getListRoom(reservationDetail.room)"
-                            :key="room.roomId"
-                            class="form-check form-check-inline bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow "
-                          >
-                            <div class="col-md-8 p-4">
-                              <input
-                                class="form-check-input p-2"
-                                type="radio"
-                                name="inlineRadioOptions"
-                                id="inlineRadio1"
-                                v-model="selectedRoom"
-                                :value="room"
-                              />
-                              <span>Room: {{ room.roomNo }} , {{room.roomType.name}}, {{room.bedType}}</span>
-                            </div>
+                      <div class="row p-4">
+                        <div
+                          v-for="room in staffRoom"
+                          :key="room.roomId"
+                          class="
+                            form-check form-check-inline
+                            bg-white
+                            hover:bg-gray-100
+                            text-gray-800
+                            font-semibold
+                            py-2
+                            px-4
+                            border border-gray-400
+                            rounded
+                            shadow
+                          "
+                        >
+                          <div class="col-md-8 p-4">
+                            <input
+                              class="form-check-input p-2"
+                              type="radio"
+                              name="inlineRadioOptions"
+                              id="inlineRadio1"
+                              v-model="selectedRoom"
+                              :value="room"
+                            />
+                            <span
+                              >Room: {{ room.roomNo }} ,
+                              {{ room.roomType.name }}, {{ room.bedType }}</span
+                            >
                           </div>
                         </div>
-                           <!-- <select v-model="selectedRoom">
-                         <option v-for="room in getListRoom(reservationDetail.room)" :key="room.roomId"
-                          >
-                             <span>{{ room.roomNo }}</span>
-                           </option>
-                        </select> -->
+                      </div>
                     </div>
                   </div>
                   <div class="modal-footer">
                     <button
                       type="button"
+                      @click="this.selectedRoom = null"
                       class="btn btn-secondary"
                       data-bs-dismiss="modal"
                     >
@@ -171,9 +185,10 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
-  components: {},
   data() {
     return {
+      staffRoom: null,
+      isShowModal: false,
       selectedRoom: null,
       receptionist: {
         repId: "r110",
@@ -187,6 +202,9 @@ export default {
     };
   },
   methods: {
+    staffRooms(room) {
+      this.staffRoom = this.getListRoom(room);
+    },
     preferRoom(reservation, reservationDetail) {
       if (reservationDetail.status == "undone" && this.selectedRoom != null) {
         reservationDetail.room = this.selectedRoom;
@@ -238,7 +256,7 @@ export default {
           temp.roomType.roomTypeId == room.roomType.roomTypeId &&
           temp.roomId > 20
       );
-      return showRoom;
+       this.staffRoom = showRoom;
     },
   },
   setup() {
@@ -279,12 +297,9 @@ export default {
   border: none;
   box-shadow: none;
 }
-body{
- margin:0;
- padding: 0;
- font-family: sans-serif;
- 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }
-
-
 </style>
