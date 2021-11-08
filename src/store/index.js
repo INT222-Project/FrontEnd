@@ -23,7 +23,8 @@ export default createStore({
     package: [],
     reservation: [],
     getReservation: {},
-
+    unpaid:[],
+    paid:[],
     cartItems: cartItems ? JSON.parse(cartItems) : [],
     cartItemCount: cartItemCount ? JSON.parse(cartItemCount) : 0,
     reservationDetail: [],
@@ -124,6 +125,14 @@ export default createStore({
       const response = await axios.get(`${API_URL}/api/reservations/byReservationDetailId/${reservDetailId}`);
       commit('setReservationByReservationDetailId', response.data);
     },
+    async getUnpaidReservation({ commit }) {
+      const response = await axios.get(`${API_URL}/api/reservations/unpaidReservation`);
+      commit('setUnpaid', response.data)
+    },
+    async getPaidReservation({ commit }) {
+      const response = await axios.get(`${API_URL}/api/reservations/successReservation`);
+      commit('setPaid', response.data)
+    },
   },
   mutations: {
     setRooms(state, data) {
@@ -178,6 +187,12 @@ export default createStore({
     },
     setReservationByReservationDetailId(state, data) {
       state.getReservation = data
+    },
+    setUnpaid(state,data){
+      state.unpaid = data
+    },
+    setPaid(state,data){
+      state.paid = data
     },
     addToCart(state, room) {
       state.cartItems.push(room)

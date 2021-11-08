@@ -17,11 +17,16 @@ export default {
     setup() {
         const store = useStore();
         store.dispatch("getReservationByCustomerId",'c103'); /*mock up customer id = c103*/
+        store.dispatch("getUnpaidReservation");
         let reservation = computed(function(){
             return store.state.reservation;
         });
+        let unpaid = computed(function(){
+        return store.state.unpaid
+         });
         return{
-            reservation
+            reservation,
+            unpaid
         }
     },
 }

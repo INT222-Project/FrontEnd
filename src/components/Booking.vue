@@ -16,13 +16,13 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <span class="form-label">Check In</span>
-                  <input class="form-control" v-model="checkIn" type="date" />
+                  <input class="form-control" v-model="checkIn" :min="minDate" type="date" />
                   <div v-if="this.invCheckIn" class="text-red-500 text-sm">
                     Please select checkIn date.
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-6" v-if="this.checkIn != ''">
                 <div class="form-group">
                   <span class="form-label">Check out</span>
                   <input
@@ -30,6 +30,20 @@
                     v-model="checkOut"
                     :min="minValue"
                     type="date"
+                  />
+                  <div v-if="this.invCheckOut" class="text-red-500 text-sm">
+                    Please select date for rest atleast 1 night.
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6" v-if="this.checkIn == ''">
+                <div class="form-group">
+                  <span class="form-label">Check out</span>
+                  <input
+                    class="form-control"
+                    placeholder="วว/ดด/ปปปป"
+                    disabled
+                    type="text"
                   />
                   <div v-if="this.invCheckOut" class="text-red-500 text-sm">
                     Please select date for rest atleast 1 night.
@@ -92,10 +106,11 @@
         </div>
         <div class="mt-4 mb-4 d-flex justify-content-between">
           <button @click="goBack()" class="btn btn-outline-dark">
-           - Booking More
+          <i class="fas fa-angle-double-left"></i> Booking More
           </button>
           <button @click="addToCart()" class="btn btn-success px-3">
-            Add to Cart >
+            Add to Cart 
+            <i class="fas fa-angle-double-right"></i>
           </button>
         </div>
       </div>
@@ -147,8 +162,9 @@ export default {
         lname: "Senarak",
         fname: "Sahachai",
       },
-      checkIn: null,
-      checkOut: null,
+      minCiDate: new Date().toISOString().slice(0,10) ,
+      checkIn: '',
+      checkOut: '',
       numOfRest: 0,
       amount: 0,
       paymentMethod: null,
@@ -163,7 +179,7 @@ export default {
   },
   methods: {
     calculateDay() {
-      if (this.checkIn == null || this.checkOut == null) return 1;
+      if (this.checkIn == '' || this.checkOut == '') return 1;
       const temp1 = new Date(this.checkIn);
       const temp2 = new Date(this.checkOut);
       var diffTime = temp2.getTime() - temp1.getTime();
@@ -172,8 +188,8 @@ export default {
       return diffDays;
     },
     addToCart() {
-      this.invCheckIn = this.checkIn === null ? true : false;
-      if (this.checkOut === null || this.calculateDay() == 0) {
+      this.invCheckIn = this.checkIn === '' ? true : false;
+      if (this.checkOut === '' || this.calculateDay() == 0) {
         this.invCheckOut = true;
       } else {
         this.invCheckOut = false;
@@ -187,7 +203,7 @@ export default {
         !this.invAmount
       ) {
         const currentDate = new Date();
-        var numberOfDay = 3;
+        var numberOfDay = 1;
         const paymentDate = new Date();
         paymentDate.setDate(paymentDate.getDate() + numberOfDay);
         for (let i = 0; i < this.selectedPackages.length; i++) {
@@ -230,6 +246,9 @@ export default {
     },
   },
   computed: {
+    minDate(){
+      return this.minCiDate;
+    },
     minValue() {
       return this.checkIn;
     },

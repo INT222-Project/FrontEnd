@@ -2,6 +2,28 @@
   <div class="container h-auto mt-5 pb-12 px-2 pt-12 mb-20">
     <div class="table-responsive">
       <h1>Reservation</h1>
+      {{filteredRoomNo}}
+      <div class="space-x-4 pt-4 pb-2">
+        <button
+          type="button"
+          class="btn btn-warning"
+          data-bs-toggle="modal"
+          data-bs-target="#monitor"
+        >
+          Monitor Payment
+          <i class="fas fa-tasks"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-warning"
+          data-bs-toggle="modal"
+          data-bs-target="#checkout"
+        >
+          Checkout Counter
+          <i class="fas fa-tasks"></i>
+        </button>
+      </div>
+      <hr />
       <div class="col-md-12 pt-2">
         <div v-if="reservation == ''" class="card p-28">
           <div class="card-body">
@@ -29,13 +51,13 @@
         </caption>
         <thead class="table-dark">
           <tr class="bg-light">
-            <th scope="col" width="15%">reservation detail id</th>
+            <th scope="col" width="20%">Reservation detail Id</th>
             <th scope="col" width="15%">Reservation Date</th>
             <th scope="col" width="15%">Payment Method</th>
             <th scope="col" width="15%">Customer</th>
             <th scope="col" width="15%">Total</th>
-            <th scope="col" width="15%">Status - Room</th>
-            <th scope="col" width="15%">Status - Room</th>
+            <th scope="col" width="15%">Room Type</th>
+            <th scope="col" width="20%">Status / Room</th>
             <th scope="col" class="text-end" width="5%">Confirm</th>
           </tr>
         </thead>
@@ -76,7 +98,7 @@
               <button
                 type="button"
                 @click="getListRoom(reservationDetail.room)"
-                class="btn btn-primary p-3"
+                class="btn btn-outline-primary p-3"
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop"
               >
@@ -88,85 +110,6 @@
                 Select Room {{ reservationDetail.status }}
               </button>
             </td>
-            <div
-              class="modal fade"
-              id="staticBackdrop"
-              data-bs-backdrop="static"
-              data-bs-keyboard="false"
-              tabindex="-1"
-              aria-labelledby="staticBackdropLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header bg-blue-600">
-                    <h5 class="modal-title text-white" id="staticBackdropLabel">
-                      Choose Room for Customer
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="container p-4">
-                      <div class="row p-4">
-                        <div
-                          v-for="room in staffRoom"
-                          :key="room.roomId"
-                          class="
-                            form-check form-check-inline
-                            bg-white
-                            hover:bg-gray-100
-                            text-gray-800
-                            font-semibold
-                            py-2
-                            px-4
-                            border border-gray-400
-                            rounded
-                            shadow
-                          "
-                        >
-                          <div class="col-md-8 p-4">
-                            <input
-                              class="form-check-input p-2"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="inlineRadio1"
-                              v-model="selectedRoom"
-                              :value="room"
-                            />
-                            <span
-                              >Room: {{ room.roomNo }} ,
-                              {{ room.roomType.name }}, {{ room.bedType }}</span
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      @click="this.selectedRoom = null"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      data-bs-dismiss="modal"
-                    >
-                      Save Changes
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
             <td>
               <button
                 class="btn btn-success p-3"
@@ -179,6 +122,270 @@
         </tbody>
       </table>
     </div>
+    <!-- --------------------check out room------------------------ -->
+    <div
+      class="modal fade"
+      id="checkout"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="checkoutLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="
+          modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered
+        "
+      >
+        <div class="modal-content">
+          <div class="modal-header bg-dark">
+            <h5 class="modal-title text-white" id="checkoutLabel">
+              Checkout Counter
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div
+              class="
+                row
+                height
+                d-flex
+                justify-content-center
+                align-items-center
+              "
+            >
+              <div class="col-md-12">
+                <div class="search">
+                  <i class="fa fa-search"></i>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="search"
+                    placeholder="Search room number "
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="container">
+              <div class="row p-4">
+                <div v-for="p in filteredRoomNo" :key="p.reservNo">
+                  <div
+                    v-for="rd in p.reservationDetailList"
+                    :key="rd.reservDetailId"
+                  >
+                    <span v-if="rd.status == 'reserved'">
+                      <p>
+                        ID
+                        <span class="font-bold"> {{ rd.reservDetailId }}</span>
+                        - room number
+                        <span class="font-bold">
+                          {{ rd.room.roomNo }} {{ rd.room.roomType.name }}</span
+                        >
+                        Booked by a customer named
+                        <span class="font-bold"
+                          >{{ p.customerId.fname }}
+                          {{ p.customerId.lname }}</span
+                        >
+                        Responsible by the receptionist named RepId
+                        <span class="font-bold"
+                          >{{ p.repId.fName }} {{ p.repId.lName }}</span
+                        >
+                      </p>
+                      <p>
+                        Status <span class="font-bold">{{ p.status }}</span> Pay
+                        date
+                        <span class="font-bold"> {{ p.paymentDate }} </span>
+                      </p>
+                      <p>
+                        CheckIn:
+                        <span class="font-bold">{{ rd.checkInDate }}</span>
+                      </p>
+                      <p>
+                        CheckOut:
+                        <span class="font-bold">{{ rd.checkOutDate }}</span>
+                      </p>
+                      <button class="btn btn-danger" @click="returnRoom(p, rd)">
+                        Checkout Room
+                      </button>
+                    </span>
+                    <hr />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-dark">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ------------------Monitor Payment------------------------- -->
+    <div
+      class="modal fade"
+      id="monitor"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="checkoutLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="
+          modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered
+        "
+      >
+        <div class="modal-content">
+          <div class="modal-header bg-dark">
+            <h5 class="modal-title text-white" id="checkoutLabel">
+              Monitor Payment
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row p-4">
+                <div v-for="up in unpaid" :key="up.reservNo">
+                  <div
+                    v-for="rd in up.reservationDetailList"
+                    :key="rd.reservDetailId"
+                  >
+                    <span>
+                      <p>
+                        ID
+                        <span class="font-bold"> {{ rd.reservDetailId }}</span>
+                        - room number
+                        <span class="font-bold">
+                          {{ rd.room.roomId }} {{ rd.room.roomType.name }}</span
+                        >
+                        Booked by a customer named
+                        <span class="font-bold"
+                          >{{ up.customerId.fname }}
+                          {{ up.customerId.lname }}</span
+                        >
+                        Responsible by the receptionist named RepId
+                        <span class="font-bold"
+                          >{{ up.repId.fName }} {{ up.repId.lName }}</span
+                        >
+                      </p>
+                      <p>
+                        Status
+                        <span class="font-bold">{{ up.status }}</span> Pay date
+                        <span class="font-bold"> {{ up.paymentDate }} </span>
+                      </p>
+                      <p>
+                        CheckIn:
+                        <span class="font-bold">{{ rd.checkInDate }}</span>
+                      </p>
+                      <p>
+                        CheckOut:
+                        <span class="font-bold">{{ rd.checkOutDate }}</span>
+                      </p>
+                    </span>
+                    <hr />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-dark">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- --------------------select room------------------------ -->
+    <div
+      class="modal fade"
+      id="staticBackdrop"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-blue-600">
+            <h5 class="modal-title text-white" id="staticBackdropLabel">
+              Choose Room for Customer
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div v-if="staffRoom != null" class="container p-4">
+              <div class="row p-4">
+                <div
+                  v-for="room in staffRoom"
+                  :key="room.roomId"
+                  class="
+                    form-check form-check-inline
+                    bg-white
+                    hover:bg-gray-100
+                    text-gray-800
+                    font-semibold
+                    py-2
+                    px-4
+                    border border-gray-400
+                    rounded
+                    shadow
+                  "
+                >
+                  <div class="col-md-8 p-4">
+                    <input
+                      class="form-check-input p-2"
+                      type="radio"
+                      name="inlineRadioOptions"
+                      id="inlineRadio1"
+                      v-model="selectedRoom"
+                      :value="room"
+                    />
+                    <span
+                      >Room: {{ room.roomNo }} , {{ room.roomType.name }},
+                      {{ room.bedType }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-blue-600">
+            <button
+              type="button"
+              class="btn btn-success"
+              data-bs-dismiss="modal"
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              @click="this.selectedRoom = null"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -187,6 +394,7 @@ import { useStore } from "vuex";
 export default {
   data() {
     return {
+      search:'',
       staffRoom: null,
       isShowModal: false,
       selectedRoom: null,
@@ -214,7 +422,7 @@ export default {
           for (let i = 0; i < list.length; i++) {
             if (list[i].status == "done") count++;
           }
-          if (count == list.length) reservation.status = "done";
+          if (count == list.length) reservation.status = "unpaid";
         }
         console.log(reservation);
         let booking = {
@@ -255,22 +463,62 @@ export default {
           temp.roomType.roomTypeId == room.roomType.roomTypeId &&
           temp.roomId > 20
       );
-       this.staffRoom = showRoom;
+      this.staffRoom = showRoom;
     },
+    returnRoom(reservation, reservationDetail) {
+      console.log("test");
+      if (reservationDetail.status == "reserved") {
+        reservation.repId = this.receptionist;
+        reservationDetail.room.status = "Available";
+        reservationDetail.status = "CheckedOut";
+        console.log(reservation);
+        let booking = {
+          reservNo: reservation.reservNo,
+          customerId: reservation.customerId,
+          paymentDate: reservation.paymentDate,
+          reservationDate: reservation.reservationDate,
+          paymentMethodId: reservation.paymentMethodId,
+          subTotal: reservation.subTotal,
+          status: reservation.status,
+          repId: reservation.repId,
+          reservationDetailList: reservation.reservationDetailList,
+        };
+        this.createFormData(booking);
+      }
+    },
+  },
+  computed:{
+    filteredRoomNo:function(){
+        return this.paid.filter((temp)=>{
+          return temp.reservationDetailList.filter((p)=>{
+            return p.room.roomNo.match(this.search)
+          })
+        })
+    }
   },
   setup() {
     const store = useStore();
     store.dispatch("getUnsuccessReservation");
     store.dispatch("getAvailableRooms");
+    store.dispatch("getUnpaidReservation");
+    store.dispatch("getPaidReservation");
     let reservation = computed(function () {
       return store.state.reservation;
     });
     let rooms = computed(function () {
       return store.state.rooms;
     });
+    let unpaid = computed(function () {
+      return store.state.unpaid;
+    });
+    let paid = computed(function () {
+      return store.state.paid;
+    });
     return {
       reservation,
       rooms,
+      unpaid,
+      paid,
     };
   },
 };

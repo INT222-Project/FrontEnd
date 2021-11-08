@@ -61,7 +61,7 @@
                 >
                   continue booking
                 </button>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >continue to check out</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >continue to confirm</button>
            </div>
           </div>
         </div>

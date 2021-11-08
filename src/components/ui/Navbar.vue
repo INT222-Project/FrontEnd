@@ -2,7 +2,7 @@
 <div id="nav">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand">BBooking.com</a>
+        <router-link class="nav-link" to="/"><a class="navbar-brand">BBooking.com</a></router-link>
         <button
           class="navbar-toggler collapsed"
           type="button"
@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link" to="/">Home</router-link>
+              <router-link class="nav-link" to="/"><i class="fa fa-home"></i> Home</router-link>
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/about">About</router-link>
@@ -28,7 +28,7 @@
           </ul>
           <router-link class="nav-link" to="/cart"><i class="fas fa-shopping-cart cart-icon"></i><span class="cart-count">{{count}}</span></router-link>
           
-          <div class="dropdown mb-2 mb-lg-0">
+          <div class="dropdown mb-2 mb-lg-0 pr-20">
              <a href="#" class="dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="far fa-user"></i>
           </a>
