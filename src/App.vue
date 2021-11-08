@@ -1,9 +1,7 @@
 <template>
   <nav-bar></nav-bar>
-  <div class="w-auto h-auto">
-  <page-loader v-if="showLoading"></page-loader>
+    <page-loader v-if="showLoading"/>
   <router-view/>
-  </div>
   <!-- <footer-bar></footer-bar> -->
 </template>
 <script>

@@ -12,7 +12,6 @@
   </div>
   <div>{{text}}</div>
 </div>
-
 </template>
 <script>
 export default {

@@ -61,13 +61,36 @@
                 >
                   continue booking
                 </button>
-                <button class="btn btn-primary" @click="checkOut()">continue to check out</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >continue to check out</button>
            </div>
           </div>
         </div>
       </div>
+      <!-- Button trigger modal -->
+<!-- Modal -->
+<div  class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content text-center">
+      <div p v-if="paymentMethod == null" class="modal-body">
+        <div class="d-flex justify-center"><img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="mb-4 mr-3" /></div>
+        <h1>Please select a payment method.</h1>
+      </div>
+      <div p v-if="paymentMethod != null" class="modal-body">
+        <div class="d-flex justify-center"><img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="mb-4 mr-3" /></div>
+        <h1>Are You Sure ?</h1>
+        <p>The total amount is <span class="font-bold">฿{{total}}</span> and you choose to pay with <span class="font-bold">{{paymentMethod.paymentMethodName}}</span> 
+        Do you want to continue?</p>
+      </div>
+      <div class="modal-footer bg-blue-600">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" @click="checkOut()">Yes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
     </div>
   </div>
+</div>
+    </div>
+  </div>
+  <div v-if="coverspin" id="cover-spin"></div>
 </template>
 <script>
 import { computed } from "vue";
@@ -79,6 +102,7 @@ export default {
       items: this.$store.state.cartItems,
       paymentMethod: null,
       invPaymentMethod: false,
+      coverspin : true
     };
   },
   methods: {
@@ -96,6 +120,10 @@ export default {
         }
         this.createFormData(booking);
       }
+      this.$store.state.showLoading = true;
+       setTimeout(()=>{
+        location.reload()},1000);
+      
      }
     },
     createFormData(booking) {
@@ -110,7 +138,6 @@ export default {
       this.$store.dispatch("addReservation", formData);
       }
       this.$store.dispatch("clearItemInCart");
-
     },
     backToHome(){
       this.$router.push("/");
@@ -123,7 +150,7 @@ export default {
         total += this.items[i].subtotal;
       }
       return total
-    }
+    },
   },
   setup() {
     const store = useStore();
@@ -191,5 +218,40 @@ body {
 .btn-primary:disabled {
   background-color: #4466f2 !important;
   border-color: #4466f2 !important;
+}
+
+
+#cover-spin {
+    position:fixed;
+    width:100%;
+    left:0;right:0;top:0;bottom:0;
+    background-color: rgba(255,255,255,0.7);
+    z-index:9999;
+    display:none;
+}
+
+@-webkit-keyframes spin {
+	from {-webkit-transform:rotate(0deg);}
+	to {-webkit-transform:rotate(360deg);}
+}
+
+@keyframes spin {
+	from {transform:rotate(0deg);}
+	to {transform:rotate(360deg);}
+}
+
+#cover-spin::after {
+    content:'';
+    display:block;
+    position:absolute;
+    left:48%;top:40%;
+    width:40px;height:40px;
+    border-style:solid;
+    border-color:black;
+    border-top-color:transparent;
+    border-width: 4px;
+    border-radius:50%;
+    -webkit-animation: spin .8s linear infinite;
+    animation: spin .8s linear infinite;
 }
 </style>
