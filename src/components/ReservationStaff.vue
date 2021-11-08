@@ -202,12 +202,11 @@ export default {
     };
   },
   methods: {
-    staffRooms(room) {
-      this.staffRoom = this.getListRoom(room);
-    },
     preferRoom(reservation, reservationDetail) {
       if (reservationDetail.status == "undone" && this.selectedRoom != null) {
+        reservation.repId = this.receptionist;
         reservationDetail.room = this.selectedRoom;
+        reservationDetail.room.status = "Unavailable";
         reservationDetail.status = "done";
         let list = reservation.reservationDetailList;
         if (list.length > 0) {
@@ -262,7 +261,7 @@ export default {
   setup() {
     const store = useStore();
     store.dispatch("getUnsuccessReservation");
-    store.dispatch("getRooms");
+    store.dispatch("getAvailableRooms");
     let reservation = computed(function () {
       return store.state.reservation;
     });

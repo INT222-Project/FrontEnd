@@ -50,6 +50,10 @@ export default createStore({
       const response = await axios.get(`${API_URL}/api/rooms`);
       commit('setRooms', response.data)
     },
+    async getAvailableRooms({ commit }) {
+      const response = await axios.get(`${API_URL}/api/rooms/available`);
+      commit('setRooms', response.data)
+    },
     async getUnsuccessReservation({ commit }) {
       const response = await axios.get(`${API_URL}/api/reservations/unsuccessReservation`);
       commit('setReservationsUnsuccess', response.data)
