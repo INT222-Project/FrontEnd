@@ -2,7 +2,7 @@
   <div class="container h-auto mt-5 pb-12 px-2 pt-12 mb-20">
     <div class="table-responsive">
       <h1>Reservation</h1>
-      {{filteredRoomNo}}
+      <!-- {{filteredRoomNo}} -->
       <div class="space-x-4 pt-4 pb-2">
         <button
           type="button"
@@ -18,6 +18,7 @@
           class="btn btn-warning"
           data-bs-toggle="modal"
           data-bs-target="#checkout"
+          @click="getFilteredRoom()"
         >
           Checkout Counter
           <i class="fas fa-tasks"></i>
@@ -164,7 +165,8 @@
                   <input
                     type="text"
                     class="form-control"
-                    v-model="search"
+                    v-model.lazy="search"
+                    @change="getFilteredRoom"
                     placeholder="Search room number "
                   />
                 </div>
@@ -394,7 +396,8 @@ import { useStore } from "vuex";
 export default {
   data() {
     return {
-      search:'',
+      filteredRoomNo: [],
+      search: "",
       staffRoom: null,
       isShowModal: false,
       selectedRoom: null,
@@ -410,6 +413,11 @@ export default {
     };
   },
   methods: {
+    getFilteredRoom() {
+      this.filteredRoomNo = null;
+      this.filteredRoomNo = [];
+      if(this.search == "") this.filteredRoomNo = this.paid;
+    },
     preferRoom(reservation, reservationDetail) {
       if (reservationDetail.status == "undone" && this.selectedRoom != null) {
         reservation.repId = this.receptionist;
@@ -486,15 +494,6 @@ export default {
         this.createFormData(booking);
       }
     },
-  },
-  computed:{
-    filteredRoomNo:function(){
-        return this.paid.filter((temp)=>{
-          return temp.reservationDetailList.filter((p)=>{
-            return p.room.roomNo.match(this.search)
-          })
-        })
-    }
   },
   setup() {
     const store = useStore();
