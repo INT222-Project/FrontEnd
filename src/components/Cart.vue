@@ -120,9 +120,6 @@ export default {
         }
         this.createFormData(booking);
       }
-      this.$store.state.showLoading = true;
-       setTimeout(()=>{
-        location.reload()},1000);
       
      }
     },
