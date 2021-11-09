@@ -1,4 +1,4 @@
-<template>
+<template>  
   <div class="container h-auto mt-5 pb-12 px-2 pt-12 mb-20">
     <div class="table-responsive">
       <h1>Reservation</h1>
@@ -157,21 +157,21 @@
                 align-items-center
               "
             >
-              <div class="col-md-12">
+              <div class="col-md-11">
                 <div class="search">
                   <i class="fa fa-search"></i>
                   <input
                     type="text"
                     class="form-control"
                     v-model="search"
-                    placeholder="Search room number "
+                    placeholder="Search reservation by customer name "
                   />
                 </div>
               </div>
             </div>
             <div class="container">
               <div class="row p-4">
-                <div v-for="p in filteredRoomNo" :key="p.reservNo">
+                <div v-for="p in filteredCustomer" :key="p.reservNo">
                   <div
                     v-for="rd in p.reservationDetailList"
                     :key="rd.reservDetailId"
@@ -281,7 +281,7 @@
                         <span class="font-bold"> {{ rd.reservDetailId }}</span>
                         - room number
                         <span class="font-bold">
-                          {{ rd.room.roomId }} {{ rd.room.roomType.name }}</span
+                          {{ rd.room.roomNo }} {{ rd.room.roomType.name }}</span
                         >
                         Booked by a customer named
                         <span class="font-bold"
@@ -504,7 +504,7 @@ export default {
     },
   },
   computed: {
-    filteredRoomNo: function () {
+    filteredCustomer: function () {
       return this.paid.filter((temp) => {
         return temp.customerId.fname
           .toLowerCase()
@@ -546,11 +546,6 @@ export default {
   font-family: "Open Sans", sans-serif;
 } */
 
-.search {
-  top: 6px;
-  left: 10px;
-}
-
 .form-control {
   border: none;
   padding-left: 32px;
@@ -561,8 +556,38 @@ export default {
   box-shadow: none;
 }
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+    background-color: #eee;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300
+}
+.search {
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1)
+}
+
+.search input {
+    height: 60px;
+    text-indent: 20px;
+    border: 2px solid #d6d4d4
+}
+
+.search input:focus {
+    box-shadow: none;
+    border: 2px solid blue
+}
+
+.search .fa-search {
+    position: absolute;
+    top: 20px;
+    left: 16px
+}
+
+.search button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 50px;
+    width: 110px;
+    background: blue
 }
 </style>

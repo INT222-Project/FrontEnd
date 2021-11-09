@@ -194,7 +194,11 @@ export default {
       } else {
         this.invCheckOut = false;
       }
-      this.invNumOfRest = this.numOfRest <= 0 ? true : false;
+      if(this.numOfRest <=0 || this.numOfRest > this.room.roomType.maxRest){
+        this.invNumOfRest = true
+      }else{
+        this.invNumOfRest = false;
+      }
       this.invAmount = this.amount <= 0 ? true : false;
       if (
         !this.invCheckIn &&

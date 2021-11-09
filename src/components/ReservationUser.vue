@@ -1,33 +1,96 @@
 <template>
-    <div class="container h-screen  mt-5 px-2 pt-12 mb-20">
-        <h1>Reservation History</h1>
-        <div v-for="item in reservation" :key="item.reservNo" class="list-order">
-            Reservation No {{item.reservNo}} Reservation Date {{item.reservationDate}} cost {{item.subTotal}}
-            <button>V</button>
-            <div v-for="reservationDetail in item.reservationDetailList" :key="reservationDetail.reservDetailId">
-                {{reservationDetail.reservDetailId}} || {{reservationDetail.room.roomType.name}} || {{reservationDetail.room.bedType}} || {{reservationDetail.status}}
-            </div>
+  <div class="container h-auto mt-5 pb-12 px-2 pt-12 mb-20">
+    <h1>Reservation History</h1>
+    <div class="row height d-flex justify-content-center align-items-center">
+      <div class="col-md-12">
+        <div class="search">
+          <i class="fa fa-search"></i>
+          <input
+            type="text"
+            class="form-control"
+            v-model="search"
+            placeholder="Search your reservation number"
+          />
         </div>
+      </div>
     </div>
+    <div class="row">
+      <div class="col-md-12 pt-2 mb-4">
+        <div v-for="item in filteredReserveNo" :key="item.reservNo">
+          <div class="card p-3 mb-2">
+            <p>
+              <span class="font-bold">Reservation No </span>:
+              {{ item.reservNo }}
+            </p>
+            <p>
+              <span class="font-bold">Reservation Date </span>:
+              {{ item.reservationDate }}
+            </p>
+            <p><span class="font-bold">Cost </span>: {{ item.subTotal }}</p>
+            <p><span class="font-bold">Booking detail </span></p>
+            <div class="border border-primary p-3 mb-3">
+              <div
+                v-for="reservationDetail in item.reservationDetailList"
+                :key="reservationDetail.reservDetailId"
+              >
+                <p>
+                  <span class="font-bold">roomType : </span>
+                  <!-- {{ reservationDetail.reservDetailId }}  -->
+                  {{ reservationDetail.room.roomType.name }}
+                  {{ reservationDetail.room.bedType }}
+                  {{ reservationDetail.status }}
+                </p>
+                <p>
+                  <span class="font-bold">Package detail : </span>
+                  <span
+                    v-for="p in reservationDetail.packageDetailList"
+                    :key="p.packageDetailId"
+                  >
+                    {{ p.packageId.name + " " }}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <button class="btn btn-primary">Upload Payment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-import { computed} from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
-    setup() {
-        const store = useStore();
-        store.dispatch("getReservationByCustomerId",'c103'); /*mock up customer id = c103*/
-        store.dispatch("getUnpaidReservation");
-        let reservation = computed(function(){
-            return store.state.reservation;
-        });
-        let unpaid = computed(function(){
-        return store.state.unpaid
-         });
-        return{
-            reservation,
-            unpaid
-        }
+  data() {
+    return {
+        search:''
+    };
+  },
+  computed: {
+    filteredReserveNo: function () {
+      return this.reservation.filter((temp) => {
+        return temp.reservNo.toLowerCase().match(this.search.toLowerCase());
+      });
     },
-}
+  },
+  setup() {
+    const store = useStore();
+    store.dispatch(
+      "getReservationByCustomerId",
+      "c103"
+    ); /*mock up customer id = c103*/
+    store.dispatch("getUnpaidReservation");
+    let reservation = computed(function () {
+      return store.state.reservation;
+    });
+    let unpaid = computed(function () {
+      return store.state.unpaid;
+    });
+    return {
+      reservation,
+      unpaid,
+    };
+  },
+};
 </script>

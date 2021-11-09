@@ -30,7 +30,7 @@ body {
 }
 
 .search input {
-    height: 60px;
+    height: 50px;
     text-indent: 20px;
     border: 2px solid #d6d4d4
 }

@@ -7,6 +7,7 @@ let cartItemCount = window.localStorage.getItem('cartItemCount')
 export default createStore({
   state: {
     url: "http://localhost:8081",
+    // stock:[{}],
     //user
     status: '',
     token: localStorage.getItem('token') || '',
@@ -37,7 +38,6 @@ export default createStore({
     // async login({commit},user){
     //     commit('auth_request')
     //     const response = await axios.post(`${API_URL}/api/login`,user)
-
     // },
     async getPackages({ commit }) {
       const response = await axios.get(`${API_URL}/api/packages`);
@@ -167,10 +167,6 @@ export default createStore({
     },
     newReservation(state, data) {
       state.reservation = data
-      // state.cartItemCount = 0;
-      // state.cartItems = []
-      // this.commit('saveData');
-      // this.commit('saveCountData')
     },
     editReservation(state, data) {
       state.reservation = data
