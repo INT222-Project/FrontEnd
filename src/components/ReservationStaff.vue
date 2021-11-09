@@ -2,7 +2,6 @@
   <div class="container h-auto mt-5 pb-12 px-2 pt-12 mb-20">
     <div class="table-responsive">
       <h1>Reservation</h1>
-      {{filteredRoomNo}}
       <div class="space-x-4 pt-4 pb-2">
         <button
           type="button"
@@ -252,7 +251,20 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body text-center" v-if="this.$store.state.unpaid.length == 0">
+            <div class="container">
+              <div class="d-flex justify-center">
+               <img
+                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNC4xMDQgMGwtNC4xMDQgNC4xNTIgMTguODg4IDE4Ljc5OSA1LjExMiAxLjA0OS0uOTYxLTUuMjAzLTE4LjkzNS0xOC43OTd6bTE1Ljk0NiAyMS41MDJjLS4xNjcuMTY2LS40MzYuMTY2LS42MDIgMGwtMTcuMjYyLTE3LjEyNGMtLjE2Ny0uMTY3LS4xNjctLjQzNS0uMDAxLS42MDMuMTY2LS4xNjYuNDM3LS4xNjYuNjAzIDBsMTcuMjYyIDE3LjEyNmMuMTY3LjE2NS4xNjYuNDM1IDAgLjYwMXptMS41NDQtMi4xMzJjLjE2Ni4xNjYuMTY2LjQzNyAwIC42MDMtLjE2Ni4xNjUtLjQzNi4xNjYtLjYwMiAwbC0xNy4yNjMtMTcuMTI2Yy0uMTY1LS4xNjUtLjE2NS0uNDM1IDAtLjYwMS4xNjctLjE2Ni40MzYtLjE2Ni42MDEtLjAwMWwxNy4yNjQgMTcuMTI1em0tMi44NTUtMTQuMDY3Yy0uMTk1LS4xOTUtLjE5NS0uNTEyIDAtLjcwN3MuNTEyLS4xOTUuNzA3IDAgLjE5NS41MTIgMCAuNzA3LS41MTEuMTk2LS43MDcgMHptLTcuNzM0IDEyLjY0MWwtNi4wNTUgNi4wNTYtNC45NS00LjkwOCA2LjA1OS02LjA1OSAxLjQxOSAxLjQxLS40MDcuNDA3LjcwNy43MDctLjcwNy43MDctLjcwNy0uNzA3LS43MDcuNzA3LjcwNy43MDctLjcwNy43MDctLjcwNy0uNzA3LS43MDcuNzA3LjcwNy43MDctLjcwNy43MDctLjcwNy0uNzA3LS43MDcuNzA4IDIuMTIxIDIuMTIxIDQuNjU3LTQuNjU3IDEuMzk4IDEuMzg3em0yLjAzNS0xMS44OTJsNi4wNTItNi4wNTIgNC45MDggNC45NS02LjAxMyA2LjAxNC0xLjM5OC0xLjM4OCA0LjYyNS00LjYyNS0yLjEyMS0yLjEyMS0yLjEyMSAyLjEyLjcwNy43MDctLjcwOC43MDgtLjcwNy0uNzA3LS43MDcuNzA3LjcwNy43MDctLjcwNy43MDctLjcwNy0uNzA4LS4zOS4zOS0xLjQyLTEuNDA5eiIvPjwvc3ZnPg=="
+                  width="130"
+                  height="130"
+                  class="mb-4 mr-3"
+                />
+                </div>
+              <h1>Reservation Payment Not found</h1>
+            </div>
+          </div>
+          <div class="modal-body" v-if="this.$store.state.unpaid.length > 0">
             <div class="container">
               <div class="row p-4">
                 <div v-for="up in unpaid" :key="up.reservNo">
@@ -394,6 +406,7 @@ import { useStore } from "vuex";
 export default {
   data() {
     return {
+      checkUnpaid:this.$store.state.unpaid.length+1,
       search:'',
       staffRoom: null,
       isShowModal: false,
@@ -490,9 +503,7 @@ export default {
   computed:{
     filteredRoomNo:function(){
         return this.paid.filter((temp)=>{
-          return temp.reservationDetailList.filter((p)=>{
-            return p.room.roomNo.match(this.search)
-          })
+            return temp.customerId.fname.toLowerCase().match(this.search.toLowerCase())
         })
     }
   },
