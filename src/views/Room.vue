@@ -47,8 +47,8 @@
 import {computed} from 'vue';
 import {useStore} from 'vuex';
 
-import RoomList from "@/components/RoomList.vue";
-import FormRoom from "../components/FormRoom"
+import RoomList from "../components/room/RoomList.vue";
+import FormRoom from "../components/room/FormRoom"
 import RoomDataService from "../service/RoomDataService";
 export default {
   components: {
@@ -87,7 +87,7 @@ export default {
           console.log(response.data)
         })
         this.$store.state.showLoading = true;
-       setTimeout(()=>{this.activeTab = "RoomList"
+        setTimeout(()=>{this.activeTab = "RoomList"
         location.reload()},2000);
       }
     },

@@ -3,22 +3,16 @@ import Room from '../views/Room.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import About from '../views/About.vue'
-import FormRoom from '../components/FormRoom.vue'
-import Booking from '../components/Booking.vue'
+import FormRoom from '../components/room/FormRoom.vue'
+import Booking from '../components/cart/Booking.vue'
 import Home from '../views/Home.vue'
-import RoomDetails from '../components/RoomDetails.vue'
-import ReservationStaff from '../components/ReservationStaff.vue'
+import RoomDetails from '../components/room/RoomDetails.vue'
+import ReservationStaff from '../components/reservation/ReservationStaff.vue'
 import Profile from '../components/user/Profile.vue'
 import EditProfile from '../components/user/EditProfile.vue'
-import Cart from '../components/Cart.vue'
-import ReservationUser from '../components/ReservationUser.vue'
-import test from '../components/test.vue'
+import Cart from '../components/cart/Cart.vue'
+import ReservationUser from '../components/reservation/ReservationUser.vue'
 const routes = [
-  {
-    path:'/test',
-    name:'test',
-    component: test
-  },
   {
     path: '/',
     name: 'Home',

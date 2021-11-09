@@ -1,3 +1,3 @@
 <template>
-    
+    Admin Page
 </template>

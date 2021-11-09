@@ -16,7 +16,12 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <span class="form-label">Check In</span>
-                  <input class="form-control" v-model="checkIn" :min="minDate" type="date" />
+                  <input
+                    class="form-control"
+                    v-model="checkIn"
+                    :min="minDate"
+                    type="date"
+                  />
                   <div v-if="this.invCheckIn" class="text-red-500 text-sm">
                     Please select checkIn date.
                   </div>
@@ -55,11 +60,15 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <span class="form-label">Rooms</span>
-                  <select v-model="amount" class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </select>
+                  <div class="d-flex space-x-4">
+                    <button type="button" @click="decreaseAmount()">
+                      <i class="fas fa-minus-square"></i>
+                    </button>
+                    <h3 class="form-control">{{ amount }}</h3>
+                    <button type="button" @click="increaseAmount()">
+                      <i class="far fa-plus-square"></i>
+                    </button>
+                  </div>
                   <div v-if="this.invAmount" class="text-red-500 text-sm">
                     Please select Amount of Room.
                   </div>
@@ -69,47 +78,50 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <span class="form-label">Number Of Guest</span>
-                  <select v-model="numOfRest" class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                  </select>
+                  <div class="d-flex space-x-4">
+                    <button type="button" @click="decreaseGuest()">
+                      <i class="fas fa-minus-square"></i>
+                    </button>
+                    <h3 class="form-control">{{ numOfRest }}</h3>
+                    <button type="button" @click="increaseGuest()">
+                      <i class="far fa-plus-square"></i>
+                    </button>
+                  </div>
                   <div v-if="this.invNumOfRest" class="text-red-500 text-sm">
-                   Please select the number of guests not more than max rest
+                    Please select the number of guests not more than max rest
                   </div>
                   <span class="select-arrow"></span>
                 </div>
               </div>
             </div>
-            <div class="row">
+            <div class="col-sm-12">
               <span class="form-label">Packages (extra charge)</span>
-              <div
-                class="form-check col-sm-6"
-                v-for="p in packages"
-                :key="p.packageId"
-              >
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  :value="p"
-                  v-model="selectedPackages"
-                />
-                <label class="form-check-label">
-                  {{ p.name }} ({{ p.packageCharge }}฿)
-                </label>
+              <div class="row pl-4">
+                <div
+                  class="form-check col-sm-6"
+                  v-for="p in packages"
+                  :key="p.packageId"
+                >
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    :value="p"
+                    v-model="selectedPackages"
+                  />
+                  <label class="form-check-label">
+                    {{ p.name }} ({{ p.packageCharge }}฿)
+                  </label>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="mt-4 mb-4 d-flex justify-content-between">
           <button @click="goBack()" class="btn btn-outline-dark">
-          <i class="fas fa-angle-double-left"></i> Booking More
+            <i class="fas fa-angle-double-left"></i> Booking More
           </button>
           <button @click="addToCart()" class="btn btn-success px-3">
-            Add to Cart 
+            Add to Cart
             <i class="fas fa-angle-double-right"></i>
           </button>
         </div>
@@ -127,11 +139,15 @@
               Package Price <span class="yellow">{{ packagePrice }}</span>
             </div>
           </div>
-            <div>Type <span class="yellow">{{room.roomType.name}}</span></div>
-          <div>Max Rest <span class="yellow">{{room.roomType.maxRest}}</span></div>
           <div>
-             <h1 class="mb-0 yellow">฿{{ subtotal }}</h1>
-            </div>
+            Type <span class="yellow">{{ room.roomType.name }}</span>
+          </div>
+          <div>
+            Max Rest <span class="yellow">{{ room.roomType.maxRest }}</span>
+          </div>
+          <div>
+            <h1 class="mb-0 yellow">฿{{ subtotal }}</h1>
+          </div>
           <span
             >Enjoy all the features and perk after you complete the
             payment</span
@@ -144,7 +160,6 @@
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -152,7 +167,7 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
-  props: ["roomDetails","pageId"],
+  props: ["roomDetails", "pageId"],
   data() {
     return {
       customer: {
@@ -164,9 +179,9 @@ export default {
         lname: "Senarak",
         fname: "Sahachai",
       },
-      minCiDate: new Date().toISOString().slice(0,10) ,
-      checkIn: '',
-      checkOut: '',
+      minCiDate: new Date().toISOString().slice(0, 10),
+      checkIn: "",
+      checkOut: "",
       numOfRest: 0,
       amount: 0,
       paymentMethod: null,
@@ -180,8 +195,37 @@ export default {
     };
   },
   methods: {
+    increaseAmount(){
+      if(this.amount >= 3){
+        this.amount = 0;
+      }else{
+         this.amount++
+      }
+    },
+    decreaseAmount(){
+      if(this.amount <=0){
+        this.amount = 3;
+      }else{
+        this.amount--
+      }
+    },
+    increaseGuest(){
+      if(this.numOfRest >= 6){
+        this.numOfRest = 0;
+      }else{
+         this.numOfRest++
+      }
+    },
+    decreaseGuest(){
+      if(this.numOfRest <=0){
+        this.numOfRest = 6;
+      }else{
+        this.numOfRest--
+      }
+    },
+    
     calculateDay() {
-      if (this.checkIn == '' || this.checkOut == '') return 1;
+      if (this.checkIn == "" || this.checkOut == "") return 1;
       const temp1 = new Date(this.checkIn);
       const temp2 = new Date(this.checkOut);
       var diffTime = temp2.getTime() - temp1.getTime();
@@ -190,15 +234,15 @@ export default {
       return diffDays;
     },
     addToCart() {
-      this.invCheckIn = this.checkIn === '' ? true : false;
-      if (this.checkOut === '' || this.calculateDay() == 0) {
+      this.invCheckIn = this.checkIn === "" ? true : false;
+      if (this.checkOut === "" || this.calculateDay() == 0) {
         this.invCheckOut = true;
       } else {
         this.invCheckOut = false;
       }
-      if(this.numOfRest <=0 || this.numOfRest > this.room.roomType.maxRest){
-        this.invNumOfRest = true
-      }else{
+      if (this.numOfRest <= 0 || this.numOfRest > this.room.roomType.maxRest) {
+        this.invNumOfRest = true;
+      } else {
         this.invNumOfRest = false;
       }
       this.invAmount = this.amount <= 0 ? true : false;
@@ -247,12 +291,11 @@ export default {
       }
     },
     goBack() {
-      this.$router.push({ name: "RoomDetails",params:{id:this.pageId}});
-      
+      this.$router.push({ name: "RoomDetails", params: { id: this.pageId } });
     },
   },
   computed: {
-    minDate(){
+    minDate() {
       return this.minCiDate;
     },
     minValue() {
@@ -306,6 +349,7 @@ export default {
   margin-bottom: 30px;
 }
 .booking-form .form-control {
+  text-align: center;
   background-color: #ebecee;
   border-radius: 4px;
   border: none;

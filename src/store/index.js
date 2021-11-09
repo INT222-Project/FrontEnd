@@ -1,10 +1,14 @@
 // store/index.js
 import axios from "axios";
+import auth from "./auth.js"
 import { createStore } from "vuex";
 const API_URL = "http://localhost:8081";
 let cartItems = window.localStorage.getItem('cartItems');
 let cartItemCount = window.localStorage.getItem('cartItemCount')
 export default createStore({
+  modules:{
+    auth
+  },
   state: {
     url: "http://localhost:8081",
     // stock:[{}],
@@ -235,6 +239,4 @@ export default createStore({
     //   state.token = ''
     // },
   },
-  modules: {
-  }
 });
