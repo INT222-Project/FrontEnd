@@ -78,7 +78,7 @@
                     <option>6</option>
                   </select>
                   <div v-if="this.invNumOfRest" class="text-red-500 text-sm">
-                    Please select NumOfRest.
+                   Please select the number of guests not more than max rest
                   </div>
                   <span class="select-arrow"></span>
                 </div>
@@ -117,7 +117,7 @@
       <div class="col-md-4">
         <div class="card card-blue p-3 text-white mb-3">
           <span>You have to pay</span>
-          <div class="d-flex flex-md-row space-x-2 align-items-end mb-3">
+          <div class="d-flex flex-md-row space-x-2 align-items-end mb-2">
             <div>
               Room Charge(1 Room)<span class="yellow">
                 {{ room.roomCharge }}</span
@@ -126,10 +126,12 @@
             <div>
               Package Price <span class="yellow">{{ packagePrice }}</span>
             </div>
-            <div>
-              <h1 class="mb-0 yellow">฿{{ subtotal }}</h1>
-            </div>
           </div>
+            <div>Type <span class="yellow">{{room.roomType.name}}</span></div>
+          <div>Max Rest <span class="yellow">{{room.roomType.maxRest}}</span></div>
+          <div>
+             <h1 class="mb-0 yellow">฿{{ subtotal }}</h1>
+            </div>
           <span
             >Enjoy all the features and perk after you complete the
             payment</span
