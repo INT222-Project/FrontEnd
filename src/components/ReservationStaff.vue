@@ -417,6 +417,10 @@ export default {
       this.filteredRoomNo = null;
       this.filteredRoomNo = [];
       if(this.search == "") this.filteredRoomNo = this.paid;
+      else{
+        this.filteredRoomNo = this.paid;
+        this.filteredRoomNo.filter( reservation => this.search.match(reservation.customerId.fname + " " + reservation.customerId.lName));
+      }
     },
     preferRoom(reservation, reservationDetail) {
       if (reservationDetail.status == "undone" && this.selectedRoom != null) {
