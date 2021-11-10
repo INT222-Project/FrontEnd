@@ -46,7 +46,6 @@
 // @ is an alias to /src
 import {computed} from 'vue';
 import {useStore} from 'vuex';
-
 import RoomList from "../components/room/RoomList.vue";
 import FormRoom from "../components/room/FormRoom"
 import RoomDataService from "../service/RoomDataService";

@@ -12,7 +12,6 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <!-- <span class="navbar-toggler-icon"></span>-->
           <span class="toggler-icon top-bar"></span>
           <span class="toggler-icon middle-bar"></span>
           <span class="toggler-icon bottom-bar"></span> 
@@ -25,22 +24,27 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/about">About</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/AddingDeleteEditingRoomType">AddRoomType</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/AddingDeleteEditingPackage">AddPackages</router-link>
+            </li>
           </ul>
           <router-link class="nav-link" to="/cart"><i class="fas fa-shopping-cart cart-icon"></i><span class="cart-count">{{count}}</span></router-link>
-          
-          <div class="dropdown mb-2 mb-lg-0 pr-20">
+          <router-link class="nav-link" to="/login">Sign in <i class="fas fa-sign-in-alt"></i></router-link>
+          <div v-if="!isLoggedIn" class="dropdown mb-2 mb-lg-0 pr-20">
              <a href="#" class="dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="far fa-user"></i>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item"><router-link to="/profile">Profile</router-link></a></li>
-              <li><a class="dropdown-item"><router-link to="/register">register</router-link></a></li>
-              <li><a class="dropdown-item"><router-link to="/login">login</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/profile"><i class="fas fa-user-cog"></i> Profile</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item"><router-link to="/room">Room Management</router-link></a></li>
-            <li><a class="dropdown-item"><router-link to="/reservationStaff">Reservation Management</router-link></a></li>
-            <li><a class="dropdown-item"><router-link to="/reservationUser">Reservation History</router-link></a></li>
-            <span v-if="isLoggedIn"><li><a @click="logout" class="dropdown-item"><router-link to="/">Log out</router-link></a></li></span>
+            <li><a class="dropdown-item"><router-link to="/room"><i class="fas fa-tasks"></i> Room Management</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/reservationStaff"><i class="fas fa-tasks"></i> Reservation Management</router-link></a></li>
+            <li><a class="dropdown-item"><router-link to="/reservationUser"><i class="fas fa-history"></i> Reservation History</router-link></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <span v-if="!isLoggedIn"><li><a @click="logout" class="dropdown-item"><router-link to="/"> <i class="fas fa-sign-out-alt"></i> Log out </router-link></a></li></span>
           </ul>
         </div>
         </div>

@@ -12,12 +12,26 @@ import Profile from '../components/user/Profile.vue'
 import EditProfile from '../components/user/EditProfile.vue'
 import Cart from '../components/cart/Cart.vue'
 import ReservationUser from '../components/reservation/ReservationUser.vue'
+import AddingDeleteEditingPackage from '../components/room/AddingDeleteEditingPackage.vue'
+import AddingDeleteEditingRoomType from '../components/room/AddingDeleteEditingRoomType.vue'
 const routes = [
   {
     path: '/',
     name: 'Home',
     props: true,
     component: Home
+  },
+  {
+    path: '/AddingDeleteEditingPackage',
+    name: 'AddingDeleteEditingPackage',
+    props: true,
+    component: AddingDeleteEditingPackage
+  },
+  {
+    path: '/AddingDeleteEditingRoomType',
+    name: 'AddingDeleteEditingRoomType',
+    props: true,
+    component: AddingDeleteEditingRoomType
   },
   {
     path:'/RoomDetails/:id',

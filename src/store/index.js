@@ -47,6 +47,18 @@ export default createStore({
       const response = await axios.get(`${API_URL}/api/packages`);
       commit('setPackages', response.data)
     },
+    async addPackages({ commit }, formData) {
+      const response = await axios.post(`${API_URL}/api/packages/add`, formData);
+      commit('newPackage', response.data);
+    },
+    async editPackages({ commit }, formData) {
+      const response = await axios.put(`${API_URL}/api/packages/edit`,formData);
+      commit('editPackage', response.data);
+    },
+    async deletePackages({ commit }, packageId) {
+      const response = await axios.delete(`${API_URL}/api/packages/delete/${packageId}`);
+      commit('delPackage', response.data);
+    },
     async getPaymentMethods({ commit }) {
       const response = await axios.get(`${API_URL}/api/paymentMethods`);
       commit('setPaymentMethods', response.data)
@@ -82,6 +94,18 @@ export default createStore({
     async getRoomType({ commit }) {
       const response = await axios.get(`${API_URL}/api/roomTypes`);
       commit('setRoomType', response.data)
+    },
+    async deleteRoomType({ commit }, roomTypeId) {
+      const response = await axios.delete(`${API_URL}/api/roomTypes/delete/${roomTypeId}`);
+      commit('delRoomtype', response.data);
+    },
+    async addRoomType({ commit }, formData) {
+      const response = await axios.post(`${API_URL}/api/roomTypes/add`, formData);
+      commit('newRoomType', response.data);
+    },
+    async editRoomType({ commit }, formData) {
+      const response = await axios.put(`${API_URL}/api/roomTypes/edit`,formData);
+      commit('editRoomType', response.data);
     },
     async getRoomTypeById({ commit }, roomTypeId) {
       const response = await axios.get(`${API_URL}/api/roomTypes/${roomTypeId}`);
@@ -162,6 +186,30 @@ export default createStore({
     },
     setPackages(state, data) {
       state.package = data
+    },
+    newPackage(state,data){
+      state.package.push(data)
+    },
+    delPackage(state,data){
+      state.package = state.package.filter(d => d.id != data)
+    },
+    newRoomType(state,data){
+      state.rType.push(data)
+    },
+    delRoomtype(state,data){
+      state.rType = state.rType.filter(d => d.id != data)
+    },
+    editPackage(state,data){
+      const index = state.package.findIndex(r => r.packageId == data.packageId);
+      if(index){
+        state.package = state.package.splice(index,data);
+      }
+    },
+    editRoomType(state,data){
+      const index = state.rType.findIndex(r => r.roomTypeId == data.roomTypeId);
+      if(index){
+        state.rType = state.rType.splice(index,data);
+      }
     },
     setRoomById(state, data) {
       state.room = data

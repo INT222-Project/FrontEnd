@@ -9,7 +9,6 @@
         </div>
         </div>
   <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 pt-4 container">
-     <!-- {{itemInRooms}} -->
     <div v-for="room in filteredRoom" :key="room.roomid">
       <div class="col">
         <div class="card shadow-md">
@@ -23,6 +22,7 @@
             <p class="card-text ">{{ room.roomType.description }}</p>
             <p class="card-text">Room Level : {{ room.roomType.name }}</p>
             <p class="card-text">Bed Type : {{ room.bedType }}</p>
+            <p class="card-text">Status : {{room.status}}</p>
             <p class="text-right card-text text-red-600">THB {{ room.roomCharge }}</p>
           </div>
           <div class="space-x-1">

@@ -59,9 +59,10 @@
             ></button>
           </div>
           <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label"
-              ><span class="font-bold">Email</span></label
+             <label for="exampleFormControlInput1" class="form-label"
+              ><span class="font-bold">Email Address</span></label
             >
+            <div class="input-group">
             <input
               type="email"
               class="form-control"
@@ -69,24 +70,30 @@
               id="inputUsername"
               placeholder="name@example.com"
             />
+            <span class="input-group-text"><i class="far fa-envelope"></i></span>
+            </div>
           </div>
           <div class="mb-3 row">
             <label for="inputPassword" class="form-label"
               ><span class="font-bold">Password</span></label
             >
-            <div class="col-sm-12">
+            <div class="input-group">
               <input
                 type="password"
                 class="form-control"
                 v-model="password"
                 id="inputPassword"
-                placeholder="Password"
               />
+              <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
           </div>
+          
           <div class="mb-2 row">
             <button class="btn btn-primary btn-block mb-2">Login</button>
           </div>
+          <div class="text-center">
+          <p><router-link to="/register">Create an account</router-link> to use bbooking for free</p>
+        </div>
         </div>
       </div>
     </form>

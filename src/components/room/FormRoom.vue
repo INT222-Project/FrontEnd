@@ -1,7 +1,7 @@
 <template>
   <div class="w-auto h-full pt-4 pb-12">
     <div class="card shadow-md p-4">
-    <div class="container section">
+    <div class="container section p-10">
       <!-- section -->
       <div class="mb-3">
         <label class="form-label font-bold">Room No</label>
@@ -245,8 +245,4 @@ export default {
 </script>
 
 <style scoped>
-/* .section {
-  position: relative;
-  height: 80vh;
-} */
 </style>

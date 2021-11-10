@@ -5,7 +5,6 @@
         <p class="lead">
           The hotel has more than 40 rooms with a cosmopolitan atmosphere. unique and worth the price It combines modern decor with the warmth and elegance of the city. the beauty of the hotel This makes this hotel a prominent meeting point in the city.
         </p>
-        <!-- {{rType}} -->
         <div class="row height d-flex justify-content-center align-items-center ">
         <div class="col-md-12">
             <div class="search"> 
