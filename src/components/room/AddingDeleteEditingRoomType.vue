@@ -8,7 +8,7 @@
         <button @click="addSwitch()"><i class="fas fa-minus-square"></i></button>
       </h2>
       <div v-if="addForm && !editForm" class="mb-4">
-        <div class="card p-4">
+        <div class="card p-4 ">
           <label class="form-label font-bold text-center"
             ><h4 class="font-bold">Add Roomtype</h4></label
           >
@@ -62,7 +62,7 @@
         </div>
       </div>
       <div v-for="item in rType" :key="item.roomTypeId">
-        <div class="card p-4" v-if="!editForm || this.rId != item.roomTypeId">
+        <div class="card p-4 mb-4" v-if="!editForm || this.rId != item.roomTypeId">
           <p>
             <span class="font-bold"> Roomtype: </span
             ><span> {{ item.name }} </span>
@@ -87,7 +87,7 @@
             </button>
           </span>
         </div>
-        <div class="card p-4" v-if="editForm && this.rId == item.roomTypeId">
+        <div class="card p-4 mb-4" v-if="editForm && this.rId == item.roomTypeId">
           <p>
             <span class="font-bold"> Roomtype:</span
             ><span>
@@ -132,6 +132,7 @@
             <button class="btn btn-success" @click="editRoomtype(item)">
               Confirm
             </button>
+            <button class="btn btn-danger" @click="cancel()">Cancel</button>
           </span>
         </div>
       </div>
@@ -158,6 +159,9 @@ export default {
     };
   },
   methods: {
+    cancel(){
+        this.editForm = !this.editForm
+    },
     editBtn(item) {
       this.rId = item.roomTypeId;
       this.rName = item.name;
@@ -248,3 +252,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.card {
+     border-radius: 10px !important
+ }
+</style>

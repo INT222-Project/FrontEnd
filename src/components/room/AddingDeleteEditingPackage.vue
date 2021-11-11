@@ -8,7 +8,7 @@
         <button @click="addSwitch()"><i class="fas fa-minus-square"></i></button>
       </h2>
       <div v-if="addForm" class="mb-4">
-        <div class="card p-4">
+        <div class="card p-4 mb-4">
           <label class="form-label font-bold text-center"
             ><h4 class="font-bold">Add Package</h4></label
           >
@@ -53,7 +53,7 @@
         </div>
       </div>
       <div v-for="item in packages" :key="item.packageId">
-        <div class="card p-4" v-if="!editForm || this.pId != item.packageId">
+        <div class="card p-4 mb-4" v-if="!editForm || this.pId != item.packageId">
 
           <p><span class="font-bold">Package Name:</span><span> {{ item.name}} </span></p>
           <p><span class="font-bold"> Description:</span><span> {{ item.description }}</span></p>
@@ -64,7 +64,7 @@
             <button class="btn btn-danger" @click="deletePackage(item)">Delete</button>
           </span>
         </div>
-        <div class="card p-4"  v-if="editForm && this.pId == item.packageId">
+        <div class="card p-4 mb-4"  v-if="editForm && this.pId == item.packageId">
           <p><span class="font-bold">Package Name:</span><span> <input
               type="text"
               v-model="pName"
@@ -205,3 +205,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.card {
+     border-radius: 10px !important
+ }
+</style>
