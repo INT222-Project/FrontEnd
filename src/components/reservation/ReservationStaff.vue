@@ -15,16 +15,74 @@
         <button
           type="button"
           class="btn btn-warning"
-          data-bs-toggle="modal"
-          data-bs-target="#checkout"
+          @click="this.isShowCheckout = !this.isShowCheckout"
+          v-if="this.isShowCheckout == false"
         >
           Checkout Counter
           <i class="fas fa-tasks"></i>
         </button>
+        <button
+          type="button"
+          class="btn btn-dark"
+          @click="this.isShowCheckout = !this.isShowCheckout"
+          v-if="this.isShowCheckout == true"
+        >
+          Back to Reservation List
+          <i class="fas fa-tasks"></i>
+        </button>
       </div>
       <hr />
-      <div class="col-md-12 pt-2">
-        <div v-if="reservation == ''" class="card p-28">
+
+      <!-- {{this.filteredCustomer.length}} -->
+         <table
+        v-if="this.isShowCheckout == true "
+        class="table table-light caption-top table-responsive table-bordered"
+      >
+        <caption>
+          List of reservation checkout
+        </caption>
+        <thead class="table-primary">
+          <tr class="bg-light">
+            <th scope="col" width="">ID</th>
+            <th scope="col" width="">Customer</th>
+            <th scope="col" width="">RoomNo/Type</th>
+            <th scope="col" width="">Bed Type</th>
+            <th scope="col" width="">Status</th>
+            <th scope="col" width="">Receptionist</th>
+            <th scope="col" width="">CheckIn</th>
+            <th scope="col" width="">CheckOut</th>
+            <th><div class="search"> 
+              <i class="fa fa-search"></i> 
+              <input type="text" class="form-control" v-model="searchB" placeholder="search customer"> 
+              </div> </th>
+          </tr>
+        </thead>
+        <tbody v-for="item in filteredCustomer" :key="item.reservNo">
+          <tr v-for="rd in item.reservationDetailList"
+            :key="rd.reservDetailId">
+            <td v-if="rd.status == 'reserved'">{{rd.reservDetailId}}</td>
+            <td v-if="rd.status == 'reserved'">{{item.customerId.fname}} {{item.customerId.lname}}</td>
+            <td v-if="rd.status == 'reserved'">
+              {{rd.room.roomNo}}
+              <span v-for="r in rd.room" :key="r.roomId">
+              {{r.name}}
+              </span>
+            </td>
+            <td v-if="rd.status == 'reserved'">{{rd.room.bedType}}</td>
+            <td v-if="rd.status == 'reserved'">{{rd.status}}</td>
+            <td v-if="rd.status == 'reserved'">{{item.repId.fName}} {{item.repId.lName}}</td>
+            <td v-if="rd.status == 'reserved'">{{rd.checkInDate}}</td>
+            <td v-if="rd.status == 'reserved'">{{rd.checkOutDate}}</td>
+            <td v-if="rd.status == 'reserved'" class="text-center"><button class="btn btn-danger" @click="returnRoom(item, rd)">
+                  Checkout Room
+                </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <div class="col-md-12 pt-2">
+        <div v-if="reservation == ''  &&  this.isShowCheckout == false" class="card p-28">
           <div class="card-body">
             <div class="col-sm-12 text-center">
               <div class="d-flex justify-center">
@@ -42,25 +100,30 @@
         </div>
       </div>
       <table
-        v-if="reservation != ''"
+        v-if="reservation != '' &&  this.isShowCheckout == false"
         class="table table-light caption-top table-responsive table-bordered"
       >
         <caption>
           List of reservation
         </caption>
-        <thead class="table-dark">
+        <thead class="table-primary">
           <tr class="bg-light">
-            <th scope="col" width="20%">Reservation detail Id</th>
-            <th scope="col" width="15%">Reservation Date</th>
-            <th scope="col" width="15%">Payment Method</th>
-            <th scope="col" width="15%">Customer</th>
-            <th scope="col" width="15%">Total</th>
-            <th scope="col" width="15%">Room Type</th>
-            <th scope="col" width="20%">Status / Room</th>
-            <th scope="col" class="text-end" width="5%">Confirm</th>
+            <th scope="col">ID</th>
+             <th scope="col" >RoomType</th>
+            <th scope="col" >Bed</th>
+            <th scope="col">PaymentMethod</th>
+            <th scope="col" >Customer</th>
+            <th scope="col" >CheckInDate</th>
+             <th scope="col" >CheckOutDate</th>
+             <th scope="col" >Total</th>
+            <th scope="col" >Status / Room</th>
+            <th scope="col" class="text-end"><div class="search"> 
+              <i class="fa fa-search"></i> 
+              <input type="text" class="form-control" v-model="searchA" placeholder="search customer"> 
+              </div></th>
           </tr>
         </thead>
-        <tbody v-for="item in reservation" :key="item.reservNo">
+        <tbody v-for="item in filteredReservation" :key="item.reservNo">
           <tr
             v-for="reservationDetail in item.reservationDetailList"
             :key="reservationDetail.reservDetailId"
@@ -68,7 +131,12 @@
             <td>
               {{ reservationDetail.reservDetailId }} ({{ item.reservNo }})
             </td>
-            <td>{{ item.reservationDate }}</td>
+            <td>
+              {{reservationDetail.room.roomType.name}}
+            </td>
+            <td>
+              {{reservationDetail.room.bedType}}
+            </td>
             <td v-if="item.paymentMethodId != null">
               <i class="fa fa-check-circle-o green"></i
               ><span class="ms-1">{{
@@ -85,31 +153,28 @@
               }}
               {{ item.customerId.lname }}
             </td>
+            <td>{{ reservationDetail.checkInDate }}</td>
+            <td>{{ reservationDetail.checkOutDate }}</td>
             <td>
-              {{ reservationDetail.total }} {{ reservationDetail.status }}
-            </td>
-            <td>
-              <div v-for="r in reservationDetail.room" :key="r.roomId">
-                {{ r.name }}
-              </div>
+              {{ reservationDetail.total }}
             </td>
             <td v-if="reservationDetail.status === 'undone'">
               <button
                 type="button"
                 @click="getListRoom(reservationDetail.room)"
-                class="btn btn-outline-primary p-3"
+                class="btn btn-outline-primary "
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop"
               >
-                Select Room {{ reservationDetail.status }}
+                Choose the Room {{ reservationDetail.status }}
               </button>
             </td>
             <td v-if="reservationDetail.status === 'done'">
-              <button type="button" class="btn btn-secondary p-3">
-                Select Room {{ reservationDetail.status }}
+              <button type="button" class="btn btn-secondary ">
+                Choose the Room {{ reservationDetail.status }}
               </button>
             </td>
-            <td>
+            <td class="text-center">
               <button
                 class="btn btn-success p-3"
                 @click.prevent="preferRoom(item, reservationDetail)"
@@ -121,110 +186,7 @@
         </tbody>
       </table>
     </div>
-    <!-- --------------------check out room------------------------ -->
-    <div
-      class="modal fade"
-      id="checkout"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="checkoutLabel"
-      aria-hidden="true"
-    >
-      <div
-        class="
-          modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered
-        "
-      >
-        <div class="modal-content">
-          <div class="modal-header bg-dark">
-            <h5 class="modal-title text-white" id="checkoutLabel">
-              Checkout Counter
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div
-              class="
-                row
-                height
-                d-flex
-                justify-content-center
-                align-items-center
-              "
-            >
-              <div class="col-md-11">
-                <div class="search">
-                  <i class="fa fa-search"></i>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="search"
-                    placeholder="Search reservation by customer name "
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="container">
-              <div class="row p-4">
-                <div v-for="p in filteredCustomer" :key="p.reservNo">
-                  <div
-                    v-for="rd in p.reservationDetailList"
-                    :key="rd.reservDetailId"
-                  >
-                    <span v-if="rd.status == 'reserved'">
-                      <p>
-                        ID
-                        <span class="font-bold"> {{ rd.reservDetailId }}</span>
-                        - room number
-                        <span class="font-bold">
-                          {{ rd.room.roomNo }} {{ rd.room.roomType.name }}</span
-                        >
-                        Booked by a customer named
-                        <span class="font-bold"
-                          >{{ p.customerId.fname }}
-                          {{ p.customerId.lname }}</span
-                        >
-                        Responsible by the receptionist named RepId
-                        <span class="font-bold"
-                          >{{ p.repId.fName }} {{ p.repId.lName }}</span
-                        >
-                      </p>
-                      <p>
-                        Status <span class="font-bold">{{ p.status }}</span> Pay
-                        date
-                        <span class="font-bold"> {{ p.paymentDate }} </span>
-                      </p>
-                      <p>
-                        CheckIn:
-                        <span class="font-bold">{{ rd.checkInDate }}</span>
-                      </p>
-                      <p>
-                        CheckOut:
-                        <span class="font-bold">{{ rd.checkOutDate }}</span>
-                      </p>
-                      <button class="btn btn-danger" @click="returnRoom(p, rd)">
-                        Checkout Room
-                      </button>
-                    </span>
-                    <hr />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer bg-dark">
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
     <!-- ------------------Monitor Payment------------------------- -->
     <div
       class="modal fade"
@@ -410,9 +372,10 @@ export default {
   data() {
     return {
       checkUnpaid: this.$store.state.unpaid.length + 1,
-      search: "",
+      searchA: "",
+      searchB:"",
       staffRoom: null,
-      isShowModal: false,
+      isShowCheckout: false,
       selectedRoom: null,
       receptionist: {
         repId: "r110",
@@ -480,9 +443,13 @@ export default {
           temp.roomId > 20
       );
       this.staffRoom = showRoom;
+      console.log(room)
+      console.log(this.staffRoom)
     },
     returnRoom(reservation, reservationDetail) {
       console.log("test");
+      let response = confirm(`Are you sure you want to checkout this reservation: ${reservation.reservNo}`)
+      if(response){
       if (reservationDetail.status == "reserved") {
         reservation.repId = this.receptionist;
         reservationDetail.room.status = "Available";
@@ -501,14 +468,22 @@ export default {
         };
         this.createFormData(booking);
       }
+      }
     },
   },
   computed: {
+    filteredReservation: function () {
+      return this.reservation.filter((temp) => {
+        return temp.customerId.fname
+          .toLowerCase()
+          .match(this.searchA.toLowerCase());
+      });
+    },
     filteredCustomer: function () {
       return this.paid.filter((temp) => {
         return temp.customerId.fname
           .toLowerCase()
-          .match(this.search.toLowerCase());
+          .match(this.searchB.toLowerCase());
       });
     },
   },
@@ -539,7 +514,8 @@ export default {
   },
 };
 </script>
-<style scoped>
+
+<style>
 /* @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap"); */
 
 /* body {
@@ -555,39 +531,10 @@ export default {
   border: none;
   box-shadow: none;
 }
-body {
+/* body {
     background-color: #eee;
     font-family: 'Montserrat', sans-serif;
     font-weight: 300
-}
-.search {
-    position: relative;
-    box-shadow: 0 0 40px rgba(51, 51, 51, .1)
-}
+} */
 
-.search input {
-    height: 60px;
-    text-indent: 20px;
-    border: 2px solid #d6d4d4
-}
-
-.search input:focus {
-    box-shadow: none;
-    border: 2px solid blue
-}
-
-.search .fa-search {
-    position: absolute;
-    top: 20px;
-    left: 16px
-}
-
-.search button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    height: 50px;
-    width: 110px;
-    background: blue
-}
 </style>

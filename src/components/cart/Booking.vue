@@ -77,7 +77,7 @@
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
-                  <span class="form-label">Number Of Guest</span>
+                  <span class="form-label">Guest Per Room</span>
                   <div class="d-flex space-x-4">
                     <button type="button" @click="decreaseGuest()">
                       <i class="fas fa-minus-square"></i>

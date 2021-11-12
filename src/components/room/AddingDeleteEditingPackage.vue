@@ -1,11 +1,13 @@
 <template>
   <div class="container mt-5 px-5 pt-14">
     <div class="mb-4">
-      <h2 v-if="!addForm">
-        <button @click="addSwitch()"><i class="far fa-plus-square"></i></button>
+      <h2 v-if="!addForm && editForm === false">
+        <button class="btn btn-outline-dark" @click="addSwitch()"><i class="far fa-plus-square"></i> Add Packages</button>
       </h2>
-      <h2 v-if="addForm">
-        <button @click="addSwitch()"><i class="fas fa-minus-square"></i></button>
+      <h2 v-if="addForm && editForm === false">
+        <button class="btn btn-dark" @click="addSwitch()">
+          <i class="fas fa-minus-square"></i> Close
+        </button>
       </h2>
       <div v-if="addForm" class="mb-4">
         <div class="card p-4 mb-4">
@@ -52,19 +54,10 @@
           </div>
         </div>
       </div>
-      <div v-for="item in packages" :key="item.packageId">
-        <div class="card p-4 mb-4" v-if="!editForm || this.pId != item.packageId">
-
-          <p><span class="font-bold">Package Name:</span><span> {{ item.name}} </span></p>
-          <p><span class="font-bold"> Description:</span><span> {{ item.description }}</span></p>
-          <p><span class="font-bold"> Package Charge: </span><span>{{ item.packageCharge }}</span></p>
-
-          <span class="space-x-2">
-            <button class="btn btn-success" @click="editBtn(item)">Edit</button>
-            <button class="btn btn-danger" @click="deletePackage(item)">Delete</button>
-          </span>
-        </div>
-        <div class="card p-4 mb-4"  v-if="editForm && this.pId == item.packageId">
+      <div class="card p-4 mb-4"  v-if="editForm">
+        <label class="form-label font-bold text-center"
+            ><h4 class="font-bold">Edit package</h4></label
+          >
           <p><span class="font-bold">Package Name:</span><span> <input
               type="text"
               v-model="pName"
@@ -98,7 +91,58 @@
             <button class="btn btn-danger" @click="cancel()">Cancel</button>
           </span>
         </div>
+      <div class="card p-4">
+           <label class="form-label font-bold "
+            ><h4 class="font-bold text-start">Package Data</h4>
+            </label >
+        <table class="table table-responsive table-bordered">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Roomtype</th>
+              <th scope="col" width="30%">Description</th>
+              <th scope="col">PackageCharge</th>
+              <th scope="col"><div class="search"> 
+              <i class="fa fa-search"></i> 
+              <input type="text" class="form-control" v-model="search" placeholder="Type to search package"> 
+              </div></th>
+            </tr>
+          </thead>
+          <tbody class="table-light">
+            <tr v-for="item in filterRoomtype" :key="item.packageId">
+              <td>{{ item.packageId }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.description }}</td>
+              <td>{{ item.packageCharge }}</td>
+            
+              <td class="space-x-2">
+                <button class="btn btn-success" @click="editBtn(item)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button @click="deleteRoomtype(item)" class="btn btn-danger">
+                  <i class="far fa-trash-alt"></i>
+                </button> 
+              </td>
+             
+            </tr>
+          </tbody>
+        </table>
       </div>
+
+      <!-- <div v-for="item in packages" :key="item.packageId">
+        <div class="card p-4 mb-4" v-if="!editForm || this.pId != item.packageId">
+
+          <p><span class="font-bold">Package Name:</span><span> {{ item.name}} </span></p>
+          <p><span class="font-bold"> Description:</span><span> {{ item.description }}</span></p>
+          <p><span class="font-bold"> Package Charge: </span><span>{{ item.packageCharge }}</span></p>
+
+          <span class="space-x-2">
+            <button class="btn btn-success" @click="editBtn(item)">Edit</button>
+            <button class="btn btn-danger" @click="deletePackage(item)">Delete</button>
+          </span>
+        </div>
+
+      </div> -->
     </div>
   </div>
 </template>
@@ -108,6 +152,7 @@ import { useStore } from "vuex";
 export default {
   data() {
     return {
+      search:"",
       addForm: false,
       editForm:false,
       pId:"",
@@ -115,13 +160,18 @@ export default {
       pCharge: 0,
       pDescription:'',
       invName:false,
+      invName2:false,
       invCharge:false,
       invDes:false
     };
   },
   methods: {
     cancel(){
-        this.editForm = !this.editForm
+      this.pId="" ;
+      this.pName= "" ;
+      this.pCharge = "" ;
+      this.pDescription = "" ;
+      this.editForm = !this.editForm
     },
     editBtn(item){
         this.pId = item.packageId
@@ -168,6 +218,14 @@ export default {
     },
     addPackage(){
         this.invName = this.pName === "" ? true : false;
+        if(this.invName == false){
+        for(let i = 0; i<this.packages.length ;i++){
+          if(this.packages[i].name == this.pName){
+          this.invName2 = true
+          break;
+          }
+        }
+      }
         this.invCharge = this.pCharge <=0 ? true : false;
         this.invDes = this.pDescription === "" ? true : false;
         if(!this.invName && !this.invCharge && !this.invDes ){
@@ -191,6 +249,13 @@ export default {
       let formData = new FormData();
       formData.append("addPackage", blob);
       this.$store.dispatch("addPackages", formData);
+    }
+  },
+  computed: {
+    filterRoomtype: function(){
+     return this.packages.filter((temp)=>{
+        return temp.name.toLowerCase().match(this.search.toLowerCase())
+      })
     }
   },
   setup() {

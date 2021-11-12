@@ -19,6 +19,7 @@ export default createStore({
     showLoading: false,
     //room
     rooms: [],
+    remainingRoom:[],
     rType: [],
     //roomDetails , Booking
     room: {},
@@ -43,9 +44,13 @@ export default createStore({
     //     commit('auth_request')
     //     const response = await axios.post(`${API_URL}/api/login`,user)
     // },
+    async getGetRemaining({commit}){
+      const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom`);
+      commit('setRemaining',response.data);
+    },
     async getPackages({ commit }) {
       const response = await axios.get(`${API_URL}/api/packages`);
-      commit('setPackages', response.data)
+      commit('setPackages', response.data);
     },
     async addPackages({ commit }, formData) {
       const response = await axios.post(`${API_URL}/api/packages/add`, formData);
@@ -269,8 +274,11 @@ export default createStore({
     },
     setReservationByCustomerId(state, data) {
       state.reservation = data;
-    }
-
+    },
+    setRemaining(state,data){
+      state.remainingRoom = data;
+    } 
+    
     // auth_request(state){
     //   state.status = 'loading'
     // },

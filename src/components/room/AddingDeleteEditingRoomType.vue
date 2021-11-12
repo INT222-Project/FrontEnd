@@ -1,14 +1,16 @@
 <template>
   <div class="container mt-5 px-5 pt-14">
     <div class="mb-4">
-      <h2 v-if="!addForm">
-        <button @click="addSwitch()"><i class="far fa-plus-square"></i></button>
+      <h2 v-if="!addForm && editForm === false">
+        <button class="btn btn-outline-dark" @click="addSwitch()"><i class="far fa-plus-square"></i> Add Roomtype</button>
       </h2>
-      <h2 v-if="addForm">
-        <button @click="addSwitch()"><i class="fas fa-minus-square"></i></button>
+      <h2 v-if="addForm && editForm === false">
+        <button class="btn btn-dark" @click="addSwitch()">
+          <i class="fas fa-minus-square"></i> Close
+        </button>
       </h2>
-      <div v-if="addForm && !editForm" class="mb-4">
-        <div class="card p-4 ">
+      <div v-if="addForm && !editForm" class="mb-4 col-md-16">
+        <div class="card p-12 ">
           <label class="form-label font-bold text-center"
             ><h4 class="font-bold">Add Roomtype</h4></label
           >
@@ -21,7 +23,10 @@
               placeholder="example type"
             />
             <div v-if="this.invName == true" class="text-red-500 text-sm pt-2">
-              Please type package name
+              Please type package name 
+            </div>
+            <div v-if="this.invName2 == true" class="text-red-500 text-sm pt-2">
+              This package name already exist
             </div>
           </div>
           <div class="mb-3">
@@ -36,12 +41,14 @@
           </div>
           <div class="mb-3">
             <label class="form-label font-bold">Room Size</label>
-            <input type="text" v-model="rSize" class="form-control"  placeholder="25 squre meter"/>
-            <div
-              v-if="this.invSize == true"
-              class="text-red-500 text-sm pt-2"
-            >
-              Please type room size 
+            <input
+              type="text"
+              v-model="rSize"
+              class="form-control"
+              placeholder="25 squre meter"
+            />
+            <div v-if="this.invSize == true" class="text-red-500 text-sm pt-2">
+              Please type room size
             </div>
           </div>
           <div class="mb-3">
@@ -61,33 +68,13 @@
           </div>
         </div>
       </div>
-      <div v-for="item in rType" :key="item.roomTypeId">
-        <div class="card p-4 mb-4" v-if="!editForm || this.rId != item.roomTypeId">
-          <p>
-            <span class="font-bold"> Roomtype: </span
-            ><span> {{ item.name }} </span>
-          </p>
-          <p>
-            <span class="font-bold"> Description:</span
-            ><span> {{ item.description }}</span>
-          </p>
-          <p>
-            <span class="font-bold"> Max Rest: </span
-            ><span>{{ item.maxRest }}</span>
-          </p>
-          <p>
-            <span class="font-bold"> Room Size: </span
-            ><span>{{ item.roomSize }}</span>
-          </p>
-
-          <span class="space-x-2">
-            <button class="btn btn-success" @click="editBtn(item)">Edit</button>
-            <button class="btn btn-danger" @click="deleteRoomtype(item)">
-              Delete
-            </button>
-          </span>
-        </div>
-        <div class="card p-4 mb-4" v-if="editForm && this.rId == item.roomTypeId">
+        <div
+          class="card p-4 mb-4"
+          v-if="editForm"
+        >
+        <label class="form-label font-bold text-center"
+            ><h4 class="font-bold">Edit Roomtype</h4></label
+          >
           <p>
             <span class="font-bold"> Roomtype:</span
             ><span>
@@ -135,9 +122,46 @@
             <button class="btn btn-danger" @click="cancel()">Cancel</button>
           </span>
         </div>
+         <div class="card p-4">
+           <label class="form-label font-bold "
+            ><h4 class="font-bold text-start">Roomtype Data</h4>
+            </label >
+        <table class="table table-light caption-top table-responsive table-bordered">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Roomtype</th>
+              <th scope="col" width="30%">Description</th>
+              <th scope="col">MaxRest</th>
+              <th scope="col">RoomSize</th>
+              <th scope="col"><div class="search"> 
+              <i class="fa fa-search"></i> 
+              <input type="text" class="form-control" v-model="search" placeholder="Type to search roomType"> 
+              </div></th>
+            </tr>
+          </thead>
+          <tbody class="table-light">
+            <tr v-for="item in filterRoomtype" :key="item.roomTypeId">
+              <td>{{ item.roomTypeId }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.description }}</td>
+              <td>{{ item.maxRest }}</td>
+              <td>{{ item.roomSize }}</td>
+              <td class="space-x-2 text-center">
+                <button class="btn btn-success" @click="editBtn(item)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button @click="deleteRoomtype(item)" class="btn btn-danger">
+                  <i class="far fa-trash-alt"></i>
+                </button> 
+              </td>
+             
+            </tr>
+          </tbody>
+        </table>
       </div>
+      </div> 
     </div>
-  </div>
 </template>
 <script>
 import { computed } from "vue";
@@ -145,6 +169,7 @@ import { useStore } from "vuex";
 export default {
   data() {
     return {
+      search:"",
       addForm: false,
       editForm: false,
       rId: 0,
@@ -153,14 +178,20 @@ export default {
       rDescription: "",
       rSize: "",
       invName: false,
+      invName2:false,
       invMaxrest: false,
       invDes: false,
       invSize: false,
     };
   },
   methods: {
-    cancel(){
-        this.editForm = !this.editForm
+    cancel() {
+      this.editForm = !this.editForm;
+      this.rName = "";
+      this.rMaxrest = 0;
+      this.rDescription = "";
+      this.rSize = "";
+      this.rId = 0;
     },
     editBtn(item) {
       this.rId = item.roomTypeId;
@@ -169,7 +200,7 @@ export default {
       this.rDescription = item.description;
       this.rSize = item.roomSize;
       this.editForm = !this.editForm;
-      console.log(this.rId)
+      console.log(this.rId);
     },
     addSwitch() {
       this.addForm = !this.addForm;
@@ -200,7 +231,7 @@ export default {
       let formData = new FormData();
       formData.append("editRoomType", blob);
       this.$store.dispatch("editRoomType", formData);
-      location.reload()
+      location.reload();
     },
     deleteRoomtype(item) {
       let response = confirm(
@@ -213,6 +244,14 @@ export default {
     },
     addRoomtype() {
       this.invName = this.rName === "" ? true : false;
+      if(this.invName == false){
+        for(let i = 0; i<this.rType.length ;i++){
+          if(this.rType[i].name == this.rName){
+          this.invName2 = true
+          break;
+          }
+        }
+      }
       this.invMaxrest = this.rMaxrest <= 0 ? true : false;
       this.invDes = this.rDescription === "" ? true : false;
       this.invSize = this.rSize === "" ? true : false;
@@ -227,7 +266,7 @@ export default {
         this.addSwitch();
         console.log(obj);
         this.createFormData(obj);
-        // location.reload();
+        location.reload();
       }
     },
     createFormData(obj) {
@@ -239,6 +278,13 @@ export default {
       formData.append("addRoomType", blob);
       this.$store.dispatch("addRoomType", formData);
     },
+  },
+  computed: {
+    filterRoomtype: function(){
+     return this.rType.filter((temp)=>{
+        return temp.name.toLowerCase().match(this.search.toLowerCase())
+      })
+    }
   },
   setup() {
     const store = useStore();
@@ -254,6 +300,22 @@ export default {
 </script>
 <style scoped>
 .card {
-     border-radius: 10px !important
- }
+  border-radius: 10px !important;
+}
+.card .card-header {
+  background-color: #fff;
+  border-bottom: none;
+  padding: 24px;
+  border-bottom: 2px solid #d3d3d3;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.card .card-footer {
+  background-color: #fff;
+  border-bottom: none;
+  padding: 24px;
+  border-bottom: 3px solid #d3d3d3;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
 </style>

@@ -44,9 +44,6 @@
                       params: { roomDetails: req.roomId, pageId:this.id}
                     }"
                     >Book Now</router-link>
-                  <!-- <button class="btn btn-primary" @click="addToCart(req)">
-                    Add to Cart
-                  </button> --> 
                 </div>
               </div>
             </div>
@@ -121,10 +118,10 @@ export default {
 }
 
 .content p {
-  font-size: 12px;
+  font-size: 16px;
 }
 .content p span {
-  font-size: 16px;
+  font-size: 18px;
   color: red;
 }
 .right-side {
