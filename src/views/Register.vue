@@ -1,5 +1,5 @@
 <template>
-  <div id="register" class="bg-blue-500 w-screen h-full">
+  <div  class="register bg-blue-500 w-screen h-full">
     <div class="flex justify-center p-24">
       <div
         class="
@@ -119,3 +119,19 @@ export default {
   },
 };
 </script>
+<style scoped>
+.register .form-group {
+  position: relative;
+  margin-bottom: 30px;
+}
+.register .form-control {
+  background-color: #ebecee;
+  border-radius: 4px;
+  border: none;
+  height: 40px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #3e485c;
+  font-size: 14px;
+}
+</style>

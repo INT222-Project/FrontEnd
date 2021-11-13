@@ -11,6 +11,7 @@
       <div class="col-md-8">
         <div class="card p-3">
           <div class="booking-form">
+            
             <h4 class="form-label">Please Type Your Information</h4>
             <div class="row">
               <div class="col-sm-6">

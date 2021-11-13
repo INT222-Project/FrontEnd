@@ -18,7 +18,17 @@ export default{
   }
 }
 </script>
+
 <style>
+
+.form-control {
+  border: none;
+  padding-left: 32px;
+}
+.form-control:focus {
+  border: none;
+  box-shadow: none;
+}
 body {
     background-color: #eee;
     font-family: 'Montserrat', sans-serif;
