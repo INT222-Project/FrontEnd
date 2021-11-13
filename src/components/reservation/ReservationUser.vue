@@ -26,7 +26,10 @@
               <span class="font-bold">Reservation Date </span>:
               {{ item.reservationDate }}
             </p>
-            <p><span class="font-bold">Cost </span>: {{ item.subTotal.toLocaleString() }}</p>
+            <p>
+              <span class="font-bold">Cost </span>:
+              {{ item.subTotal.toLocaleString() }}
+            </p>
             <p><span class="font-bold">Booking detail </span></p>
             <div class="border border-primary rounded p-3 mb-3">
               <div
@@ -51,7 +54,20 @@
                 </p>
               </div>
             </div>
-            <button class="btn btn-primary">Upload Payment</button>
+            <div v-if="item.status == 'unpaid'">
+              <button class="btn btn-primary" @click="confirmPayment(item)">
+                Upload Payment
+              </button>
+            </div>
+            <div v-if="item.status == 'paid'">
+              <button
+                class="btn btn-primary"
+                @click="confirmPayment(item)"
+                disabled
+              >
+                Upload Payment
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -64,8 +80,35 @@ import { useStore } from "vuex";
 export default {
   data() {
     return {
-        search:''
+      search: "",
     };
+  },
+  methods: {
+    confirmPayment(reservation) {
+      reservation.status = "paid";
+      let booking = {
+        reservNo: reservation.reservNo,
+        customerId: reservation.customerId,
+        paymentDate: reservation.paymentDate,
+        reservationDate: reservation.reservationDate,
+        paymentMethodId: reservation.paymentMethodId,
+        subTotal: reservation.subTotal,
+        status: reservation.status,
+        repId: null,
+        reservationDetailList: reservation.reservationDetailList,
+      };
+      this.createFormData(booking);
+    },
+    createFormData(booking) {
+      const jsonNewRoom = JSON.stringify(booking);
+      const blob = new Blob([jsonNewRoom], {
+        type: "application/json",
+      });
+      let formData = new FormData();
+      formData.append("editReservation", blob);
+      this.$store.dispatch("editReservation", formData);
+      location.reload();
+    },
   },
   computed: {
     filteredReserveNo: function () {
