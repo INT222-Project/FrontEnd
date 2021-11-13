@@ -35,7 +35,7 @@
           <div class="card-header">
             <h5 class="font-bold blue">
               Your Cart : {{ $store.state.cartItemCount }} | Total (฿) : ฿
-              {{ total }}
+              {{ total.toLocaleString() }}
             </h5>
           </div>
           <div class="card-body cart">

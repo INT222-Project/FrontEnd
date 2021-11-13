@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <div class="card p-4 mb-4"  v-if="editForm">
+      <div class="package card p-4 mb-4"  v-if="editForm">
         <label class="form-label font-bold text-center"
             ><h4 class="font-bold">Edit package</h4></label
           >
@@ -159,6 +159,7 @@ export default {
       this.editForm = !this.editForm
     },
     editBtn(item){
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         this.pId = item.packageId
         this.pName = item.name
         this.pCharge = item.packageCharge

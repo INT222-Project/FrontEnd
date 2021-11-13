@@ -194,6 +194,7 @@ export default {
       this.rId = 0;
     },
     editBtn(item) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       this.rId = item.roomTypeId;
       this.rName = item.name;
       this.rMaxrest = item.maxRest;
@@ -243,6 +244,7 @@ export default {
       }
     },
     addRoomtype() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       this.invName = this.rName === "" ? true : false;
       if(this.invName == false){
         for(let i = 0; i<this.rType.length ;i++){

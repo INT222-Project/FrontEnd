@@ -26,7 +26,7 @@
               <span class="font-bold">Reservation Date </span>:
               {{ item.reservationDate }}
             </p>
-            <p><span class="font-bold">Cost </span>: {{ item.subTotal }}</p>
+            <p><span class="font-bold">Cost </span>: {{ item.subTotal.toLocaleString() }}</p>
             <p><span class="font-bold">Booking detail </span></p>
             <div class="border border-primary rounded p-3 mb-3">
               <div

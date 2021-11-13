@@ -28,6 +28,7 @@ export default createStore({
     payment: [],
     package: [],
     reservation: [],
+    allReservationDetails : [],
     getReservation: {},
     unpaid:[],
     paid:[],
@@ -44,6 +45,11 @@ export default createStore({
     //     commit('auth_request')
     //     const response = await axios.post(`${API_URL}/api/login`,user)
     // },
+    async getAllReservationDetails({commit}){
+      const response = await axios.get(`${API_URL}/api/reservationDetails`);
+      commit('setAllReservationDetails', response.data);
+    }
+    ,
     async getGetRemaining({commit}){
       const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom`);
       commit('setRemaining',response.data);
@@ -240,6 +246,9 @@ export default createStore({
     },
     setReservationByReservationDetailId(state, data) {
       state.getReservation = data
+    },
+    setAllReservationDetails(state,data){
+      state.allReservationDetails = data
     },
     setUnpaid(state,data){
       state.unpaid = data
