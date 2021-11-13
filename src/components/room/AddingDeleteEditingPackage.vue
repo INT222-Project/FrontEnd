@@ -23,7 +23,7 @@
               placeholder="example service"
             />
             <div v-if="this.invName == true" class="text-red-500 text-sm pt-2">
-                Please type package name 
+                Please type package name or this package already exist
             </div>
           </div>
           <div class="mb-3">
@@ -145,7 +145,6 @@ export default {
       pCharge: 0,
       pDescription:'',
       invName:false,
-      invName2:false,
       invCharge:false,
       invDes:false
     };
@@ -207,7 +206,7 @@ export default {
         if(this.invName == false){
         for(let i = 0; i<this.packages.length ;i++){
           if(this.packages[i].name == this.pName){
-          this.invName2 = true
+          this.invName = false
           break;
           }
         }

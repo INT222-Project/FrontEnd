@@ -10,14 +10,11 @@
               data-bs-toggle="modal"
               data-bs-target="#checkin"
             >
-             <span v-if="!showDate"><i class="far fa-calendar-check"></i> Choose a travel date</span>
-             <span v-if="showDate"><i class="far fa-calendar-check"></i> {{this.checkIn }} To {{ this.checkOut }}</span>
+             <span v-if="this.checkIn == '' || this.checkOut ==''"><i class="far fa-calendar-check"></i> Choose a travel date</span>
+             <span v-if="this.checkIn != '' || this.checkOut !=''"><i class="far fa-calendar-check"></i> {{this.checkIn }} To {{ this.checkOut }} ({{calculateDay()}} day)</span>
             </button>
           </span>
         </h1>
-        <!-- <span v-if="showDate" class="float-right underline">
-          {{ this.checkIn }} To {{ this.checkOut }}
-        </span> -->
       </div>
       <p class="lead">
         The hotel has more than 40 rooms with a cosmopolitan atmosphere. unique
@@ -185,14 +182,13 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-
 export default {
   data() {
     return {
       search: "",
       minCiDate: new Date().toISOString().slice(0, 10),
-      checkIn: this.$store.state.checkIn || "",
-      checkOut: this.$store.state.checkOut || "",
+      checkIn: this.$store.state.checkIn || new Date().toISOString().slice(0, 10),
+      checkOut: this.$store.state.checkOut || new Date().toISOString().slice(0, 10),
       invCheckIn: false,
       invCheckOut: false,
       showDate: false,
@@ -200,19 +196,32 @@ export default {
   },
   methods: {
     CheckDateAvaliable(pId) {
-      if (this.checkIn == "" || this.checkOut == "") {
+      if (this.checkIn == "" || this.checkOut == "" || this.calculateDay() == 0) {
         window.scrollTo({ top: 0, behavior: "smooth" });
-        alert("Please Choose Travel Date");
-      } else if (this.checkIn != "" && this.checkOut != "") {
+        alert("Please Choose Travel Date Atleast 1 Day");
+      } else if (!this.invCheckIn && !this.invCheckOut) {
         this.showDate = this.$router.push({
           name: "RoomDetails",
           params: { id: pId },
         });
       }
     },
+    calculateDay() {
+      if (this.checkIn == "" || this.checkOut == "") return 1;
+      const temp1 = new Date(this.checkIn);
+      const temp2 = new Date(this.checkOut);
+      var diffTime = temp2.getTime() - temp1.getTime();
+      var diffDays = diffTime / (1000 * 3600 * 24);
+      console.log("diff days : " + diffDays);
+      return diffDays;
+    },
     selectDate() {
       this.invCheckIn = this.checkIn === "" ? true : false;
-      this.invCheckOut = this.checkOut === "" ? true : false;
+      if (this.checkOut === "" || this.calculateDay() == 0) {
+        this.invCheckOut = true;
+      } else {
+        this.invCheckOut = false;
+      }
       if (!this.invCheckIn && !this.invCheckOut) {
         this.showDate = true;
         this.$store.dispatch("addCheckInDate", this.checkIn);

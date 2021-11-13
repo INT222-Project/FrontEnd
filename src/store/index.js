@@ -275,7 +275,7 @@ export default createStore({
     },
     addCheckOut(state,data){
       state.checkOut = data;
-      this.commit('checkInDate')
+      this.commit('saveCheckOut')
     },
     addToCart(state, room) {
       state.cartItems.push(room)

@@ -23,10 +23,7 @@
               placeholder="example type"
             />
             <div v-if="this.invName == true" class="text-red-500 text-sm pt-2">
-              Please type package name 
-            </div>
-            <div v-if="this.invName2 == true" class="text-red-500 text-sm pt-2">
-              This package name already exist
+              Please type package name or This package name already exist
             </div>
           </div>
           <div class="mb-3">
@@ -178,7 +175,6 @@ export default {
       rDescription: "",
       rSize: "",
       invName: false,
-      invName2:false,
       invMaxrest: false,
       invDes: false,
       invSize: false,
@@ -249,7 +245,7 @@ export default {
       if(this.invName == false){
         for(let i = 0; i<this.rType.length ;i++){
           if(this.rType[i].name == this.rName){
-          this.invName2 = true
+          this.invName= true
           break;
           }
         }
