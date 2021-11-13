@@ -5,6 +5,8 @@ import { createStore } from "vuex";
 const API_URL = "http://localhost:8081";
 let cartItems = window.localStorage.getItem('cartItems');
 let cartItemCount = window.localStorage.getItem('cartItemCount')
+let checkInDate = window.localStorage.getItem('checkInDate')
+let checkOutDate = window.localStorage.getItem('checkOutDate')
 export default createStore({
   modules:{
     auth
@@ -17,6 +19,8 @@ export default createStore({
     token: localStorage.getItem('token') || '',
     user: {},
     showLoading: false,
+    checkIn: checkInDate ? checkInDate : '',
+    checkOut:checkOutDate ? checkOutDate : '',
     //room
     rooms: [],
     remainingRoom:[],
@@ -147,6 +151,15 @@ export default createStore({
     clearItemInCart({ commit }) {
       commit('clearItem')
     },
+    clearDate({commit}){
+      commit('clearDateItem')
+    },
+    addCheckInDate({ commit }, checkIn) {
+      commit('addCheckIn', checkIn)
+    },
+    addCheckOutDate({ commit }, CheckOut) {
+      commit('addCheckOut', CheckOut)
+    },
     async editReservation({ commit }, formData) {
       const response = await axios.put(`${API_URL}/api/reservations/edit`, formData);
       commit('editReservation', response.data);
@@ -256,11 +269,25 @@ export default createStore({
     setPaid(state,data){
       state.paid = data
     },
+    addCheckIn(state,data){
+      state.checkIn = data;
+      this.commit('saveCheckIn');
+    },
+    addCheckOut(state,data){
+      state.checkOut = data;
+      this.commit('checkInDate')
+    },
     addToCart(state, room) {
       state.cartItems.push(room)
       state.cartItemCount++
       this.commit('saveData');
       this.commit('saveCountData')
+    },
+    clearDateItem(state){
+      state.checkIn = '';
+      state.checkOut = '';
+      this.commit('saveCheckIn');
+      this.commit('saveCheckOut');
     },
     removeItem(state, room) {
       let index = state.cartItems.indexOf(room);
@@ -274,6 +301,12 @@ export default createStore({
       state.cartItems = []
       this.commit('saveData');
       this.commit('saveCountData')
+    },
+    saveCheckIn(state) {
+      window.localStorage.setItem('checkInDate', state.checkIn)
+    },
+    saveCheckOut(state){
+      window.localStorage.setItem('checkOutDate', state.checkOut)
     },
     saveData(state) {
       window.localStorage.setItem('cartItems', JSON.stringify(state.cartItems))

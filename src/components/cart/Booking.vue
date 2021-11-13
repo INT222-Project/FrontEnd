@@ -133,7 +133,7 @@
           <div class="d-flex flex-md-row space-x-2 align-items-end mb-2">
             <div>
               Room Charge(1 Room)<span class="yellow">
-                {{ room.roomCharge.toLocaleString() }}</span
+                {{ room.roomCharge }}</span
               >
             </div>
             <div>
@@ -181,8 +181,8 @@ export default {
         fname: "Sahachai",
       },
       minCiDate: new Date().toISOString().slice(0, 10),
-      checkIn: "",
-      checkOut: "",
+      checkIn: this.$store.state.checkIn || "",
+      checkOut: this.$store.state.checkOut || "",
       numOfRest: 0,
       amount: 0,
       paymentMethod: null,
@@ -307,7 +307,7 @@ export default {
       for (let i = 0; i < this.selectedPackages.length; i++) {
         total += this.selectedPackages[i].packageCharge;
       }
-      return total.toLocaleString();
+      return total;
     },
     subtotal() {
       let total = 0;

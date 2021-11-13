@@ -1,5 +1,6 @@
 <template>
   <div id="details" class="section">
+    {{this.id}}
     <div class="section-center container pt-14 mt-5 mb-5">
       <div class="card shadow-md">
         <div class="row g-0">

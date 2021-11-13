@@ -77,13 +77,6 @@
                 </tr>
               </tbody>
             </table>
-            <!-- <div v-for="item in items" :key="item.roomId" class="col-sm-12">
-                <div class="mt-4 mb-4 d-flex justify-content-between">
-                  <div>{{item.room.roomType.name}} | {{item.room.bedType}} | ฿ {{item.subtotal}} | {{item.numOfRest}} guest  </div>
-                  <div v-for="p in item.packages" :key="p.packageId">{{p.name}}</div>
-                  <span class="float-right"><button @click="removeItem(item)">x</button></span>
-                </div>
-            </div> -->
           </div>
           <div class="card-footer">
             <div class="col-sm-4">
@@ -288,6 +281,7 @@ export default {
         this.$store.dispatch("addReservation", formData);
       }
       this.$store.dispatch("clearItemInCart");
+      this.$store.dispatch("clearDate");
     },
     backToHome() {
       this.$router.push("/");
