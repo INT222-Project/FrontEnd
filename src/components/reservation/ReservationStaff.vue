@@ -171,7 +171,7 @@
             </td>
             <td v-if="reservationDetail.status === 'done'">
               <button type="button" class="btn btn-secondary ">
-                Choose the Room {{ reservationDetail.status }}
+                Room Selected  {{ reservationDetail.status }}
               </button>
             </td>
             <td class="text-center">
@@ -486,7 +486,7 @@ export default {
           .match(this.searchB.toLowerCase());
       });
     },
-  },
+    },
   setup() {
     const store = useStore();
     store.dispatch("getUnsuccessReservation");

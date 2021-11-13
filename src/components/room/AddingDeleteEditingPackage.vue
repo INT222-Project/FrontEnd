@@ -9,7 +9,7 @@
           <i class="fas fa-minus-square"></i> Close
         </button>
       </h2>
-      <div v-if="addForm" class="mb-4">
+      <div v-if="addForm" class="mb-4 package">
         <div class="card p-4 mb-4">
           <label class="form-label font-bold text-center"
             ><h4 class="font-bold">Add Package</h4></label
@@ -113,9 +113,9 @@
               <td>{{ item.packageId }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.description }}</td>
-              <td>{{ item.packageCharge }}</td>
+              <td>{{ item.packageCharge.toLocaleString() }}</td>
             
-              <td class="space-x-2">
+              <td class="space-x-2 text-center">
                 <button class="btn btn-success" @click="editBtn(item)">
                   <i class="fas fa-edit"></i>
                 </button>
@@ -128,21 +128,6 @@
           </tbody>
         </table>
       </div>
-
-      <!-- <div v-for="item in packages" :key="item.packageId">
-        <div class="card p-4 mb-4" v-if="!editForm || this.pId != item.packageId">
-
-          <p><span class="font-bold">Package Name:</span><span> {{ item.name}} </span></p>
-          <p><span class="font-bold"> Description:</span><span> {{ item.description }}</span></p>
-          <p><span class="font-bold"> Package Charge: </span><span>{{ item.packageCharge }}</span></p>
-
-          <span class="space-x-2">
-            <button class="btn btn-success" @click="editBtn(item)">Edit</button>
-            <button class="btn btn-danger" @click="deletePackage(item)">Delete</button>
-          </span>
-        </div>
-
-      </div> -->
     </div>
   </div>
 </template>
@@ -271,6 +256,20 @@ export default {
 };
 </script>
 <style scoped>
+.package .form-group {
+  position: relative;
+  /* margin-bottom: 30px; */
+}
+.package .form-control {
+  background-color: #ebecee;
+  border-radius: 4px;
+  border: none;
+  height: 40px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #3e485c;
+  font-size: 14px;
+}
 .card {
      border-radius: 10px !important
  }

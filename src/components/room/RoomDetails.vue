@@ -29,6 +29,11 @@
                 <p>Size : {{ rTypeById.roomSize }}</p>
               </div>
               <hr class="my-4" />
+              <!-- {{this.id}}
+              <div v-for="item in remainingRoom" :key="item.roomTypeId">
+                {{item.roomTypeId}} {{item.bedType}} {{item.count}}
+              </div> -->
+              
               <div v-for="req in roomReq" :key="req.roomId">
                 <div class="mt-2 pr-3 content">
                   <p>
@@ -67,6 +72,15 @@ export default {
     };
   },
   methods: {
+    // checkCount(roomId,pId){
+    //   for(let i=0;i<this.remainingRoom.length;i++){
+    //     if(this.remainingRoom[i].roomTypeId == this.id && this.remainingRoom[i].count > 0){
+    //        this.$router.push({ name: "Booking", params: { roomDetails:roomId,pageId:pId } });
+    //     }else if(this.remainingRoom[i].roomTypeId != this.id){
+
+    //     }
+    //   }
+    // },
     back() {
       this.$router.push("/");
     },
@@ -79,15 +93,20 @@ export default {
     const store = useStore();
     store.dispatch("getRoomTypeById", props.id);
     store.dispatch("getRoomRequirementById", props.id);
+    store.dispatch("getGetRemaining")
     let rTypeById = computed(function () {
       return store.state.rTypeById;
     });
     let roomReq = computed(function () {
       return store.state.roomReq;
     });
+    let remainingRoom = computed(function (){
+      return store.state.remainingRoom
+    })
     return {
       rTypeById,
       roomReq,
+      remainingRoom
     };
   },
 };

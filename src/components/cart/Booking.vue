@@ -133,7 +133,7 @@
           <div class="d-flex flex-md-row space-x-2 align-items-end mb-2">
             <div>
               Room Charge(1 Room)<span class="yellow">
-                {{ room.roomCharge }}</span
+                {{ room.roomCharge.toLocaleString() }}</span
               >
             </div>
             <div>
@@ -147,7 +147,7 @@
             Max Rest <span class="yellow">{{ room.roomType.maxRest }}</span>
           </div>
           <div>
-            <h1 class="mb-0 yellow">฿{{ subtotal }}</h1>
+            <h1 class="mb-0 yellow">฿{{ subtotal.toLocaleString()}}</h1>
           </div>
           <span
             >Enjoy all the features and perk after you complete the
@@ -307,7 +307,7 @@ export default {
       for (let i = 0; i < this.selectedPackages.length; i++) {
         total += this.selectedPackages[i].packageCharge;
       }
-      return total;
+      return total.toLocaleString();
     },
     subtotal() {
       let total = 0;

@@ -9,7 +9,7 @@
           <i class="fas fa-minus-square"></i> Close
         </button>
       </h2>
-      <div v-if="addForm && !editForm" class="mb-4 col-md-16">
+      <div v-if="addForm && !editForm" class="roomtype mb-4 col-md-16">
         <div class="card p-12 ">
           <label class="form-label font-bold text-center"
             ><h4 class="font-bold">Add Roomtype</h4></label
@@ -69,7 +69,7 @@
         </div>
       </div>
         <div
-          class="card p-4 mb-4"
+          class="card p-4 mb-4 roomtype"
           v-if="editForm"
         >
         <label class="form-label font-bold text-center"
@@ -317,5 +317,19 @@ export default {
   border-bottom: 3px solid #d3d3d3;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+}
+.roomtype .form-group {
+  position: relative;
+  /* margin-bottom: 30px; */
+}
+.roomtype .form-control {
+  background-color: #ebecee;
+  border-radius: 4px;
+  border: none;
+  height: 40px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #3e485c;
+  font-size: 14px;
 }
 </style>

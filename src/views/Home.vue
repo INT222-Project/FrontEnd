@@ -60,6 +60,7 @@ export default {
         return rt.name.toLowerCase().match(this.search.toLowerCase())
       });
     }
+    
   },
   setup() {
     const store = useStore();
