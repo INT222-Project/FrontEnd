@@ -195,9 +195,17 @@
                   Choose the Room {{ reservationDetail.status }}
                 </button>
               </td>
-              <td class="text-center">
+              <td class="text-center" v-if="reservationDetail.status == 'done'">
                 <button
                   class="btn btn-success p-3"
+                  @click.prevent="edit(item, reservationDetail)"
+                >
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+              </td>
+              <td class="text-center" v-if="reservationDetail.status == 'undone'">
+                <button
+                  class="btn btn-primary   p-3"
                   @click.prevent="preferRoom(item, reservationDetail)"
                 >
                   Confirm
