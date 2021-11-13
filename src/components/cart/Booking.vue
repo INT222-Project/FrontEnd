@@ -283,10 +283,10 @@ export default {
           room: this.room,
           packages: this.selectedPackages,
         };
-        let i = 0;
-        while (i < this.amount) {
+        let j = 0;
+        while (j < this.amount) {
           this.$store.dispatch("addRoomToCart", booking);
-          i++;
+          j++;
         }
         this.$router.push({ name: "Cart" });
       }

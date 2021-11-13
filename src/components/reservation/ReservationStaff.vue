@@ -66,24 +66,24 @@
         </thead>
         <tbody v-for="item in filteredCustomer" :key="item.reservNo">
           <tr v-for="rd in item.reservationDetailList" :key="rd.reservDetailId">
-            <td v-if="rd.status == 'reserved'">{{ rd.reservDetailId }}</td>
-            <td v-if="rd.status == 'reserved'">
+            <td v-if="rd.status == 'check-in'">{{ rd.reservDetailId }}</td>
+            <td v-if="rd.status == 'check-in'">
               {{ item.customerId.fname }} {{ item.customerId.lname }}
             </td>
-            <td v-if="rd.status == 'reserved'">
+            <td v-if="rd.status == 'check-in'">
               {{ rd.room.roomNo }}
               <span v-for="r in rd.room" :key="r.roomId">
                 {{ r.name }}
               </span>
             </td>
-            <td v-if="rd.status == 'reserved'">{{ rd.room.bedType }}</td>
-            <td v-if="rd.status == 'reserved'">{{ rd.status }}</td>
-            <td v-if="rd.status == 'reserved'">
+            <td v-if="rd.status == 'check-in'">{{ rd.room.bedType }}</td>
+            <td v-if="rd.status == 'check-in'">{{ rd.status }}</td>
+            <td v-if="rd.status == 'check-in'">
               {{ item.repId.fName }} {{ item.repId.lName }}
             </td>
-            <td v-if="rd.status == 'reserved'">{{ rd.checkInDate }}</td>
-            <td v-if="rd.status == 'reserved'">{{ rd.checkOutDate }}</td>
-            <td v-if="rd.status == 'reserved'" class="text-center">
+            <td v-if="rd.status == 'check-in'">{{ rd.checkInDate }}</td>
+            <td v-if="rd.status == 'check-in'">{{ rd.checkOutDate }}</td>
+            <td v-if="rd.status == 'check-in'" class="text-center">
               <button class="btn btn-danger" @click="returnRoom(item, rd)">
                 Checkout Room
               </button>
@@ -279,10 +279,6 @@
                           >{{ up.customerId.fname }}
                           {{ up.customerId.lname }}</span
                         >
-                        Responsible by the receptionist named RepId
-                        <span class="font-bold"
-                          >{{ up.repId.fName }} {{ up.repId.lName }}</span
-                        >
                       </p>
                       <p>
                         Status
@@ -423,16 +419,7 @@ export default {
       if (reservationDetail.status == "undone" && this.selectedRoom != null) {
         reservation.repId = this.receptionist;
         reservationDetail.room = this.selectedRoom;
-        reservationDetail.room.status = "Unavailable";
         reservationDetail.status = "done";
-        let list = reservation.reservationDetailList;
-        if (list.length > 0) {
-          let count = 0;
-          for (let i = 0; i < list.length; i++) {
-            if (list[i].status == "done") count++;
-          }
-          if (count == list.length) reservation.status = "unpaid";
-        }
         console.log(reservation);
         let booking = {
           reservNo: reservation.reservNo,
@@ -525,10 +512,10 @@ export default {
         `Are you sure you want to checkout this reservation: ${reservation.reservNo}`
       );
       if (response) {
-        if (reservationDetail.status == "reserved") {
+        if (reservationDetail.status == "check-in") {
           reservation.repId = this.receptionist;
           reservationDetail.room.status = "Available";
-          reservationDetail.status = "CheckedOut";
+          reservationDetail.status = "check-out";
           console.log(reservation);
           let booking = {
             reservNo: reservation.reservNo,
