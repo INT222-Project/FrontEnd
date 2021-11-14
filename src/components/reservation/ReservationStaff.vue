@@ -6,19 +6,28 @@
         <button
           type="button"
           class="btn btn-warning"
-          data-bs-toggle="modal"
-          data-bs-target="#monitor"
+          @click="this.isShowCheckIn = !this.isShowCheckIn"
+          v-if="this.isShowCheckIn == false && this.isShowCheckout == false"
         >
-          Monitor Payment
+          Check-in Couter
+          <i class="fas fa-tasks"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-dark"
+          @click="this.isShowCheckIn = !this.isShowCheckIn"
+          v-if="this.isShowCheckIn == true"
+        >
+          Back to Reservation List
           <i class="fas fa-tasks"></i>
         </button>
         <button
           type="button"
           class="btn btn-warning"
           @click="this.isShowCheckout = !this.isShowCheckout"
-          v-if="this.isShowCheckout == false"
+          v-if="this.isShowCheckout == false && this.isShowCheckIn == false"
         >
-          Checkout Counter
+          Check-out Counter
           <i class="fas fa-tasks"></i>
         </button>
         <button
@@ -32,8 +41,65 @@
         </button>
       </div>
       <hr />
-
-      <!-- {{this.filteredCustomer.length}} -->
+      <div v-if="this.isShowCheckIn == true">
+      <table
+        class="table table-light caption-top table-responsive table-bordered"
+      >
+        <caption>
+          List of reservation ready to checkIn
+        </caption>
+        <thead class="table-primary">
+          <tr class="bg-light">
+            <th scope="col" width="">ID</th>
+            <th scope="col" width="">Customer</th>
+            <th scope="col" width="">RoomNo/Type</th>
+            <th scope="col" width="">Bed Type</th>
+            <th scope="col" width="">Status</th>
+            <th scope="col" width="">Receptionist</th>
+            <th scope="col" width="">CheckIn</th>
+            <th scope="col" width="">CheckOut</th>
+            <th>
+              <div class="search">
+                <i class="fa fa-search"></i>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="searchB"
+                  placeholder="search customer"
+                />
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody v-for="item in filteredCustomer" :key="item.reservNo">
+          <tr v-for="rd in item.reservationDetailList" :key="rd.reservDetailId">
+            <td v-if="rd.status == 'done'">{{ rd.reservDetailId }}</td>
+            <td v-if="rd.status == 'done'">
+              {{ item.customerId.fname }} {{ item.customerId.lname }}
+            </td>
+            <td v-if="rd.status == 'done'">
+              {{ rd.room.roomNo }}
+              <span v-for="r in rd.room" :key="r.roomId">
+                {{ r.name }}
+              </span>
+            </td>
+            <td v-if="rd.status == 'done'">{{ rd.room.bedType }}</td>
+            <td v-if="rd.status == 'done'">{{ rd.status }}</td>
+            <td v-if="rd.status == 'done'">
+              {{ item.repId.fName }} {{ item.repId.lName }}
+            </td>
+            <td v-if="rd.status == 'done'">{{ rd.checkInDate }}</td>
+            <td v-if="rd.status == 'done'">{{ rd.checkOutDate }}</td>
+            <td v-if="rd.status == 'done'" class="text-center">
+              <button class="btn btn-success" @click="enterRoom(item, rd)">
+                Check-In
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div>
       <table
         v-if="this.isShowCheckout == true"
         class="table table-light caption-top table-responsive table-bordered"
@@ -91,10 +157,11 @@
           </tr>
         </tbody>
       </table>
+      </div>
       <div>
         <div class="col-md-12 pt-2">
           <div
-            v-if="reservation == '' && this.isShowCheckout == false"
+            v-if="reservation == '' && this.isShowCheckout == false && this.isShowCheckIn == false"
             class="card p-28"
           >
             <div class="card-body">
@@ -114,7 +181,7 @@
           </div>
         </div>
         <table
-          v-if="reservation != '' && this.isShowCheckout == false"
+          v-if="reservation != '' && this.isShowCheckout == false && this.isShowCheckIn == false"
           class="table table-light caption-top table-responsive table-bordered"
         >
           <caption>
@@ -130,7 +197,7 @@
               <th scope="col">CheckInDate</th>
               <th scope="col">CheckOutDate</th>
               <th scope="col">Total</th>
-              <th scope="col">Status / Room</th>
+              <th scope="col" width="15%">Room</th>
               <th scope="col" class="text-end">
                 <div class="search">
                   <i class="fa fa-search"></i>
@@ -179,7 +246,9 @@
               <td>
                 {{ reservationDetail.total }}
               </td>
-              <td v-if="reservationDetail.status === 'undone'">
+              <td v-if="reservationDetail.status=='check-in'">{{reservationDetail.room.roomNo}} {{reservationDetail.room.roomType.name}}</td>
+              <td v-if="reservationDetail.status=='check-out'">{{reservationDetail.room.roomNo}} {{reservationDetail.room.roomType.name}}</td>
+              <td class="text-center" v-if="reservationDetail.status === 'undone'">
                 <button
                   type="button"
                   @click="getListRoom(reservationDetail)"
@@ -187,20 +256,30 @@
                   data-bs-toggle="modal"
                   data-bs-target="#staticBackdrop"
                 >
-                  Choose the Room {{ reservationDetail.status }}
+                  Choose the Room
                 </button>
               </td>
-              <td v-if="reservationDetail.status === 'done'">
-                <button type="button" class="btn btn-secondary">
-                  Choose the Room {{ reservationDetail.status }}
+              <td class="text-center" v-if="reservationDetail.status === 'check-in'">
+                check-in
+              </td>
+              <td class="text-center" v-if="reservationDetail.status === 'check-out'">
+                check-out
+              </td>
+              <td  class="text-center" v-if="reservationDetail.status === 'done'">
+                {{reservationDetail.room.roomNo}} {{reservationDetail.room.roomType.name}}
+                <button type="button" class="btn btn-secondary" 
+                  @click="getListRoom(reservationDetail)"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop">
+                  <i class="fas fa-edit"></i>  Change the Room
                 </button>
               </td>
               <td class="text-center" v-if="reservationDetail.status == 'done'">
                 <button
-                  class="btn btn-success p-3"
-                  @click.prevent="edit(item, reservationDetail)"
+                  class="btn btn-primary p-3"
+                  @click.prevent="preferRoom(item, reservationDetail)"
                 >
-                  <i class="fas fa-edit"></i> Edit
+                   Confirm
                 </button>
               </td>
               <td class="text-center" v-if="reservationDetail.status == 'undone'">
@@ -214,98 +293,6 @@
             </tr>
           </tbody>
         </table>
-      </div>
-    </div>
-    <!-- ------------------Monitor Payment------------------------- -->
-    <div
-      class="modal fade"
-      id="monitor"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="checkoutLabel"
-      aria-hidden="true"
-    >
-      <div
-        class="
-          modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered
-        "
-      >
-        <div class="modal-content">
-          <div class="modal-header bg-dark">
-            <h5 class="modal-title text-white" id="checkoutLabel">
-              Monitor Payment
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div
-            class="modal-body text-center"
-            v-if="this.$store.state.unpaid.length == 0"
-          >
-            <div class="container">
-              <div class="d-flex justify-center">
-                <img
-                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNC4xMDQgMGwtNC4xMDQgNC4xNTIgMTguODg4IDE4Ljc5OSA1LjExMiAxLjA0OS0uOTYxLTUuMjAzLTE4LjkzNS0xOC43OTd6bTE1Ljk0NiAyMS41MDJjLS4xNjcuMTY2LS40MzYuMTY2LS42MDIgMGwtMTcuMjYyLTE3LjEyNGMtLjE2Ny0uMTY3LS4xNjctLjQzNS0uMDAxLS42MDMuMTY2LS4xNjYuNDM3LS4xNjYuNjAzIDBsMTcuMjYyIDE3LjEyNmMuMTY3LjE2NS4xNjYuNDM1IDAgLjYwMXptMS41NDQtMi4xMzJjLjE2Ni4xNjYuMTY2LjQzNyAwIC42MDMtLjE2Ni4xNjUtLjQzNi4xNjYtLjYwMiAwbC0xNy4yNjMtMTcuMTI2Yy0uMTY1LS4xNjUtLjE2NS0uNDM1IDAtLjYwMS4xNjctLjE2Ni40MzYtLjE2Ni42MDEtLjAwMWwxNy4yNjQgMTcuMTI1em0tMi44NTUtMTQuMDY3Yy0uMTk1LS4xOTUtLjE5NS0uNTEyIDAtLjcwN3MuNTEyLS4xOTUuNzA3IDAgLjE5NS41MTIgMCAuNzA3LS41MTEuMTk2LS43MDcgMHptLTcuNzM0IDEyLjY0MWwtNi4wNTUgNi4wNTYtNC45NS00LjkwOCA2LjA1OS02LjA1OSAxLjQxOSAxLjQxLS40MDcuNDA3LjcwNy43MDctLjcwNy43MDctLjcwNy0uNzA3LS43MDcuNzA3LjcwNy43MDctLjcwNy43MDctLjcwNy0uNzA3LS43MDcuNzA3LjcwNy43MDctLjcwNy43MDctLjcwNy0uNzA3LS43MDcuNzA4IDIuMTIxIDIuMTIxIDQuNjU3LTQuNjU3IDEuMzk4IDEuMzg3em0yLjAzNS0xMS44OTJsNi4wNTItNi4wNTIgNC45MDggNC45NS02LjAxMyA2LjAxNC0xLjM5OC0xLjM4OCA0LjYyNS00LjYyNS0yLjEyMS0yLjEyMS0yLjEyMSAyLjEyLjcwNy43MDctLjcwOC43MDgtLjcwNy0uNzA3LS43MDcuNzA3LjcwNy43MDctLjcwNy43MDctLjcwNy0uNzA4LS4zOS4zOS0xLjQyLTEuNDA5eiIvPjwvc3ZnPg=="
-                  width="130"
-                  height="130"
-                  class="mb-4 mr-3"
-                />
-              </div>
-              <h1>Reservation Payment Not found</h1>
-            </div>
-          </div>
-          <div class="modal-body" v-if="this.$store.state.unpaid.length > 0">
-            <div class="container">
-              <div class="row p-4">
-                <div v-for="up in unpaid" :key="up.reservNo">
-                  <div
-                    v-for="rd in up.reservationDetailList"
-                    :key="rd.reservDetailId"
-                  >
-                    <span>
-                      <p>
-                        ID
-                        <span class="font-bold"> {{ rd.reservDetailId }}</span>
-                        - room number
-                        <span class="font-bold">
-                          {{ rd.room.roomNo }} {{ rd.room.roomType.name }}</span
-                        >
-                        Booked by a customer named
-                        <span class="font-bold"
-                          >{{ up.customerId.fname }}
-                          {{ up.customerId.lname }}</span
-                        >
-                      </p>
-                      <p>
-                        Status
-                        <span class="font-bold">{{ up.status }}</span> Pay date
-                        <span class="font-bold"> {{ up.paymentDate }} </span>
-                      </p>
-                      <p>
-                        CheckIn:
-                        <span class="font-bold">{{ rd.checkInDate }}</span>
-                      </p>
-                      <p>
-                        CheckOut:
-                        <span class="font-bold">{{ rd.checkOutDate }}</span>
-                      </p>
-                    </span>
-                    <hr />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer bg-dark">
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-              Close
-            </button>
-          </div>
-        </div>
       </div>
     </div>
     <!-- --------------------select room------------------------ -->
@@ -401,6 +388,7 @@ export default {
       searchA: "",
       searchB: "",
       staffRoom: null,
+      isShowCheckIn:false,
       isShowCheckout: false,
       selectedRoom: null,
       receptionist: {
@@ -434,7 +422,24 @@ export default {
         };
         this.createFormData(booking);
       } else {
-        if (reservationDetail.status == "done") {
+        if (reservationDetail.status == "done" && this.selectedRoom != null) {
+            console.log('hi')
+            reservation.repId = this.receptionist;
+            reservationDetail.room = this.selectedRoom;
+            console.log(reservation);
+            let booking = {
+            reservNo: reservation.reservNo,
+            customerId: reservation.customerId,
+            paymentDate: reservation.paymentDate,
+            reservationDate: reservation.reservationDate,
+            paymentMethodId: reservation.paymentMethodId,
+            subTotal: reservation.subTotal,
+            status: reservation.status,
+            repId: reservation.repId,
+            reservationDetailList: reservation.reservationDetailList,
+           };
+            this.createFormData(booking);
+        }else if(reservationDetail.status == "done" && this.selectedRoom == null){
           alert("Already select room");
         }
         if (reservationDetail.status == "undone" && this.selectedRoom == null) {
@@ -505,6 +510,32 @@ export default {
       this.staffRoom = showRoom;
       // console.log(reservationDetail)
       console.log(this.staffRoom)
+    },
+    enterRoom(reservation, reservationDetail){
+      console.log("test");
+      let response = confirm(
+        `Are you sure you want to checkIn this reservation: ${reservation.reservNo}`
+      );
+      if (response) {
+        if (reservationDetail.status == "done") {
+          reservation.repId = this.receptionist;
+          reservationDetail.room.status = "Available";
+          reservationDetail.status = "check-in";
+          console.log(reservation);
+          let booking = {
+            reservNo: reservation.reservNo,
+            customerId: reservation.customerId,
+            paymentDate: reservation.paymentDate,
+            reservationDate: reservation.reservationDate,
+            paymentMethodId: reservation.paymentMethodId,
+            subTotal: reservation.subTotal,
+            status: reservation.status,
+            repId: reservation.repId,
+            reservationDetailList: reservation.reservationDetailList,
+          };
+          this.createFormData(booking);
+        }
+      }
     },
     returnRoom(reservation, reservationDetail) {
       console.log("test");

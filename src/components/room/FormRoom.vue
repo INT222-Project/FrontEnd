@@ -1,7 +1,7 @@
 <template>
   <div class="w-auto h-full pt-4 pb-12">
     <div class="card shadow-md p-4">
-    <div class="container section p-10">
+    <div class="room container section p-10">
       <!-- section -->
       <div class="mb-3">
         <label class="form-label font-bold">Room No</label>
@@ -94,7 +94,7 @@
       <div class="mb-3">
         <label for="formFile" class="form-label font-bold">Images</label>
         <div id="preview">
-          <img class="rounded mx-auto d-block" v-if="imgSrc" :src="imgSrc" />
+          <img class="rounded mx-auto d-block" v-if="imgSrc" :src="imgSrc"  width="350" />
         </div>
         <input
           class="form-control"
@@ -245,4 +245,18 @@ export default {
 </script>
 
 <style scoped>
+.room .form-group {
+  position: relative;
+  /* margin-bottom: 30px; */
+}
+.room .form-control {
+  background-color: #ebecee;
+  border-radius: 4px;
+  border: none;
+  height: 40px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #3e485c;
+  font-size: 14px;
+}
 </style>

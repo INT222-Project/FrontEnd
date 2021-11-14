@@ -281,7 +281,6 @@ export default {
         this.$store.dispatch("addReservation", formData);
       }
       this.$store.dispatch("clearItemInCart");
-      this.$store.dispatch("clearDate");
     },
     backToHome() {
       this.$router.push("/");
