@@ -52,6 +52,9 @@
                     {{ p.packageId.name + " " }}
                   </span>
                 </p>
+                <p>
+                  {{ reservationDetail.checkInDate }} {{ reservationDetail.checkOutDate }}
+                  </p>
               </div>
             </div>
             <div v-if="item.status == 'unpaid'">

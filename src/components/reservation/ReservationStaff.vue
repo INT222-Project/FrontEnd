@@ -90,7 +90,12 @@
             </td>
             <td v-if="rd.status == 'done'">{{ rd.checkInDate }}</td>
             <td v-if="rd.status == 'done'">{{ rd.checkOutDate }}</td>
-            <td v-if="rd.status == 'done'" class="text-center">
+            <td v-if="rd.status == 'done' && rd.checkInDate != this.currentDate" class="text-center">
+              <button class="btn btn-success" @click="enterRoom(item, rd)" disabled>
+                Check-In
+              </button>
+            </td>
+            <td v-if="rd.status == 'done' && rd.checkInDate == this.currentDate" class="text-center">
               <button class="btn btn-success" @click="enterRoom(item, rd)">
                 Check-In
               </button>
@@ -387,6 +392,7 @@ export default {
       checkUnpaid: this.$store.state.unpaid.length + 1,
       searchA: "",
       searchB: "",
+      currentDate:new Date().toISOString().slice(0, 10),
       staffRoom: null,
       isShowCheckIn:false,
       isShowCheckout: false,
