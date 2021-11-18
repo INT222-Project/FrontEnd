@@ -66,7 +66,7 @@
             <input
               type="email"
               class="form-control"
-              v-model="email"
+              v-model.trim="email"
               id="inputUsername"
               placeholder="name@example.com"
             />
@@ -81,7 +81,7 @@
               <input
                 type="password"
                 class="form-control"
-                v-model="password"
+                v-model.trim="password"
                 id="inputPassword"
               />
               <span class="input-group-text"><i class="fas fa-lock"></i></span>
@@ -119,7 +119,7 @@ export default {
           email : this.email,
           password : this.password
         }
-        this.$store.dispatch('login',user).then(()=>this.$router.push('/')).catch(err=>console.log(err))
+        this.$store.dispatch('auth/login',user).then(()=>this.$router.push('/')).catch(err=>console.log(err))
         this.authen = false 
         console.log(`${user.email} ${user.password}` )
       }

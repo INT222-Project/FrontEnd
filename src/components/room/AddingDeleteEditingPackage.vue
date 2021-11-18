@@ -119,7 +119,7 @@
                 <button class="btn btn-success" @click="editBtn(item)">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button @click="deleteRoomtype(item)" class="btn btn-danger">
+                <button @click="deletePackage(item)" class="btn btn-danger">
                   <i class="far fa-trash-alt"></i>
                 </button> 
               </td>

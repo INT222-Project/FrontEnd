@@ -7,6 +7,9 @@ let cartItems = window.localStorage.getItem('cartItems');
 let cartItemCount = window.localStorage.getItem('cartItemCount')
 let checkInDate = window.localStorage.getItem('checkInDate')
 let checkOutDate = window.localStorage.getItem('checkOutDate')
+let user = localStorage.getItem('user') 
+let token = 'Bearer '+ user
+console.log(token)
 export default createStore({
   modules:{
     auth
@@ -16,8 +19,7 @@ export default createStore({
     // stock:[{}],
     //user
     status: '',
-    token: localStorage.getItem('token') || '',
-    user: {},
+    // token: localStorage.getItem('token') || '',
     showLoading: false,
     checkIn: checkInDate ? checkInDate : '',
     checkOut:checkOutDate ? checkOutDate : '',
@@ -45,101 +47,97 @@ export default createStore({
     authStatus: state => state.status,
   },
   actions: {
-    // async login({commit},user){
-    //     commit('auth_request')
-    //     const response = await axios.post(`${API_URL}/api/login`,user)
-    // },
     async getAllReservationDetails({commit}){
-      const response = await axios.get(`${API_URL}/api/reservationDetails`);
+      const response = await axios.get(`${API_URL}/api/reservationDetails`,{headers:{Authorization:token}});
       commit('setAllReservationDetails', response.data);
     }
     ,
     async getGetRemaining({commit}){
-      const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom`);
+      const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom`,{headers:{Authorization:token}});
       commit('setRemaining',response.data);
     },
     async getPackages({ commit }) {
-      const response = await axios.get(`${API_URL}/api/packages`);
+      const response = await axios.get(`${API_URL}/api/packages`,{headers:{Authorization:token}});
       commit('setPackages', response.data);
     },
     async addPackages({ commit }, formData) {
-      const response = await axios.post(`${API_URL}/api/packages/add`, formData);
+      const response = await axios.post(`${API_URL}/api/packages/add`, formData,{headers:{Authorization:token}});
       commit('newPackage', response.data);
     },
     async editPackages({ commit }, formData) {
-      const response = await axios.put(`${API_URL}/api/packages/edit`,formData);
+      const response = await axios.put(`${API_URL}/api/packages/edit`,formData,{headers:{Authorization:token}});
       commit('editPackage', response.data);
     },
     async deletePackages({ commit }, packageId) {
-      const response = await axios.delete(`${API_URL}/api/packages/delete/${packageId}`);
+      const response = await axios.delete(`${API_URL}/api/packages/delete/${packageId}`,{headers:{Authorization:token}});
       commit('delPackage', response.data);
     },
     async getPaymentMethods({ commit }) {
-      const response = await axios.get(`${API_URL}/api/paymentMethods`);
+      const response = await axios.get(`${API_URL}/api/paymentMethods`,{headers:{Authorization:token}});
       commit('setPaymentMethods', response.data)
     },
     async getRooms({ commit }) {
-      const response = await axios.get(`${API_URL}/api/rooms`);
+      const response = await axios.get(`${API_URL}/api/rooms`,{headers:{Authorization:token}});
       commit('setRooms', response.data)
     },
     async getAvailableRooms({ commit }) {
-      const response = await axios.get(`${API_URL}/api/rooms/available`);
+      const response = await axios.get(`${API_URL}/api/rooms/available`,{headers:{Authorization:token}});
       commit('setRooms', response.data)
     },
     async getUnsuccessReservation({ commit }) {
-      const response = await axios.get(`${API_URL}/api/reservations/unsuccessReservation`);
+      const response = await axios.get(`${API_URL}/api/reservations/unsuccessReservation`,{headers:{Authorization:token}});
       commit('setReservationsUnsuccess', response.data)
     },
     async getRoomById({ commit }, roomId) {
-      const response = await axios.get(`${API_URL}/api/rooms/${roomId}`);
+      const response = await axios.get(`${API_URL}/api/rooms/${roomId}`,{headers:{Authorization:token}});
       commit('setRoomById', response.data)
     },
     async getRoomByRoomtypeId({ commit }, roomTypeId) {
-      const response = await axios.get(`${API_URL}/api/rooms/roomType/${roomTypeId}`);
+      const response = await axios.get(`${API_URL}/api/rooms/roomType/${roomTypeId}`,{headers:{Authorization:token}});
       commit('setRoomByRoomtypeId', response.data)
     },
     async getRoomRequirementById({ commit }, id) {
-      const response = await axios.get(`${API_URL}/api/rooms/roomRequirement/${id}`)
+      const response = await axios.get(`${API_URL}/api/rooms/roomRequirement/${id}`,{headers:{Authorization:token}})
       commit('setRoomRequirementById', response.data)
     },
     async getRoomRequirement({ commit }) {
-      const response = await axios.get(`${API_URL}/api/rooms/roomRequirement`)
+      const response = await axios.get(`${API_URL}/api/rooms/roomRequirement`,{headers:{Authorization:token}})
       commit('setRoomRequirement', response.data)
     },
     async getRoomType({ commit }) {
-      const response = await axios.get(`${API_URL}/api/roomTypes`);
+      const response = await axios.get(`${API_URL}/api/roomTypes`,{headers:{Authorization:token}});
       commit('setRoomType', response.data)
     },
     async deleteRoomType({ commit }, roomTypeId) {
-      const response = await axios.delete(`${API_URL}/api/roomTypes/delete/${roomTypeId}`);
+      const response = await axios.delete(`${API_URL}/api/roomTypes/delete/${roomTypeId}`,{headers:{Authorization:token}});
       commit('delRoomtype', response.data);
     },
     async addRoomType({ commit }, formData) {
-      const response = await axios.post(`${API_URL}/api/roomTypes/add`, formData);
+      const response = await axios.post(`${API_URL}/api/roomTypes/add`, formData,{headers:{Authorization:token}});
       commit('newRoomType', response.data);
     },
     async editRoomType({ commit }, formData) {
-      const response = await axios.put(`${API_URL}/api/roomTypes/edit`,formData);
+      const response = await axios.put(`${API_URL}/api/roomTypes/edit`,formData,{headers:{Authorization:token}});
       commit('editRoomType', response.data);
     },
     async getRoomTypeById({ commit }, roomTypeId) {
-      const response = await axios.get(`${API_URL}/api/roomTypes/${roomTypeId}`);
+      const response = await axios.get(`${API_URL}/api/roomTypes/${roomTypeId}`,{headers:{Authorization:token}});
       commit('setRoomTypeById', response.data)
     },
     async addRoom({ commit }, formData) {
-      const response = await axios.post(`${API_URL}/api/rooms/add`, formData);
+      const response = await axios.post(`${API_URL}/api/rooms/add`, formData,{headers:{Authorization:token}});
       commit('newRoom', response.data);
     },
     async deleteRoom({ commit }, roomId) {
-      const response = await axios.delete(`${API_URL}/api/rooms/delete/${roomId}`);
+      const response = await axios.delete(`${API_URL}/api/rooms/delete/${roomId}`,{headers:{Authorization:token}});
       commit('delRoom', response.data);
     },
     async editRoom({ commit }, formData, roomId) {
-      const response = await axios.put(`${API_URL}/api/rooms/edit/${roomId}`, formData);
+      const response = await axios.put(`${API_URL}/api/rooms/edit/${roomId}`, formData,{headers:{Authorization:token}});
       commit('editedRoom', response.data);
     },
     async addReservation({ commit }, formData) {
-      const response = await axios.post(`${API_URL}/api/reservations/add`, formData);
+      const response = await axios.post(`${API_URL}/api/reservations/add`, formData,{headers:{Authorization:token}});
       commit('newReservation', response.data);
     },
     addRoomToCart({ commit }, room) {
@@ -320,21 +318,5 @@ export default createStore({
     setRemaining(state,data){
       state.remainingRoom = data;
     } 
-    
-    // auth_request(state){
-    //   state.status = 'loading'
-    // },
-    // auth_success(state, token, user){
-    //   state.status = 'success'
-    //   state.token = token
-    //   state.user = user
-    // },
-    // auth_error(state){
-    //   state.status = 'error'
-    // },
-    // logout(state){
-    //   state.status = ''
-    //   state.token = ''
-    // },
   },
 });

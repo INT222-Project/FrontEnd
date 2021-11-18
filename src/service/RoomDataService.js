@@ -1,6 +1,8 @@
 import axios from "axios";
 const API_URL = "http://localhost:8081"; //change ip
-
+let user = localStorage.getItem('user') 
+let token = 'Bearer '+ user
+console.log(token)
 class RoomDataService{
     retrieveAllRoom(){
         return axios.get(`${API_URL}/api/rooms`);
@@ -12,13 +14,13 @@ class RoomDataService{
         return axios.get(`${API_URL}/api/roomTypes`)
     }
     addNewRoom(formData){
-        return axios.post(`${API_URL}/api/rooms/add`, formData);
+        return axios.post(`${API_URL}/api/rooms/add`, formData,{headers:{Authorization:token}})
     }
     deleteRoom(roomId){
-        return axios.delete(`${API_URL}/api/rooms/delete/${roomId}`);
+        return axios.delete(`${API_URL}/api/rooms/delete/${roomId}`,{headers:{Authorization:token}})
     }
     editRoom(formData,roomId){
-        return axios.put(`${API_URL}/api/rooms/edit/${roomId}`, formData)
+        return axios.put(`${API_URL}/api/rooms/edit/${roomId}`, formData,{headers:{Authorization:token}})
     }
     
 

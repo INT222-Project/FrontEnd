@@ -29,6 +29,7 @@
          :old_roomtype="old_roomtype"
          :old_roomCharge="old_roomCharge"
          :old_Img="old_Img"
+         :old_status="old_status"
          :itemInRooms="rooms"
          />
          <form-room  
@@ -64,7 +65,8 @@ export default {
       old_bedtype:'',
       old_roomtype:null,
       old_roomCharge:0.00,
-      old_Img:''
+      old_Img:'',
+      old_status:'Avaliable'
     };
   },
   methods: {
@@ -110,6 +112,7 @@ export default {
       this.old_bedtype = room.bedType
       this.old_roomtype = room.roomType
       this.old_roomCharge = room.roomCharge
+      this.old_status = room.status
       this.old_Img =  this.$store.state.url +"/api/rooms/showImage/" +room.roomId //change ip
       this.activeTab = "FormRoom";
     },
@@ -122,6 +125,7 @@ export default {
         roomType:room.roomType,
         roomCharge:room.roomCharge,
         bedType:room.bedType,
+        status:room.status,
         src:room.src
         }
         console.log('imgsrc '+editRoom.src)

@@ -105,6 +105,16 @@
         <div v-if="this.invRimg == true" class="text-red-500 text-sm">
           Please provide a valid image.
         </div>
+        <div class="mb-3">
+        <label class="form-label font-bold">Status</label>
+        <input
+          type="text"
+          v-model="status"
+          class="form-control"
+          placeholder="100"
+          disabled
+        />
+      </div>
       </div>
       <!-- section -->
       <div class="space-x-2">
@@ -128,6 +138,7 @@ export default {
     old_roomtype: { type: Object, require: false, default: null },
     old_roomCharge: { type: Number, require: false, default: 0.0 },
     old_Img: { type: String, require: false, default: null },
+    old_status: { type: String, require: false, default: "Avaliable" },
     itemInRooms: { type: Array, require: false, default: null },
   },
   data() {
@@ -141,6 +152,7 @@ export default {
       bedtype: this.old_bedtype,
       roomtype: this.old_roomtype,
       roomCharge: this.old_roomCharge,
+      status: this.old_status,
       // rType:[],
       invRNo: false,
       invBtype: false,
@@ -213,6 +225,7 @@ export default {
           roomType: this.roomtype,
           roomCharge: this.roomCharge,
           bedType: this.bedtype,
+          status:this.status,
           src: this.imgSrc,
           imgObject: this.imgObject,
         };

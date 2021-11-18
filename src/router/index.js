@@ -14,12 +14,19 @@ import Cart from '../components/cart/Cart.vue'
 import ReservationUser from '../components/reservation/ReservationUser.vue'
 import AddingDeleteEditingPackage from '../components/room/AddingDeleteEditingPackage.vue'
 import AddingDeleteEditingRoomType from '../components/room/AddingDeleteEditingRoomType.vue'
+import Admin from '../components/user/Admin.vue'
 const routes = [
   {
     path: '/',
     name: 'Home',
     props: true,
     component: Home
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    props: true,
+    component: Admin
   },
   {
     path: '/AddingDeleteEditingPackage',
