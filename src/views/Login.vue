@@ -105,6 +105,7 @@ export default {
   name: "Login",
   data() {
     return {
+      userData: JSON.parse(localStorage.getItem('data')) || null,
       email: "",
       password: "",
       authen: false,
@@ -119,7 +120,10 @@ export default {
           email : this.email,
           password : this.password
         }
-        this.$store.dispatch('auth/login',user).then(()=>this.$router.push('/')).catch(err=>console.log(err))
+        this.$store.state.showLoading = true;
+        setTimeout(()=>{this.$store.dispatch('auth/login',user).then(()=>{
+        window.location.href='/'},2000)
+      }).catch(err=>console.log(err))
         this.authen = false 
         console.log(`${user.email} ${user.password}` )
       }

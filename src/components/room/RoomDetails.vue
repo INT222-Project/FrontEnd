@@ -37,13 +37,17 @@
                   </p>
                 </div>
                 <div class="buttons d-flex flex-row gap-3">
-                  <router-link
+                  <!-- <router-link
                     class="btn btn-outline-primary"
                     :to="{
                       name: 'Booking',
                       params: { roomDetails: req.roomId, pageId:this.id}
                     }"
-                    >Book Now</router-link>
+                    >Book Now</router-link> -->
+                    <button
+                    class="btn btn-outline-primary"
+                    @click="bookNow(req.roomId)"
+                    >Book Now</button>
                 </div>
               </div>
             </div>
@@ -70,6 +74,21 @@ export default {
     back() {
       this.$router.push("/");
     },
+    bookNow(roomId){
+      if(this.userData==0){
+        alert('Please sign in before making a reservation')
+        this.$router.push("/login");
+        }else if(this.userData!=0 && this.userData.role[0].authority == 'receptionist'){
+          let response = confirm('Please log out and sign in with customer account , Are you want to log out now ?')
+          if(response){
+            this.$store.dispatch('auth/logout').then(()=>{
+            window.location.href= '/login' 
+            })
+          }
+        }else if(this.userData!=0 && this.userData.role[0].authority == 'customer'){
+          this.$router.push({ name: "Booking", params: { roomDetails:roomId ,pageId: this.id } })
+        }
+    },
     viewImg(roomTypeId) {
       return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId;
     },
@@ -80,6 +99,9 @@ export default {
     store.dispatch("getRoomTypeById", props.id);
     store.dispatch("getRoomRequirementById", props.id);
     store.dispatch("getGetRemaining")
+    let userData = computed(function () {
+      return store.state.user;
+    });
     let rTypeById = computed(function () {
       return store.state.rTypeById;
     });
@@ -92,7 +114,8 @@ export default {
     return {
       rTypeById,
       roomReq,
-      remainingRoom
+      remainingRoom,
+      userData
     };
   },
 };

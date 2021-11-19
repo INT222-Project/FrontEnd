@@ -124,7 +124,7 @@ export default {
     const store = useStore();
     store.dispatch(
       "getReservationByCustomerId",
-      "c103"
+      "c102"
     ); /*mock up customer id = c103*/
     store.dispatch("getUnpaidReservation");
     let reservation = computed(function () {
@@ -133,9 +133,13 @@ export default {
     let unpaid = computed(function () {
       return store.state.unpaid;
     });
+    let userData = computed(function () {
+      return store.state.user;
+    });
     return {
       reservation,
       unpaid,
+      userData
     };
   },
 };

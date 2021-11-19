@@ -136,7 +136,6 @@
                 <button @click="CheckDateAvaliable(r.roomTypeId)">
                   <img :src="viewImg(r.roomTypeId)" class="card-img-top" />
                 </button>
-                <!-- <router-link :to="{name:'RoomDetails',params: {id:r.roomTypeId}}"><img :src="viewImg(r.roomTypeId)" class="card-img-top" /></router-link> -->
               </div>
             </div>
             <div class="card-body">
@@ -167,10 +166,6 @@
                   </button>
                 </span>
               </div>
-              <!-- <div class="flex justify-center">
-           <span><router-link class="bg-blue-500 px-5 py-3 text-sm shadow-sm font-medium tracking-wider  
-           text-blue-100 rounded-full hover:shadow-2xl hover:bg-blue-600" :to="{name:'RoomDetails',params: {id:r.roomTypeId}}">WATCH ROOM</router-link>
-            </span></div> -->
             </div>
           </div>
         </div>
@@ -212,7 +207,7 @@ export default {
       const temp2 = new Date(this.checkOut);
       var diffTime = temp2.getTime() - temp1.getTime();
       var diffDays = diffTime / (1000 * 3600 * 24);
-      console.log("diff days : " + diffDays);
+      // console.log("diff days : " + diffDays);
       return diffDays;
     },
     selectDate() {
@@ -241,6 +236,9 @@ export default {
     minValue() {
       return this.checkIn;
     },
+     isLoggedIn(){
+      return this.$store.state.user
+    },
     filteredRtype: function () {
       return this.rType.filter((rt) => {
         return rt.name.toLowerCase().match(this.search.toLowerCase());
@@ -253,8 +251,12 @@ export default {
     let rType = computed(function () {
       return store.state.rType;
     });
+    let userData = computed(function () {
+      return store.state.user;
+    });
     return {
       rType,
+      userData
     };
   },
 };

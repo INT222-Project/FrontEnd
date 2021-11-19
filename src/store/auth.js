@@ -1,13 +1,12 @@
 import axios from 'axios';
 const API_URL = "http://localhost:8081";
 const user = JSON.parse(window.localStorage.getItem('user'));
+const getUser = user != null ? {status: {isLoggedIn: true},user} : {status: {isLoggedIn: false}, user:null};
+localStorage.setItem('data',JSON.stringify(getUser))
+console.log(user)
 export const auth = {
     namespaced:true,
-    state :{
-        user:user,
-        status:'',
-        token: localStorage.getItem('token') || '',
-    },
+    state : getUser,
     actions:{
         login({commit},payload){
             return axios.post(`${API_URL}/api/auth/authenticate`,{
@@ -15,7 +14,8 @@ export const auth = {
                 password: payload.password
             }).then(response => {
                 if(response){
-                    localStorage.setItem('user',JSON.stringify(response.data.token))
+                    localStorage.setItem('token',JSON.stringify(response.data.token))
+                    localStorage.setItem('user',JSON.stringify(response.data))
                 }
                 commit('auth_success',response)
                 return Promise.resolve(response)
@@ -27,6 +27,7 @@ export const auth = {
             )
         },
         logout({commit}){
+            localStorage.removeItem('token');
             localStorage.removeItem('user');
             commit('auth_logout');
         }
@@ -35,14 +36,14 @@ export const auth = {
     },  
     mutations:{
           auth_success(state, response){
-            state.status = 'success'
-            state.user = response
+            state.status.isLoggedIn = true
+            state.user = response.data
           },
           auth_error(state){
-            state.status = 'error'
+            state.status.isLoggedIn = false
           },
           auth_logout(state){
-            state.status = ''
+            state.status.isLoggedIn = false
           }
     }
 }

@@ -1,7 +1,6 @@
 import axios from "axios";
-const API_URL = "http://localhost:8081"; //change ip
-let user = localStorage.getItem('user') 
-let token = 'Bearer '+ user
+const API_URL = "http://localhost:8081";
+let token = 'Bearer '+ localStorage.getItem('token') 
 console.log(token)
 class RoomDataService{
     retrieveAllRoom(){

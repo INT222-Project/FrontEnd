@@ -51,7 +51,6 @@ export default {
       this.notFound = false
     },
     viewImg(roomId) {
-      console.log("url: "+this.$store.state.url)
       return this.$store.state.url +"/api/rooms/showImage/" + roomId;
     },
     deleteRoom(room) {

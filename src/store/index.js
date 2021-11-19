@@ -6,9 +6,9 @@ const API_URL = "http://localhost:8081";
 let cartItems = window.localStorage.getItem('cartItems');
 let cartItemCount = window.localStorage.getItem('cartItemCount')
 let checkInDate = window.localStorage.getItem('checkInDate')
-let checkOutDate = window.localStorage.getItem('checkOutDate')
-let user = localStorage.getItem('user') 
-let token = 'Bearer '+ user
+let checkOutDate = window.localStorage.getItem('checkOutDate')  
+let token = 'Bearer '+ localStorage.getItem('token') 
+const data = JSON.parse(window.localStorage.getItem('user'));
 console.log(token)
 export default createStore({
   modules:{
@@ -16,10 +16,8 @@ export default createStore({
   },
   state: {
     url: "http://localhost:8081",
-    // stock:[{}],
     //user
-    status: '',
-    // token: localStorage.getItem('token') || '',
+    user: data == null ? 0 : data, 
     showLoading: false,
     checkIn: checkInDate ? checkInDate : '',
     checkOut:checkOutDate ? checkOutDate : '',
@@ -41,10 +39,6 @@ export default createStore({
     cartItems: cartItems ? JSON.parse(cartItems) : [],
     cartItemCount: cartItemCount ? JSON.parse(cartItemCount) : 0,
     reservationDetail: [],
-  },
-  getter: {
-    isLoggedIn: state => !!state.token,
-    authStatus: state => state.status,
   },
   actions: {
     async getAllReservationDetails({commit}){

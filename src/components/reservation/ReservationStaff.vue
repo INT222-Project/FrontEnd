@@ -397,15 +397,16 @@ export default {
       isShowCheckIn:false,
       isShowCheckout: false,
       selectedRoom: null,
-      receptionist: {
-        repId: "r110",
-        email: "admin10@hotmail.com",
-        password: "123456789",
-        fName: "Kimberly",
-        lName: "Porter",
-        telNo: "0900864032",
-        address: "260/31 bkk 85000",
-      },
+      // receptionist: {
+      //   repId: "r110",
+      //   email: "admin10@hotmail.com",
+      //   password: "123456789",
+      //   fName: "Kimberly",
+      //   lName: "Porter",
+      //   telNo: "0900864032",
+      //   address: "260/31 bkk 85000",
+      // },
+      receptionist:this.userData.authenticationUser||null
     };
   },
   methods: {
@@ -593,6 +594,9 @@ export default {
     store.dispatch("getUnpaidReservation");
     store.dispatch("getPaidReservation");
     store.dispatch("getAllReservationDetails");
+    let userData = computed(function () {
+      return store.state.user;
+    });
     let allReservationDetails = computed(function () {
       return store.state.allReservationDetails;
     });
@@ -614,6 +618,7 @@ export default {
       unpaid,
       paid,
       allReservationDetails,
+      userData
     };
   },
 };

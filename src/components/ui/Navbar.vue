@@ -29,22 +29,23 @@
             </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/AddingDeleteEditingPackage">AddPackages</router-link>
-            </li>
+            </li> 
           </ul>
-          <router-link class="nav-link" to="/cart"><i class="fas fa-shopping-cart cart-icon"></i><span class="cart-count">{{count}}</span></router-link>
-          <router-link class="nav-link" to="/login">Sign in <i class="fas fa-sign-in-alt"></i></router-link>
-          <div v-if="!isLoggedIn" class="dropdown mb-2 mb-lg-0 pr-20">
-             <a href="#" class="dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="far fa-user"></i>
+          <router-link v-if="this.userData != 0 && this.userData.role[0].authority == 'customer'" class="nav-link" to="/cart"><i class="fas fa-shopping-cart cart-icon"></i><span class="cart-count">{{count}}</span></router-link>
+          <router-link v-if="this.userData == 0" class="nav-link" to="/login">Sign in <i class="fas fa-sign-in-alt"></i></router-link>
+          <div v-if="this.userData != 0" class="bg-blue-600 px-2 py-2 text-sm shadow-sm font-medium tracking-wider  rounded-full hover:shadow-sm hover:bg-blue-700 dropdown mb-2 mb-lg-0 pr-20">
+             <a href="#" class="no-underline  py-3 px-6 border-white dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            <span v-if="this.userData.role[0].authority == 'receptionist'" class="text-white"><i class="far fa-user"></i>  {{ this.userData.authenticationUser.fName}} {{this.userData.authenticationUser.lName}} ({{this.userData.role[0].authority}})</span>
+            <span v-if="this.userData.role[0].authority == 'customer'" class="text-white  "><i class="far fa-user"></i>  {{ this.userData.authenticationUser.fname}} {{this.userData.authenticationUser.lname}} ({{this.userData.role[0].authority}})</span>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item"><router-link to="/profile"><i class="fas fa-user-cog"></i> Profile</router-link></a></li>
+            <li v-if="this.userData.role[0].authority == 'receptionist'||this.userData.role[0].authority == 'customer'"><a class="dropdown-item"><router-link to="/profile"><i class="fas fa-user-cog"></i> Profile</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item"><router-link to="/room"><i class="fas fa-tasks"></i> Room Management</router-link></a></li>
-            <li><a class="dropdown-item"><router-link to="/reservationStaff"><i class="fas fa-tasks"></i> Reservation Management</router-link></a></li>
-            <li><a class="dropdown-item"><router-link to="/reservationUser"><i class="fas fa-history"></i> Reservation History</router-link></a></li>
+            <li ><a class="dropdown-item"><router-link to="/room"><i class="fas fa-tasks"></i> Room Management</router-link></a></li>
+            <li v-if="this.userData.role[0].authority == 'receptionist'"><a class="dropdown-item"><router-link to="/reservationStaff"><i class="fas fa-tasks"></i> Reservation Management</router-link></a></li>
+            <li v-if="this.userData.role[0].authority == 'customer'"><a class="dropdown-item"><router-link to="/reservationUser"><i class="fas fa-history"></i> Reservation History</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
-            <span v-if="!isLoggedIn"><li><a @click="logout" class="dropdown-item"><router-link to="/"> <i class="fas fa-sign-out-alt"></i> Log out </router-link></a></li></span>
+            <span><li><a @click="logout" class="dropdown-item"><router-link to="/"> <i class="fas fa-sign-out-alt"></i> Log out </router-link></a></li></span>
           </ul>
         </div>
         </div>
@@ -53,22 +54,40 @@
   </div>
 </template>
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
+  data() {
+    return {
+    };
+  },
   methods:{
     logout(){
-      this.$store.dispatch('logout').then(()=>{
+      this.$store.dispatch('auth/logout').then(()=>{
         this.$router.push('/login')
+        location.reload()
       })
+      this.$store.dispatch('clearDate')
     }
   },
   computed:{
-    isLoggedIn(){
-      return this.$store.getters.isLoggedIn
-    },
     count(){
       return this.$store.state.cartItemCount
     }
-  }
+  },
+   setup() {
+    const store = useStore();
+    let user = computed(function () {
+      return store.state.user;
+    });
+    let userData = computed(function () {
+      return store.state.user;
+    });
+    return {
+      user,
+      userData
+    };
+  },
 }
 </script>
 <style>
