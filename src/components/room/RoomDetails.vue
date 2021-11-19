@@ -37,13 +37,6 @@
                   </p>
                 </div>
                 <div class="buttons d-flex flex-row gap-3">
-                  <!-- <router-link
-                    class="btn btn-outline-primary"
-                    :to="{
-                      name: 'Booking',
-                      params: { roomDetails: req.roomId, pageId:this.id}
-                    }"
-                    >Book Now</router-link> -->
                     <button
                     class="btn btn-outline-primary"
                     @click="bookNow(req.roomId)"

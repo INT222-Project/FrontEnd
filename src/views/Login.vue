@@ -51,12 +51,6 @@
               <use xlink:href="#exclamation-triangle-fill" />
             </svg>
             <div>Incorrect username or password.</div>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"
-              aria-label="Close"
-            ></button>
           </div>
           <div class="mb-3">
              <label for="exampleFormControlInput1" class="form-label"
@@ -100,7 +94,6 @@
   </div>
 </template>
 <script>
-// import axios from "axios";
 export default {
   name: "Login",
   data() {
@@ -123,9 +116,8 @@ export default {
         this.$store.state.showLoading = true;
         setTimeout(()=>{this.$store.dispatch('auth/login',user).then(()=>{
         window.location.href='/'},2000)
-      }).catch(err=>console.log(err))
-        this.authen = false 
-        console.log(`${user.email} ${user.password}` )
+      }).catch(err=>{console.log(err)
+      this.authen = false })
       }
     }
   },

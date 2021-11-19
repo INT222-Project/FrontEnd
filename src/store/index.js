@@ -153,28 +153,28 @@ export default createStore({
       commit('addCheckOut', CheckOut)
     },
     async editReservation({ commit }, formData) {
-      const response = await axios.put(`${API_URL}/api/reservations/edit`, formData);
+      const response = await axios.put(`${API_URL}/api/reservations/edit`, formData,{headers:{Authorization:token}});
       commit('editReservation', response.data);
     }
     ,
     async getReservationDetailByReservationNo({ commit }, reservNo) {
-      const response = await axios.get(`${API_URL}/api/reservationDetails/byReservationNo/${reservNo}`);
+      const response = await axios.get(`${API_URL}/api/reservationDetails/byReservationNo/${reservNo}`,{headers:{Authorization:token}});
       commit('setReservationDetailByReservationNo', response.data);
     },
-    async getReservationByCustomerId({ commit }, customerId) {
-      const response = await axios.get(`${API_URL}/api/reservations/byCustomerId/${customerId}`);
+    async getReservationByCustomerId({ commit }) {
+      const response = await axios.get(`${API_URL}/api/reservations/byCustomerId/${this.state.user.authenticationUser.customerId}`,{headers:{Authorization:token}});
       commit('setReservationByCustomerId', response.data);
     },
     async getReservationByReservationDetailId({ commit }, reservDetailId) {
-      const response = await axios.get(`${API_URL}/api/reservations/byReservationDetailId/${reservDetailId}`);
+      const response = await axios.get(`${API_URL}/api/reservations/byReservationDetailId/${reservDetailId}`,{headers:{Authorization:token}});
       commit('setReservationByReservationDetailId', response.data);
     },
     async getUnpaidReservation({ commit }) {
-      const response = await axios.get(`${API_URL}/api/reservations/unpaidReservation`);
+      const response = await axios.get(`${API_URL}/api/reservations/unpaidReservation`,{headers:{Authorization:token}});
       commit('setUnpaid', response.data)
     },
     async getPaidReservation({ commit }) {
-      const response = await axios.get(`${API_URL}/api/reservations/successReservation`);
+      const response = await axios.get(`${API_URL}/api/reservations/successReservation`,{headers:{Authorization:token}});
       commit('setPaid', response.data)
     },
   },
