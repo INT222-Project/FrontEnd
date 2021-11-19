@@ -53,11 +53,11 @@ export default createStore({
     }
     ,
     async getGetRemaining({commit}){
-      const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom`,{headers:{Authorization:token}});
+      const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom`);
       commit('setRemaining',response.data);
     },
     async getPackages({ commit }) {
-      const response = await axios.get(`${API_URL}/api/packages`,{headers:{Authorization:token}});
+      const response = await axios.get(`${API_URL}/api/packages`);
       commit('setPackages', response.data);
     },
     async addPackages({ commit }, formData) {
@@ -97,7 +97,7 @@ export default createStore({
       commit('setRoomByRoomtypeId', response.data)
     },
     async getRoomRequirementById({ commit }, id) {
-      const response = await axios.get(`${API_URL}/api/rooms/roomRequirement/${id}`,{headers:{Authorization:token}})
+      const response = await axios.get(`${API_URL}/api/rooms/roomRequirement/${id}`)
       commit('setRoomRequirementById', response.data)
     },
     async getRoomRequirement({ commit }) {
@@ -105,7 +105,7 @@ export default createStore({
       commit('setRoomRequirement', response.data)
     },
     async getRoomType({ commit }) {
-      const response = await axios.get(`${API_URL}/api/roomTypes`,{headers:{Authorization:token}});
+      const response = await axios.get(`${API_URL}/api/roomTypes`);
       commit('setRoomType', response.data)
     },
     async deleteRoomType({ commit }, roomTypeId) {
@@ -121,7 +121,7 @@ export default createStore({
       commit('editRoomType', response.data);
     },
     async getRoomTypeById({ commit }, roomTypeId) {
-      const response = await axios.get(`${API_URL}/api/roomTypes/${roomTypeId}`,{headers:{Authorization:token}});
+      const response = await axios.get(`${API_URL}/api/roomTypes/${roomTypeId}`);
       commit('setRoomTypeById', response.data)
     },
     async addRoom({ commit }, formData) {
