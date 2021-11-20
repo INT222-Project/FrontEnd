@@ -2,7 +2,7 @@
   <div id="details" class="section">
     <div class="section-center container pt-14 mt-5 mb-5">
       <div class="card shadow-md">
-        <div class="row g-0">
+        <div class="row g-0 ">
           <div class="col-md-6 border-end">
             <div class="d-flex flex-column justify-content-center">
               <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div>

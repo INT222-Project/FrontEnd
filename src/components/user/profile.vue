@@ -1,5 +1,4 @@
 <template>
-    <!-- Button trigger modal -->
     <div class="container pt-24">
     <div class="container">
     <div class="main-body">
