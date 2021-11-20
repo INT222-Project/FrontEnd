@@ -171,15 +171,6 @@ export default {
   props: ["roomDetails", "pageId"],
   data() {
     return {
-      // customer: {
-      //   customerId: "c103",
-      //   email: "sahachai.senarak@hotmail.com",
-      //   password: "123456789",
-      //   telNo: "0945542211",
-      //   address: "102/10 bkk 10140",
-      //   lname: "Senarak",
-      //   fname: "Sahachai",
-      // },
       customer:this.userData.authenticationUser||null,
       minCiDate: new Date().toISOString().slice(0, 10),
       checkIn: this.$store.state.checkIn || "",

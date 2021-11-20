@@ -8,7 +8,7 @@ let cartItemCount = window.localStorage.getItem('cartItemCount')
 let checkInDate = window.localStorage.getItem('checkInDate')
 let checkOutDate = window.localStorage.getItem('checkOutDate')  
 let token = 'Bearer '+ localStorage.getItem('token') 
-const data = JSON.parse(window.localStorage.getItem('user'));
+const userData = JSON.parse(window.localStorage.getItem('user'));
 console.log(token)
 export default createStore({
   modules:{
@@ -17,7 +17,8 @@ export default createStore({
   state: {
     url: "http://localhost:8081",
     //user
-    user: data == null ? 0 : data, 
+    users:[],
+    user: userData == null ? 0 : userData, 
     showLoading: false,
     checkIn: checkInDate ? checkInDate : '',
     checkOut:checkOutDate ? checkOutDate : '',
@@ -41,6 +42,10 @@ export default createStore({
     reservationDetail: [],
   },
   actions: {
+    async getAllCustomer({commit}){
+      const response = await axios.get(`${API_URL}/api/customers`,{headers:{Authorization:token}});
+      commit('setAllCustomer',response.data)
+    },
     async getAllReservationDetails({commit}){
       const response = await axios.get(`${API_URL}/api/reservationDetails`,{headers:{Authorization:token}});
       commit('setAllReservationDetails', response.data);
@@ -311,6 +316,9 @@ export default createStore({
     },
     setRemaining(state,data){
       state.remainingRoom = data;
-    } 
+    },
+    setAllCustomer(state,data){
+      state.users.push(data)
+    }
   },
 });

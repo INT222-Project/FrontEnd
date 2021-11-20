@@ -55,11 +55,11 @@
             <label for="inputPassword" class="form-label"
               ><span class="font-bold">Password</span></label
             >
+            <!-- <i class="fas fa-eye"></i><i class="fas fa-eye-slash"></i> -->
             <div class="col-sm-12">
               <input
                 type="password"
                 class="form-control"
-                id="inputPassword"
                 placeholder="Password"
                 v-model="password"
               />
@@ -90,19 +90,16 @@
 <script>
 // import axios from 'axios'
 export default {
-  name: "Signup.vue",
   data() {
     return {
       first_name: "",
       last_name: "",
       email: "",
-      username: "",
       password: "",
       password_confirm: "",
     };
   },
   methods: {
-    //make spinner true
     register() {
       const data={
         first_name:this.first_name,
@@ -115,7 +112,6 @@ export default {
       console.log(data)
       // this.$store.dispatch('register',data).then(()=>this.$router.push('/')).catch(err=>console.log(err))
     },
-    //make spinner false
   },
 };
 </script>
@@ -133,5 +129,9 @@ export default {
   box-shadow: none;
   color: #3e485c;
   font-size: 14px;
+}
+span #eye{
+  position: absolute;
+  transform: translate(0);
 }
 </style>

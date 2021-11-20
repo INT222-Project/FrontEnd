@@ -24,10 +24,10 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/about">About</router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="this.userData != 0 && this.userData.role[0].authority == 'admin'" class="nav-item">
               <router-link class="nav-link" to="/AddingDeleteEditingRoomType">AddRoomType</router-link>
             </li>
-            <li class="nav-item">
+            <li v-if="this.userData != 0 && this.userData.role[0].authority == 'admin'" class="nav-item">
               <router-link class="nav-link" to="/AddingDeleteEditingPackage">AddPackages</router-link>
             </li> 
           </ul>
@@ -37,12 +37,14 @@
              <a href="#" class="no-underline  py-3 px-6 border-white dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <span v-if="this.userData.role[0].authority == 'receptionist'" class="text-white"><i class="far fa-user"></i>  {{ this.userData.authenticationUser.fName}} {{this.userData.authenticationUser.lName}} ({{this.userData.role[0].authority}})</span>
             <span v-if="this.userData.role[0].authority == 'customer'" class="text-white  "><i class="far fa-user"></i>  {{ this.userData.authenticationUser.fname}} {{this.userData.authenticationUser.lname}} ({{this.userData.role[0].authority}})</span>
+            <span v-if="this.userData.role[0].authority == 'admin'" class="text-white  "><i class="far fa-user"></i> ({{this.userData.role[0].authority}})</span>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+            <li v-if="this.userData.role[0].authority == 'admin'"><a class="dropdown-item"><router-link to="/admin"><i class="fas fa-user-cog"></i> User Role Management</router-link></a></li>
             <li v-if="this.userData.role[0].authority == 'receptionist'||this.userData.role[0].authority == 'customer'"><a class="dropdown-item"><router-link to="/profile"><i class="fas fa-user-cog"></i> Profile</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
-            <li ><a class="dropdown-item"><router-link to="/room"><i class="fas fa-tasks"></i> Room Management</router-link></a></li>
-            <li v-if="this.userData.role[0].authority == 'receptionist'"><a class="dropdown-item"><router-link to="/reservationStaff"><i class="fas fa-tasks"></i> Reservation Management</router-link></a></li>
+            <li v-if="this.userData.role[0].authority == 'admin'"><a class="dropdown-item"><router-link to="/room"><i class="fas fa-tasks"></i> Room Management</router-link></a></li>
+            <li v-if="this.userData.role[0].authority == 'receptionist' ||this.userData.role[0].authority == 'admin'"><a class="dropdown-item"><router-link to="/reservationStaff"><i class="fas fa-tasks"></i> Reservation Management</router-link></a></li>
             <li v-if="this.userData.role[0].authority == 'customer'"><a class="dropdown-item"><router-link to="/reservationUser"><i class="fas fa-history"></i> Reservation History</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
             <span><li><a @click="logout" class="dropdown-item"><router-link to="/"> <i class="fas fa-sign-out-alt"></i> Log out </router-link></a></li></span>

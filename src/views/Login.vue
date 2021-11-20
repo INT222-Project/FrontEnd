@@ -10,7 +10,7 @@
       />
     </symbol>
   </svg>
-  <div class="login bg-blue-500  w-screen h-screen">
+  <div class="login bg-blue-500 w-screen h-screen">
     <form @submit.prevent="login()">
       <div class="flex justify-center p-24">
         <div
@@ -53,18 +53,21 @@
             <div>Incorrect username or password.</div>
           </div>
           <div class="mb-3">
-             <label for="exampleFormControlInput1" class="form-label"
+            <label for="exampleFormControlInput1" class="form-label"
               ><span class="font-bold">Email Address</span></label
             >
             <div class="input-group">
-            <input
-              type="email"
-              class="form-control"
-              v-model.trim="email"
-              id="inputUsername"
-              placeholder="name@example.com"
-            />
-            <span class="input-group-text"><i class="far fa-envelope"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                v-model.trim="email"
+                id="inputUsername"
+                placeholder="name@example.com"
+              />
+              <div class="error" v-if="errors.email">{{errors.email}}</div>
+              <span class="input-group-text"
+                ><i class="far fa-envelope"></i
+              ></span>
             </div>
           </div>
           <div class="mb-3 row">
@@ -78,29 +81,36 @@
                 v-model.trim="password"
                 id="inputPassword"
               />
+              <div class="error" v-if="errors.password">{{errors.password}}</div>
               <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
           </div>
-          
+
           <div class="mb-2 row">
             <button class="btn btn-primary btn-block mb-2">Login</button>
           </div>
           <div class="text-center">
-          <p><router-link to="/register">Create an account</router-link> to use bbooking for free</p>
-        </div>
+            <p>
+              <router-link to="/register">Create an account</router-link> to use
+              bbooking for free
+            </p>
+          </div>
         </div>
       </div>
     </form>
   </div>
 </template>
 <script>
+// import { computed } from "vue";
+// import { useStore } from "vuex";
 export default {
   name: "Login",
   data() {
     return {
-      userData: JSON.parse(localStorage.getItem('data')) || null,
+      userData: JSON.parse(localStorage.getItem("data")) || null,
       email: "",
       password: "",
+      errors:[],
       authen: false,
     };
   },
@@ -108,7 +118,7 @@ export default {
      login() {
       if (this.email == "" || this.password == "") {
         this.authen = true;
-      }else{
+      }else {
         const user = {
           email : this.email,
           password : this.password
@@ -117,14 +127,24 @@ export default {
         setTimeout(()=>{this.$store.dispatch('auth/login',user).then(()=>{
         window.location.href='/'},2000)
       }).catch(err=>{console.log(err)
-      this.authen = false })
+        this.authen = true
+       })
       }
     }
   },
+  //  setup() {
+  //   const store = useStore();
+  //   store.dispatch("getAllCustomer");
+  //   let users = computed(function () {
+  //     return store.state.users;
+  //   });
+  //   return {
+  //       users
+  //   }
+  //  }
 };
 </script>
 <style scoped>
-
 .login .form-group {
   position: relative;
   /* margin-bottom: 30px; */
