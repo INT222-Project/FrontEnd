@@ -45,7 +45,7 @@
             <li><hr class="dropdown-divider"></li>
             <li v-if="this.userData.role[0].authority == 'admin'"><a class="dropdown-item"><router-link to="/room"><i class="fas fa-tasks"></i> Room Management</router-link></a></li>
             <li v-if="this.userData.role[0].authority == 'receptionist' ||this.userData.role[0].authority == 'admin'"><a class="dropdown-item"><router-link to="/reservationStaff"><i class="fas fa-tasks"></i> Reservation Management</router-link></a></li>
-            <li v-if="this.userData.role[0].authority == 'customer'"><a class="dropdown-item"><router-link to="/reservationUser"><i class="fas fa-history"></i> Reservation History</router-link></a></li>
+            <li v-if="this.userData.role[0].authority == 'customer' || this.userData.role[0].authority == 'admin'"><a class="dropdown-item"><router-link to="/reservationUser"><i class="fas fa-history"></i> Reservation History</router-link></a></li>
             <li><hr class="dropdown-divider"></li>
             <span><li><a @click="logout" class="dropdown-item"><router-link to="/"> <i class="fas fa-sign-out-alt"></i> Log out </router-link></a></li></span>
           </ul>

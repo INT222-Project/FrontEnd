@@ -44,7 +44,7 @@ const routes = [
     path:'/RoomDetails/:id',
     name:'RoomDetails',
     props: true,
-    component: RoomDetails
+    component: RoomDetails,
   },
   {
     path: '/room',

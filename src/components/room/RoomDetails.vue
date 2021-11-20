@@ -78,7 +78,7 @@ export default {
             window.location.href= '/login' 
             })
           }
-        }else if(this.userData!=0 && this.userData.role[0].authority == 'customer'){
+        }else if(this.userData!=0 && this.userData.role[0].authority == 'customer' || this.userData.role[0].authority == 'admin'){
           this.$router.push({ name: "Booking", params: { roomDetails:roomId ,pageId: this.id } })
         }
     },
