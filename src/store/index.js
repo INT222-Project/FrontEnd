@@ -56,8 +56,8 @@ export default createStore({
       const response = await axios.put(`${API_URL}/api/customers/edit`,formData,{headers:{Authorization:token}});
       commit('editCustomer', response.data);
     },
-    async editReceptionist({commit},formData){
-      const response = await axios.put(`${API_URL}/api/receptionists/edit`,formData,{headers:{Authorization:token}});
+    async editReceptionist({commit},formData , repId){
+      const response = await axios.put(`${API_URL}/api/receptionists/edit/${repId}`,formData,{headers:{Authorization:token}});
       commit('editReceptionist', response.data);
     },
     async getAllCustomer({commit}){
