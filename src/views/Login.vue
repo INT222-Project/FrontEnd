@@ -146,8 +146,7 @@ export default {
         }
         this.$store.state.showLoading = true;
         setTimeout(()=>{this.$store.dispatch('auth/login',user).then(()=>{
-        window.location.href='/'},2000)
-      }).catch(err=>{console.log(err)
+        window.location.href='/'},2000)}).catch(err=>{console.log(err)
         this.authen = true
        })
       }
