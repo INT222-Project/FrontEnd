@@ -44,6 +44,10 @@ export default createStore({
     reservationDetail: [],
   },
   actions: {
+    async getAllUsers({commit}){
+      const response = await axios.get(`${API_URL}/api/auth/getAllUsers`,{headers:{Authorization:token}})
+      commit('setAllUsers',response.data)
+    },
     async getCustomersById({ commit }) {
       const response = await axios.get(`${API_URL}/api/customers/${this.state.user.authenticationUser.customerId}`,{headers:{Authorization:token}});
       commit('setCustomers', response.data)
@@ -52,8 +56,8 @@ export default createStore({
       const response = await axios.get(`${API_URL}/api/receptionists/${this.state.user.authenticationUser.repId}`,{headers:{Authorization:token}});
       commit('setReceptionists', response.data)
     },
-    async editCustomer({commit},formData){
-      const response = await axios.put(`${API_URL}/api/customers/edit`,formData,{headers:{Authorization:token}});
+    async editCustomer({commit},customerId,formData){
+      const response = await axios.put(`${API_URL}/api/customers/edit/${customerId}`,formData,{headers:{Authorization:token}});
       commit('editCustomer', response.data);
     },
     async editReceptionist({commit},formData){
@@ -67,8 +71,7 @@ export default createStore({
     async getAllReservationDetails({commit}){
       const response = await axios.get(`${API_URL}/api/reservationDetails`,{headers:{Authorization:token}});
       commit('setAllReservationDetails', response.data);
-    }
-    ,
+    },
     async getGetRemaining({commit}){
       const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom`);
       commit('setRemaining',response.data);
@@ -202,6 +205,9 @@ export default createStore({
     },
   },
   mutations: {
+    setAllUsers(state,data){
+      state.users = data
+    },
     setCustomers(state,data){
       state.customer = data
     },

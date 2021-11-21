@@ -315,7 +315,7 @@ export default {
       });
       let formData = new FormData();
       formData.append("editCustomer", blob);
-      this.$store.dispatch("auth/createUser", formData);
+      this.$store.dispatch("editCustomer",obj.customerId,formData);
       // location.reload()
     },
     createEditReceptionistProfile(obj){

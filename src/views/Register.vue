@@ -176,7 +176,6 @@ export default {
       console.log(data);
       this.createFormdata(data);
       }
-      // this.$store.dispatch('register',data).then(()=>this.$router.push('/')).catch(err=>console.log(err))
     },
     createFormdata(obj){
      const json = JSON.stringify(obj);
@@ -185,8 +184,8 @@ export default {
       });
       let formData = new FormData();
       formData.append("newUser", blob);
-      this.$store.dispatch("auth/register", formData);
-      // location.reload()
+      this.$store.state.showLoading = true;
+      setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)}).catch(err=>console.log(err))
     }
   },
 };
