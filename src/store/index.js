@@ -56,12 +56,13 @@ export default createStore({
       const response = await axios.get(`${API_URL}/api/receptionists/${this.state.user.authenticationUser.repId}`,{headers:{Authorization:token}});
       commit('setReceptionists', response.data)
     },
-    async editCustomer({commit},customerId,formData){
-      const response = await axios.put(`${API_URL}/api/customers/edit/${customerId}`,formData,{headers:{Authorization:token}});
+    async editCustomer({commit},formData){
+      const response = await axios.put(`${API_URL}/api/customers/edit/${this.state.user.authenticationUser.customerId}`,formData,{headers:{Authorization:token}});
       commit('editCustomer', response.data);
     },
-    async editReceptionist({commit},repId,formData){
-      const response = await axios.put(`${API_URL}/api/receptionists/edit/${repId}`,formData,{headers:{Authorization:token}});
+    async editReceptionist({commit},formData){
+      const response = await axios.put(`${API_URL}/api/receptionists/edit/${this.state.user.authenticationUser.repId}`,formData,{headers:{Authorization:token}});
+      console.log(formData.get('editReceptionist'))
       commit('editReceptionist', response.data);
     },
     async getAllCustomer({commit}){
@@ -215,16 +216,14 @@ export default createStore({
       state.receptionist = data
     },
     editCustomer(state,data){
-      const index = state.customer.findIndex(r => r.customerId == data.customerId);
-      if(index){
-        state.customer = state.customer.splice(index,data);
-      }
+      state.customer = data
     },
     editReceptionist(state,data){
-      const index = state.receptionist.findIndex(r => r.repId == data.repId);
-      if(index){
-        state.receptionist = state.receptionist.splice(index,data);
-      }
+       state.receptionist = data
+      // const index = state.receptionist.findIndex(r => r.repId == data.repId);
+      // if(index){
+      //   state.receptionist.repId = state.receptionist.splice(index,data);
+      // }
     },
     setRooms(state, data) {
       state.rooms = data
@@ -361,6 +360,6 @@ export default createStore({
     },
     setAllCustomer(state,data){
       state.users.push(data)
-    }
+    },
   },
 });
