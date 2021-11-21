@@ -18,6 +18,8 @@ export default createStore({
     url: "http://localhost:8081",
     //user
     users:[],
+    customer:[],
+    receptionist:[],
     user: userData == null ? 0 : userData, 
     showLoading: false,
     checkIn: checkInDate ? checkInDate : '',
@@ -42,6 +44,22 @@ export default createStore({
     reservationDetail: [],
   },
   actions: {
+    async getCustomersById({ commit }) {
+      const response = await axios.get(`${API_URL}/api/customers/${this.state.user.authenticationUser.customerId}`,{headers:{Authorization:token}});
+      commit('setCustomers', response.data)
+    },
+    async getReceptionistsById({ commit }) {
+      const response = await axios.get(`${API_URL}/api/receptionists/${this.state.user.authenticationUser.repId}`,{headers:{Authorization:token}});
+      commit('setReceptionists', response.data)
+    },
+    async editCustomer({commit},formData){
+      const response = await axios.put(`${API_URL}/api/customers/edit`,formData,{headers:{Authorization:token}});
+      commit('editCustomer', response.data);
+    },
+    async editReceptionist({commit},formData){
+      const response = await axios.put(`${API_URL}/api/receptionists/edit`,formData,{headers:{Authorization:token}});
+      commit('editReceptionist', response.data);
+    },
     async getAllCustomer({commit}){
       const response = await axios.get(`${API_URL}/api/customers`,{headers:{Authorization:token}});
       commit('setAllCustomer',response.data)
@@ -184,6 +202,24 @@ export default createStore({
     },
   },
   mutations: {
+    setCustomers(state,data){
+      state.customer = data
+    },
+    setReceptionists(state,data){
+      state.receptionist = data
+    },
+    editCustomer(state,data){
+      const index = state.customer.findIndex(r => r.customerId == data.customerId);
+      if(index){
+        state.customer = state.customer.splice(index,data);
+      }
+    },
+    editReceptionist(state,data){
+      const index = state.receptionist.findIndex(r => r.repId == data.repId);
+      if(index){
+        state.receptionist = state.receptionist.splice(index,data);
+      }
+    },
     setRooms(state, data) {
       state.rooms = data
     },

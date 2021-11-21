@@ -30,11 +30,30 @@ export const auth = {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
             commit('auth_logout');
+        },
+        register({commit},formData){
+            return axios.post(`${API_URL}/api/auth/createUser`,formData).then(response =>{
+                if(response){
+                    commit('register_success')
+                    return Promise.resolve(response.data)
+                }
+            },
+                err=>{
+                    commit('register_error')
+                    return Promise.reject(err)
+                }
+            )
         }
 
 
     },  
     mutations:{
+          register_success(state){
+            state.status.isLoggedIn = false
+          },
+          register_error(state){
+              state.status.isLoggedIn = false
+          },
           auth_success(state, response){
             state.status.isLoggedIn = true
             state.user = response.data

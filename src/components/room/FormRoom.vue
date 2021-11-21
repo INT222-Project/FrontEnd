@@ -129,7 +129,6 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
-// import RoomDataService from "../service/RoomDataService";
 export default {
   props: {
     old_roomId: { type: Number, require: false, default: 0 },
@@ -179,7 +178,7 @@ export default {
       this.invRtype = false;
       this.invRcharge = false;
       this.invRimg = false;
-      this.$router.push("/");
+      location.reload();
     },
     checkInput() {
       this.invRNo = this.roomNo === "" ? true : false;

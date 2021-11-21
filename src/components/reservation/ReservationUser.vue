@@ -105,7 +105,7 @@
       </div>
     </div>
   </div>
-  <div v-if="this.$store.state.user != 0 || this.$store.state.user.role[0].authority == 'receptionist'" class="flex justify-center p-24 bg-blue-500">
+  <div v-if="this.$store.state.user != 0 && this.$store.state.user.role[0].authority == 'receptionist'" class="flex justify-center p-24 bg-blue-500">
     <section id="not-found">
         <div id="title">Simple Pure CSS3 &bull; 404 Error Page</div>
         <div class="circles">

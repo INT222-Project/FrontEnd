@@ -123,7 +123,6 @@
                   <i class="far fa-trash-alt"></i>
                 </button> 
               </td>
-             
             </tr>
           </tbody>
         </table>

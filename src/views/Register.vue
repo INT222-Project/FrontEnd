@@ -11,78 +11,96 @@
           rounded-lg
           tracking-wide
           shadow-lg
-        "
-      >
-        <form @submit.prevent="register">
+        ">
           <div class="flex justify-center"><h1>Sign up</h1></div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label"
-              ><span class="font-bold">First Name</span></label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="inputFirstname"
-              placeholder="First Name"
-              v-model="first_name"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label"
-              ><span class="font-bold">Last Name</span></label
-            >
-            <input
-              type="text"
-              class="form-control"
-              id="inputLastname"
-              placeholder="Last Name"
-              v-model="last_name"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label"
-              ><span class="font-bold">Email address</span></label
-            >
+          <div class="mb-3 row">
+            <div class="col-sm-6">
+            <label for="exampleFormControlInput1" class="form-label"><span class="font-bold">Email address</span></label>
             <input
               type="email"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="name@example.com"
-              v-model="email"
-            />
-          </div>
-          <div class="mb-3 row">
-            <label for="inputPassword" class="form-label"
-              ><span class="font-bold">Password</span></label
-            >
-
-            <div class="col-sm-12">
+              v-model="email"/>
+            <span v-if="this.invEmail" class="text-red-500 text-sm">
+                    Please type email
+            </span>
+            </div>
+            <div class="col-sm-6">
+            <label for="inputPassword" class="form-label"><span class="font-bold">Password</span></label>
               <input
                 type="password"
                 class="form-control"
                 placeholder="Password"
-                v-model="password"
-              />
-            </div>
+                v-model="password"/>
+             <span v-if="this.invPassword" class="text-red-500 text-sm">
+                    Please type lastname
+            </span>
+          </div>
           </div>
           <div class="mb-3 row">
-            <label for="inputConfirmPassword" class="form-label"
-              ><span class="font-bold">Password Confirm</span></label
-            >
+            <div class="col-sm-6">
+            <label for="exampleFormControlInput1" class="form-label"><span class="font-bold">First Name</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputFirstname"
+              placeholder="First Name"
+              v-model="fname"
+            />
+            <span v-if="this.invFname" class="text-red-500 text-sm">
+                    Please type firstname
+            </span>
+            </div>
+            
+            <div class="col-sm-6">
+            <label for="exampleFormControlInput1" class="form-label"><span class="font-bold">Last Name</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputLastname"
+              placeholder="Last Name"
+              v-model="lname"
+            />
+            <span v-if="this.invLname" class="text-red-500 text-sm">
+                    Please type lastname
+            </span>
+          </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"><span class="font-bold">Telephone</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputLastname"
+              placeholder="Last Name"
+              v-model="telNo"
+            />
+            <span v-if="this.invTelno" class="text-red-500 text-sm">
+                    Please type telephone
+            </span>
+          </div>
+          <div class="mb-3 row">
+            <label for="inputConfirmPassword" class="form-label"><span class="font-bold">Address</span></label>
             <div class="col-sm-12">
               <input
-                type="password"
-                class="form-control"
-                id="inputConfirmPassword"
-                placeholder="Password Confirm"
-                v-model="password_confirm"
-              />
+              type="text"
+              class="form-control"
+              id="inputLastname"
+              placeholder="Last Name"
+              v-model="address"
+            />
+            <span v-if="this.invAddress" class="text-red-500 text-sm">
+                    Please type address
+            </span>
             </div>
           </div>
           <div class="mb-2 row">
-            <button class="btn btn-primary btn-block mb-2">Sign up</button>
+            <div class="col-sm-12 space-x-2">
+            <button class="btn btn-primary btn-block mb-2" @click="register()">Sign up</button>
+            <button class="btn btn-danger btn-block mb-2" @click="cancel()">Cancel</button>
+            </div>
           </div>
-        </form>
       </div>
     </div>
     <div v-if="this.$store.state.user != 0" class="flex justify-center p-24">
@@ -106,34 +124,70 @@
   </div>
 </template>
 <script>
-// import axios from 'axios'
 export default {
   data() {
     return {
-      first_name: "",
-      last_name: "",
+      customerId:"",
+      fname: "",
+      lname: "",
       email: "",
       password: "",
       telNo: "",
       address: "",
+      invFname:false,
+      invLname:false,
+      invEmail:false,
+      invPassword:false,
+      invTelno:false,
+      invAddress:false
     };
   },
   methods: {
+    cancel(){
+      this.customerId = ""
+      this.fname = ""
+      this.lname = ""
+      this.email = ""
+      this.password = ""
+      this.telNo = ""
+      this.address = ""
+      this.$router.push('/login')
+    },
     goHome(){
       this.$router.push('/')
     },
     register() {
-      const data = {
-        fname: this.first_name,
-        lname: this.last_name,
+      this.invFname = this.fname === "" ? true:false; 
+      this.invLname = this.lname === "" ? true:false; 
+      this.invEmail = this.email === "" ? true:false; 
+      this.invPassword = this.password === "" ? true:false;
+      this.invTelno = this.telNo === "" ? true:false;
+      this.invAddress = this.address === "" ? true:false;
+      if(!this.invFname && !this.invLname && !this.invEmail && !this.invPassword && !this.invTelno && !this.invAddress){
+       const data = {
+        customerId:this.customerId,
+        fname: this.fname,
+        lname: this.lname,
         email: this.email,
         password: this.password,
-        telno: this.telNo,
+        telNo: this.telNo,
         address: this.address,
       };
       console.log(data);
+      this.createFormdata(data);
+      }
       // this.$store.dispatch('register',data).then(()=>this.$router.push('/')).catch(err=>console.log(err))
     },
+    createFormdata(obj){
+     const json = JSON.stringify(obj);
+      const blob = new Blob([json], {
+        type: "application/json",
+      });
+      let formData = new FormData();
+      formData.append("newUser", blob);
+      this.$store.dispatch("auth/register", formData);
+      // location.reload()
+    }
   },
 };
 </script>

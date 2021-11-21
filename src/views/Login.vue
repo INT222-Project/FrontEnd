@@ -86,7 +86,7 @@
             </div>
           </div>
 
-          <div class="mb-2 row">
+          <div class="mb-3 row">
             <button class="btn btn-primary btn-block mb-2">Login</button>
           </div>
           <div class="text-center">
