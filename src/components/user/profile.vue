@@ -325,7 +325,7 @@ export default {
       });
       let formData = new FormData();
       formData.append("editReceptionist", blob);
-      this.$store.dispatch("editReceptionist", formData);
+      this.$store.dispatch("editReceptionist",obj.repId,formData);
       // location.reload()
     }
   },
