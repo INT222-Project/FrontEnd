@@ -314,6 +314,7 @@ export default {
         type: "application/json",
       });
       let formData = new FormData();
+      console.log(obj)
       formData.append("editCustomer", blob);
       this.$store.dispatch("editCustomer",obj.customerId,formData);
       // location.reload()
@@ -323,6 +324,7 @@ export default {
       const blob = new Blob([jsonEditProfile], {
         type: "application/json",
       });
+      console.log(obj)
       let formData = new FormData();
       formData.append("editReceptionist", blob);
       this.$store.dispatch("editReceptionist",obj.repId,formData);
