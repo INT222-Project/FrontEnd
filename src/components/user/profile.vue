@@ -7,7 +7,8 @@
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
-                  <img :src="viewImg(this.userData.authenticationUser.repId)" class="rounded-circle" width="150"/>
+                  <img v-if="this.userData.role[0].authority === 'customer'" :src="viewImg(this.userData.authenticationUser.customerId)" class="rounded-circle" width="150"/>
+                  <img v-if="this.userData.role[0].authority === 'receptionist'" :src="viewImg(this.userData.authenticationUser.repId)" class="rounded-circle" width="150"/>
                   <!-- <img
                     src="https://bootdey.com/img/Content/avatar/avatar7.png"
                     alt="Admin"
@@ -242,8 +243,10 @@ export default {
     },
      viewImg(id) {
       if (this.userData.role[0].authority == "receptionist") {
+        console.log(this.$store.state.url + "/api/receptionists/showImage/" + id)
         return this.$store.state.url + "/api/receptionists/showImage/" + id;
       } else if (this.userData.role[0].authority == "customer") {
+        console.log(this.$store.state.url + "/api/customers/showImage/" + id)
         return this.$store.state.url + "/api/customers/showImage/" + id;
       }
     },
