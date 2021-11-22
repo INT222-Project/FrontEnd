@@ -220,10 +220,6 @@ export default createStore({
     },
     editReceptionist(state,data){
        state.receptionist = data
-      // const index = state.receptionist.findIndex(r => r.repId == data.repId);
-      // if(index){
-      //   state.receptionist.repId = state.receptionist.splice(index,data);
-      // }
     },
     setRooms(state, data) {
       state.rooms = data

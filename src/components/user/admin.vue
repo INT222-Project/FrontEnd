@@ -40,11 +40,26 @@
         </div>
         <div class="col-md-2 text-sm-center text-md-start align-self-center my-2"> <a class="btn btn-outline-dark w-100" href="#">Details</a> </div>
         <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
-            <form method="get" action="controller" class="d-flex btn-group"> <input type="hidden" name="command" value="refresh-order-status"> <select name="status" class="btn btn-outline-dark">
-                    <option value="customer" class="form-select-button">Customer</option>
-                    <option value="receptionist" class="form-select-button">Receptionist</option>
-                </select> <input type="submit" class="btn btn-outline-dark" value="OK"> 
-            </form>
+           <p v-if="item.role[0].authority == 'customer' && item.authenticationUser.customerId !== this.editId">{{item.role[0].authority}}</p>
+           <button v-if="item.role[0].authority == 'customer' && this.editForm == false" class="btn btn-success" @click="editBtn(item.authenticationUser.customerId,item.role[0].authority)">
+               <i class="fas fa-edit"></i>
+           </button>
+           <p v-if="item.role[0].authority == 'receptionist' && item.authenticationUser.repId !== this.editId">{{item.role[0].authority}}</p>
+           <button v-if="item.role[0].authority == 'receptionist' && this.editForm == false" class="btn btn-success" @click="editBtn(item.authenticationUser.repId,item.role[0].authority)">
+               <i class="fas fa-edit"></i>
+           </button>
+           <select class="btn btn-outline-dark" v-model="this.newRole" v-if="this.editForm == true && item.role[0].authority == 'customer'  && item.authenticationUser.customerId == editId">
+                <option v-for="role in roles" :key="role" :value="role">
+                    {{role}}
+                </option>
+            </select>
+            <button @click="changeRole(item)" class="btn btn-outline-dark" v-if="this.editForm == true && item.role[0].authority == 'customer'  && item.authenticationUser.customerId == editId">OK</button>  
+            <select class="btn btn-outline-dark" v-model="this.newRole" v-if="this.editForm == true && item.role[0].authority == 'receptionist'  && item.authenticationUser.repId == editId">
+                <option v-for="role in roles" :key="role" :value="role">
+                    {{role}}
+                </option>
+            </select>
+            <button @click="changeRole(item)" class="btn btn-outline-dark" v-if="this.editForm == true && item.role[0].authority == 'receptionist'  && item.authenticationUser.repId == editId">OK</button>  
         </div>
     </div>
 </div>
@@ -55,7 +70,61 @@ import { useStore } from "vuex";
 export default {
     data(){
         return{
-
+            newRole:'',
+            editId:'',
+            editForm:false,
+            roles:['customer','receptionist']
+        }
+    },
+    methods:{
+        editBtn(id,role){
+            this.editForm = !this.editForm
+            this.editId = id 
+            this.newRole = role
+        },
+        changeRole(obj){
+            if(this.newRole == 'receptionist'){
+                if(obj.role[0].authority == 'customer'){
+                    const editRole = {
+                    repId : obj.customerId,
+                    fName : obj.authenticationUser.fName,
+                    lName : obj.authenticationUser.lName,
+                    email : obj.authenticationUser.email,
+                    telNo : obj.authenticationUser.telNo,
+                    address : obj.authenticationUser.address
+                     }
+                     console.log(editRole)
+                     const jsonEditProfile = JSON.stringify(editRole);
+                     const blob = new Blob([jsonEditProfile], {
+                     type: "application/json",
+                     });
+                     let formData = new FormData();
+                     formData.append("newReceptionist", blob);
+                }else if(obj.role[0].authority == 'receptionist'){
+                    this.editForm = !this.editForm
+                    this.editId = ''
+                }
+            }else if(this.newRole == 'customer'){
+                 if(obj.role[0].authority == 'customer'){
+                    this.editForm = !this.editForm
+                    this.editId = ''
+                 }else if(obj.role[0].authority == 'receptionist'){
+                    const editRole = {
+                    customerId : obj.repId,
+                    fname : obj.authenticationUser.fname,
+                    lname : obj.authenticationUser.lname,
+                    email : obj.authenticationUser.email,
+                    telNo : obj.authenticationUser.telNo,
+                    address : obj.authenticationUser.address
+                     }
+                     const jsonEditProfile = JSON.stringify(editRole);
+                     const blob = new Blob([jsonEditProfile], {
+                     type: "application/json",
+                     });
+                     let formData = new FormData();
+                     formData.append("newCustomer", blob);
+                 }
+            }
         }
     },
     setup() {
@@ -64,8 +133,16 @@ export default {
     let users = computed(function () {
       return store.state.users;
     });
+    let customer = computed(function () {
+      return store.state.customer;
+    });
+    let receptionist = computed(function () {
+      return store.state.receptionist;
+    });
     return {
-        users
+        users,
+        customer,
+        receptionist
     }
     },
 }

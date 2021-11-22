@@ -9,7 +9,6 @@ import Home from '../views/Home.vue'
 import RoomDetails from '../components/room/RoomDetails.vue'
 import ReservationStaff from '../components/reservation/ReservationStaff.vue'
 import Profile from '../components/user/Profile.vue'
-import EditProfile from '../components/user/EditProfile.vue'
 import Cart from '../components/cart/Cart.vue'
 import ReservationUser from '../components/reservation/ReservationUser.vue'
 import AddingDeleteEditingPackage from '../components/room/AddingDeleteEditingPackage.vue'
@@ -87,11 +86,6 @@ const routes = [
     path:'/profile',
     name:'profile',
     component: Profile
-  },
-  {
-    path:'/editProfile',
-    name:'EditProfile',
-    component: EditProfile
   },
   {
     path:'/cart',

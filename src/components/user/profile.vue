@@ -179,7 +179,7 @@
                   </div>
                 </div>
                 <hr />
-                <!-- <div v-if="this.editForm == true" class="custom-file row">
+                <div v-if="this.editForm == true" class="custom-file row">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Choose Image</h6>
                   </div>
@@ -187,7 +187,7 @@
                       <img class="rounded mx-auto d-block" v-if="imgSrc" :src="imgSrc" width="150"/>
                       <input type="file" class="form-control" id="customFile" @change="openFile"/>
                   </div>
-                </div> -->
+                </div>
                 <div v-if="this.editForm == false" class="row">
                   <div class="col-sm-12">
                     <button class="btn btn-primary" @click="editBtn()">
@@ -266,6 +266,7 @@ export default {
         this.telNo = this.receptionist.telNo;
         this.address = this.receptionist.address;
         this.password = this.receptionist.password;
+        this.imgSrc = this.$store.state.url +"/api/receptionists/showImage/"+ this.receptionist.repId 
         this.editForm = !this.editForm;
       } else if (this.userData.role[0].authority == "customer") {
         this.id = this.customer.customerId;
@@ -275,11 +276,16 @@ export default {
         this.telNo = this.customer.telNo;
         this.address = this.customer.address;
         this.password = this.customer.password;
+        this.imgSrc = this.$store.state.url +"/api/customers/showImage/"+ this.receptionist.repId 
         this.editForm = !this.editForm;
       }
       console.log(this.id, this.fname, this.lname, this.telNo, this.password);
     },
     editSubmit(){
+      if (this.imgSrc == this.$store.state.url +"/api/customers/showImage/"+ this.receptionist.repId || this.imgSrc == this.$store.state.url +"/api/customers/showImage/"+ this.customer.customerId ) {
+          this.imgSrc = null;
+          this.imgObject = null;
+        }
       if(this.userData.role[0].authority == "customer"){
         const obj = {
             customerId : this.id,
@@ -288,7 +294,9 @@ export default {
             fname : this.fname,
             lname : this.lname,
             telNo : this.telNo,
-            address : this.address
+            address : this.address,
+            src: this.imgSrc,
+            imgObject: this.imgObject,
         }
         this.createEditCustomerProfile(obj)
       }else if(this.userData.role[0].authority == "receptionist"){
@@ -299,30 +307,63 @@ export default {
             fName : this.fname,
             lName : this.lname,
             telNo : this.telNo,
-            address : this.address
+            address : this.address,
+            src: this.imgSrc,
+            imgObject: this.imgObject,
         }
         this.createEditReceptionistProfile(obj)
       }
     },
     createEditCustomerProfile(obj){
-     const jsonEditProfile = JSON.stringify(obj);
+      console.log(obj)
+      const data = {
+            customerId : this.customerId,
+            email : this.email,
+            password : this.password,
+            fname : this.fname,
+            lname : this.lname,
+            telNo : this.telNo,
+            address : this.address,
+            src: this.src,
+        }
+     const jsonEditProfile = JSON.stringify(data);
       const blob = new Blob([jsonEditProfile], {
         type: "application/json",
       });
       let formData = new FormData();
-      console.log(obj)
-      formData.append("editCustomer", blob);
+       if(obj.imgObject != null) {
+          formData.append("image-file", obj.imgObject, obj.imgObject.name);
+          formData.append("editCustomer", blob);
+       }else{
+         formData.append("editCustomer", blob);
+       }
       this.$store.dispatch("editCustomer",formData);
+      this.editForm = !this.editForm
       // location.reload()
     },
     createEditReceptionistProfile(obj){
-     const jsonEditProfile = JSON.stringify(obj);
+       console.log(obj)
+      const data = {
+            repId : this.repId,
+            email : this.email,
+            password : this.password,
+            fName : this.fName,
+            lName : this.lName,
+            telNo : this.telNo,
+            address : this.address,
+            src: this.imgSrc,
+        }
+     const jsonEditProfile = JSON.stringify(data);
       const blob = new Blob([jsonEditProfile], {
         type: "application/json",
       });
-      console.log(obj)
       let formData = new FormData();
-      formData.append("editReceptionist", blob);
+      if(obj.imgObject != null) {
+          formData.append("image-file", obj.imgObject, obj.imgObject.name);
+          formData.append("editReceptionist", blob);
+       }else{
+          formData.append("editReceptionist", blob);
+       }
       this.$store.dispatch("editReceptionist",formData);
       // location.reload()
     }
