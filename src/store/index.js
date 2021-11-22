@@ -74,7 +74,7 @@ export default createStore({
       commit('setAllReservationDetails', response.data);
     },
     async getGetRemaining({commit}){
-      const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom`);
+      const response = await axios.get(`${API_URL}/api/rooms/getRemainingRoom/${this.state.checkIn}/${this.state.checkOut}`);
       commit('setRemaining',response.data);
     },
     async getPackages({ commit }) {

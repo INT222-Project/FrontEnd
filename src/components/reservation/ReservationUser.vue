@@ -161,7 +161,7 @@ export default {
       let formData = new FormData();
       formData.append("editReservation", blob);
       this.$store.dispatch("editReservation", formData);
-      location.reload();
+      // location.reload();
     },
   },
   computed: {
@@ -176,19 +176,14 @@ export default {
     store.dispatch(
       "getReservationByCustomerId"
     );
-    store.dispatch("getUnpaidReservation");
     let reservation = computed(function () {
       return store.state.reservation;
-    });
-    let unpaid = computed(function () {
-      return store.state.unpaid;
     });
     let userData = computed(function () {
       return store.state.user;
     });
     return {
       reservation,
-      unpaid,
       userData
     };
   },
