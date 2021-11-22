@@ -276,6 +276,7 @@ export default {
         const blob = new Blob([jsonNewRoom], {
           type: "application/json",
         });
+        console.log(booking)
         let formData = new FormData();
         formData.append("newReservation", blob);
         this.$store.dispatch("addReservation", formData);

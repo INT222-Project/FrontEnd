@@ -7,13 +7,13 @@
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
-                  <!-- <img :src="viewImg(this.userData.authenticationUser.repId)" class="rounded-circle" width="150"/> -->
-                  <img
+                  <img :src="viewImg(this.userData.authenticationUser.repId)" class="rounded-circle" width="150"/>
+                  <!-- <img
                     src="https://bootdey.com/img/Content/avatar/avatar7.png"
                     alt="Admin"
                     class="rounded-circle"
                     width="150"
-                  />
+                  /> -->
                   <div v-if="this.userData != 0" class="mt-3">
                     <h4 v-if="this.userData.role[0].authority === 'customer'">
                       {{ this.customer.fname }}
@@ -31,10 +31,6 @@
               </div>
             </div>
           </div>
-          <!-- <span v-if="this.userData.role[0].authority =='customer'">{{this.userData.authenticationUser}}
-            {{this.customer}}
-          </span>
-          <span v-if="this.userData.role[0].authority =='receptionist'">{{this.userData.authenticationUser}}</span> -->
           <div class="profile col-md-8">
             <div class="card mb-3">
               <div class="card-body">
@@ -66,7 +62,7 @@
                   <div v-if="this.userData != 0" class="col-sm-9 text-secondary">
                     <span
                       v-if="this.userData.role[0].authority === 'customer'"
-                      >{{ this.customer.fname }}</span>
+                      >{{ this.customer.lname }}</span>
                     <span
                       v-if="this.userData.role[0].authority === 'receptionist'">
                       {{ this.receptionist.lName }}</span>
@@ -289,8 +285,8 @@ export default {
             customerId : this.id,
             email : this.email,
             password : this.password,
-            fName : this.fname,
-            lName : this.lname,
+            fname : this.fname,
+            lname : this.lname,
             telNo : this.telNo,
             address : this.address
         }
@@ -316,7 +312,7 @@ export default {
       let formData = new FormData();
       console.log(obj)
       formData.append("editCustomer", blob);
-      this.$store.dispatch("editCustomer",obj.customerId,formData);
+      this.$store.dispatch("editCustomer",formData);
       // location.reload()
     },
     createEditReceptionistProfile(obj){
@@ -327,7 +323,7 @@ export default {
       console.log(obj)
       let formData = new FormData();
       formData.append("editReceptionist", blob);
-      this.$store.dispatch("editReceptionist",obj.repId,formData);
+      this.$store.dispatch("editReceptionist",formData);
       // location.reload()
     }
   },
@@ -347,7 +343,7 @@ export default {
     return {
       userData,
       customer,
-      receptionist
+      receptionist,
     };
   },
 };
