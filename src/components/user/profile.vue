@@ -317,14 +317,14 @@ export default {
     createEditCustomerProfile(obj){
       console.log(obj)
       const data = {
-            customerId : this.customerId,
-            email : this.email,
-            password : this.password,
-            fname : this.fname,
-            lname : this.lname,
-            telNo : this.telNo,
-            address : this.address,
-            src: this.src,
+            customerId : obj.customerId,
+            email : obj.email,
+            password : obj.password,
+            fname : obj.fname,
+            lname : obj.lname,
+            telNo : obj.telNo,
+            address : obj.address,
+            src: obj.src,
         }
      const jsonEditProfile = JSON.stringify(data);
       const blob = new Blob([jsonEditProfile], {
@@ -344,14 +344,14 @@ export default {
     createEditReceptionistProfile(obj){
        console.log(obj)
       const data = {
-            repId : this.repId,
-            email : this.email,
-            password : this.password,
-            fName : this.fName,
-            lName : this.lName,
-            telNo : this.telNo,
-            address : this.address,
-            src: this.imgSrc,
+            repId : obj.repId,
+            email : obj.email,
+            password : obj.password,
+            fName : obj.fName,
+            lName : obj.lName,
+            telNo : obj.telNo,
+            address : obj.address,
+            src: obj.imgSrc,
         }
      const jsonEditProfile = JSON.stringify(data);
       const blob = new Blob([jsonEditProfile], {
