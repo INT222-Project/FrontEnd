@@ -35,8 +35,8 @@
           <router-link v-if="this.userData == 0" class="nav-link" to="/login">Sign in <i class="fas fa-sign-in-alt"></i></router-link>
           <div v-if="this.userData != 0" class="bg-blue-600 px-2 py-2 text-sm shadow-sm font-medium tracking-wider  rounded-full hover:shadow-sm hover:bg-blue-700 dropdown mb-2 mb-lg-0 pr-20">
              <a href="#" class="no-underline  py-3 px-6 border-white dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <span v-if="this.userData.role[0].authority == 'receptionist'" class="text-white"><i class="far fa-user"></i>  {{ this.userData.authenticationUser.fName}} {{this.userData.authenticationUser.lName}} ({{this.userData.role[0].authority}})</span>
-            <span v-if="this.userData.role[0].authority == 'customer'" class="text-white  "><i class="far fa-user"></i>  {{ this.userData.authenticationUser.fname}} {{this.userData.authenticationUser.lname}} ({{this.userData.role[0].authority}})</span>
+            <span v-if="this.userData.role[0].authority == 'receptionist'" class="text-white"><i class="far fa-user"></i>  {{ this.receptionist.fName}} {{this.receptionist.lName}} ({{this.userData.role[0].authority}})</span>
+            <span v-if="this.userData.role[0].authority == 'customer'" class="text-white  "><i class="far fa-user"></i>  {{ this.customer.fname}} {{this.customer.lname}} ({{this.userData.role[0].authority}})</span>
             <span v-if="this.userData.role[0].authority == 'admin'" class="text-white  "><i class="far fa-user"></i> ({{this.userData.role[0].authority}})</span>
           </a>
           <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
@@ -78,15 +78,21 @@ export default {
   },
    setup() {
     const store = useStore();
-    let user = computed(function () {
-      return store.state.user;
+    store.dispatch("getCustomersById");
+    store.dispatch("getReceptionistsById");
+    let customer = computed(function () {
+      return store.state.customer;
+    });
+    let receptionist = computed(function () {
+      return store.state.receptionist;
     });
     let userData = computed(function () {
       return store.state.user;
     });
     return {
-      user,
-      userData
+      customer,
+      userData,
+      receptionist
     };
   },
 }
