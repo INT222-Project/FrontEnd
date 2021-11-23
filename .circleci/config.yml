@@ -8,7 +8,7 @@ jobs:
       - run: echo "hello world" # run the `echo` command
       - add_ssh_keys: 
           fingerprints: 
-            - "15:a2:44:92:9c:e8:5b:4c:de:8c:ec:c1:ec:19:eb:e8"
+            - "9a:01:60:5e:e9:3a:5c:5c:7e:67:10:c8:c2:37:fe:1f"
       - run: 
           name: Get inside VM
           command: sudo ssh -o StrictHostKeyChecking=no int222@52.163.87.230
