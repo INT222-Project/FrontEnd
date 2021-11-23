@@ -11,4 +11,6 @@ jobs:
             - "9a:01:60:5e:e9:3a:5c:5c:7e:67:10:c8:c2:37:fe:1f"
       - run: 
           name: Get inside VM
-          command: ssh -o StrictHostKeyChecking=yes int222@52.163.87.230
+          command: |
+                   ssh int222@52.163.87.230;
+                   yes;
