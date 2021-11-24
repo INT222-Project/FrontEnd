@@ -12,6 +12,7 @@
           tracking-wide
           shadow-lg
         ">
+        <form @submit.prevent="register()">
           <div class="flex justify-center"><h1>Sign up</h1></div>
           <div class="mb-3 row">
             <div class="col-sm-6">
@@ -21,7 +22,8 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="name@example.com"
-              v-model="email"/>
+              v-model.trim="email"
+              required/>
             <span v-if="this.invEmail" class="text-red-500 text-sm">
                     Please type email
             </span>
@@ -32,9 +34,9 @@
                 type="password"
                 class="form-control"
                 placeholder="Password"
-                v-model="password"/>
+                v-model.trim="password"/>
              <span v-if="this.invPassword" class="text-red-500 text-sm">
-                    Please type lastname
+                    Please type password
             </span>
           </div>
           </div>
@@ -46,7 +48,7 @@
               class="form-control"
               id="inputFirstname"
               placeholder="First Name"
-              v-model="fname"
+              v-model.trim="fname"
             />
             <span v-if="this.invFname" class="text-red-500 text-sm">
                     Please type firstname
@@ -60,7 +62,7 @@
               class="form-control"
               id="inputLastname"
               placeholder="Last Name"
-              v-model="lname"
+              v-model.trim="lname"
             />
             <span v-if="this.invLname" class="text-red-500 text-sm">
                     Please type lastname
@@ -74,7 +76,7 @@
               class="form-control"
               placeholder="123-456-7891" 
               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              v-model="telNo"
+              v-model.trim="telNo"
             />
             <span v-if="this.invTelno" class="text-red-500 text-sm">
                     Please type telephone
@@ -96,10 +98,11 @@
           </div>
           <div class="mb-2 row">
             <div class="col-sm-12 space-x-2">
-            <button class="btn btn-primary btn-block mb-2" @click="register()">Sign up</button>
+            <button class="btn btn-primary btn-block mb-2">Sign up</button>
             <button class="btn btn-danger btn-block mb-2" @click="cancel()">Cancel</button>
             </div>
           </div>
+          </form>
       </div>
     </div>
     <div v-if="this.$store.state.user != 0" class="flex justify-center p-24">
@@ -138,7 +141,7 @@ export default {
       invEmail:false,
       invPassword:false,
       invTelno:false,
-      invAddress:false
+      invAddress:false,
     };
   },
   methods: {
@@ -177,6 +180,7 @@ export default {
       }
     },
     createFormdata(obj){
+      console.log(obj)
      const json = JSON.stringify(obj);
       const blob = new Blob([json], {
         type: "application/json",
@@ -184,7 +188,7 @@ export default {
       let formData = new FormData();
       formData.append("newUser", blob);
       // this.$store.state.showLoading = true;
-      setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)}).catch(err=>console.log(err))
+      setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)})
     }
   },
 };
