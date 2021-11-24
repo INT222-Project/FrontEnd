@@ -22,6 +22,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="name@example.com"
+              title="name@example.com"
               v-model.trim="email"
               required/>
             <span v-if="this.invEmail" class="text-red-500 text-sm">
@@ -29,11 +30,15 @@
             </span>
             </div>
             <div class="col-sm-6">
+              <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
+                <!-- title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"  -->
             <label for="inputPassword" class="form-label"><span class="font-bold">Password</span></label>
               <input
                 type="password"
                 class="form-control"
                 placeholder="Password"
+          
+                required
                 v-model.trim="password"/>
              <span v-if="this.invPassword" class="text-red-500 text-sm">
                     Please type password
@@ -167,7 +172,6 @@ export default {
       this.invAddress = this.address === "" ? true:false;
       if(!this.invFname && !this.invLname && !this.invEmail && !this.invPassword && !this.invTelno && !this.invAddress){
        const data = {
-        customerId:this.customerId,
         fname: this.fname,
         lname: this.lname,
         email: this.email,
