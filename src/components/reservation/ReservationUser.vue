@@ -161,7 +161,7 @@ export default {
       let formData = new FormData();
       formData.append("editReservation", blob);
       this.$store.dispatch("editReservation", formData);
-      // location.reload();
+      location.reload();
     },
   },
   computed: {

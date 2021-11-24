@@ -70,10 +70,10 @@
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label"><span class="font-bold">Telephone</span></label>
             <input
-              type="text"
+              type="number"
               class="form-control"
-              id="inputLastname"
-              placeholder="Last Name"
+              placeholder="123-456-7891" 
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
               v-model="telNo"
             />
             <span v-if="this.invTelno" class="text-red-500 text-sm">
@@ -86,8 +86,7 @@
               <input
               type="text"
               class="form-control"
-              id="inputLastname"
-              placeholder="Last Name"
+              placeholder="address"
               v-model="address"
             />
             <span v-if="this.invAddress" class="text-red-500 text-sm">
@@ -184,7 +183,7 @@ export default {
       });
       let formData = new FormData();
       formData.append("newUser", blob);
-      this.$store.state.showLoading = true;
+      // this.$store.state.showLoading = true;
       setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)}).catch(err=>console.log(err))
     }
   },

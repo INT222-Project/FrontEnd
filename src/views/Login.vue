@@ -79,6 +79,7 @@
                 type="password"
                 class="form-control"
                 v-model.trim="password"
+                placeholder="password"
                 id="inputPassword"
               />
               <div class="error" v-if="errors.password">{{errors.password}}</div>

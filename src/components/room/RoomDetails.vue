@@ -6,13 +6,6 @@
           <div class="col-md-6 border-end">
             <div class="d-flex flex-column justify-content-center">
               <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div>
-              <!-- <div class="main_image">
-                <img
-                  src="https://i.imgur.com/TAzli1U.jpg"
-                  id="main_product_image"
-                  width="350"
-                />
-              </div> -->
             </div>
           </div>
           <div class="col-md-6">
@@ -40,7 +33,7 @@
                     <button v-if="getRemainingRoom(rTypeById.roomTypeId,req.bedType) == true"
                     class="btn btn-outline-primary"
                     @click="bookNow(req.roomId)" disabled
-                    >Book Now</button>
+                    >Sorry the room is full now</button>
                     <button v-if="getRemainingRoom(rTypeById.roomTypeId,req.bedType) == false"
                     class="btn btn-outline-primary"
                     @click="bookNow(req.roomId)"
@@ -73,7 +66,7 @@ export default {
     },
     getRemainingRoom(roomTypeId, bedType){
       let array = this.remainingRoom.filter((row)=> row.roomTypeId == roomTypeId && row.bedType == bedType);
-      console.log("room type id : " + roomTypeId + ", bed type : " + bedType + ", count : " + array[0].count);
+      // console.log("room type id : " + roomTypeId + ", bed type : " + bedType + ", count : " + array[0].count);
       if(array[0].count == 0){ return true;}
       else{return false;}
     }

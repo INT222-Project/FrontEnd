@@ -9,12 +9,6 @@
                 <div class="d-flex flex-column align-items-center text-center">
                   <img v-if="this.userData.role[0].authority === 'customer'" :src="viewImg(this.userData.authenticationUser.customerId)" class="rounded-circle" width="150"/>
                   <img v-if="this.userData.role[0].authority === 'receptionist'" :src="viewImg(this.userData.authenticationUser.repId)" class="rounded-circle" width="150"/>
-                  <!-- <img
-                    src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                    alt="Admin"
-                    class="rounded-circle"
-                    width="150"
-                  /> -->
                   <div v-if="this.userData != 0" class="mt-3">
                     <h4 v-if="this.userData.role[0].authority === 'customer'">
                       {{ this.customer.fname }}
