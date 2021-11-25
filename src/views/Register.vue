@@ -30,14 +30,13 @@
             </span>
             </div>
             <div class="col-sm-6">
-              <!-- pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" -->
-                <!-- title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"  -->
             <label for="inputPassword" class="form-label"><span class="font-bold">Password</span></label>
               <input
                 type="password"
                 class="form-control"
                 placeholder="Password"
-          
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
                 required
                 v-model.trim="password"/>
              <span v-if="this.invPassword" class="text-red-500 text-sm">

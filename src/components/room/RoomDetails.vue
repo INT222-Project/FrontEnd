@@ -33,7 +33,7 @@
                     <button v-if="getRemainingRoom(rTypeById.roomTypeId,req.bedType) == true"
                     class="btn btn-outline-primary"
                     @click="bookNow(req.roomId)" disabled
-                    >Sorry the room is full now</button>
+                    >room is full now</button>
                     <button v-if="getRemainingRoom(rTypeById.roomTypeId,req.bedType) == false"
                     class="btn btn-outline-primary"
                     @click="bookNow(req.roomId)"
