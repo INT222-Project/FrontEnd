@@ -65,9 +65,21 @@ export default {
       this.$router.push("/");
     },
     getRemainingRoom(roomTypeId, bedType){
-      let array = this.remainingRoom.filter((row)=> row.roomTypeId == roomTypeId && row.bedType == bedType);
-      // console.log("room type id : " + roomTypeId + ", bed type : " + bedType + ", count : " + array[0].count);
-      if(array[0].count == 0){ return true;}
+      let isFull = null;
+      if(this.remainingRoom.length != 0){
+        for(let i = 0 ; i < this.remainingRoom.length ; i++){
+          // console.log(this.remainingRoom[i]);
+          // console.log("room type id : " + roomTypeId + ", bed type : " + bedType);
+          if(this.remainingRoom[i].roomTypeId == roomTypeId && this.remainingRoom[i].bedType == bedType && this.remainingRoom[i].count == 0) {
+            isFull = true;
+            break;
+          }
+          else{ isFull = false}
+        }
+      }
+      // let array = this.remainingRoom.filter((row)=> row.roomTypeId == roomTypeId && row.bedType == bedType);
+      // console.log("room type id : " + roomTypeId + ", bed type : " + bedType);
+      if(isFull == true){ return true;}
       else{return false;}
     }
     ,
