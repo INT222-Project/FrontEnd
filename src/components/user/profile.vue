@@ -38,6 +38,7 @@
                     <span v-if="this.userData.role[0].authority === 'receptionist'">{{ this.receptionist.fName }}</span>
                   </div>
                 </div>
+                <form @submit.prevent="editSubmit()"> 
                 <div v-if="this.editForm == true" class="row">
                   <div class="col-sm-3">
                     <h6 class="mb-0">First Name</h6>
@@ -48,6 +49,9 @@
                         v-model="this.fname"
                         class="form-control"/>
                   </div>
+                    <span v-if="this.invFname" class="text-red-500 text-sm">
+                       Please type your first name
+                    </span>
                 </div>
                 <hr />
                 <div v-if="this.editForm == false" class="row">
@@ -74,6 +78,9 @@
                       class="form-control"
                     />
                   </div>
+                  <span v-if="this.invLname" class="text-red-500 text-sm">
+                       Please type your last name
+                  </span>
                 </div>
                 <hr />
                 <div v-if="this.editForm == false" class="row">
@@ -100,6 +107,9 @@
                       class="form-control"
                     />
                   </div>
+                  <span v-if="this.invEmail" class="text-red-500 text-sm">
+                       Please type your email
+                  </span>
                 </div>
                 <hr />
                 <div v-if="this.editForm == false" class="row">
@@ -121,8 +131,13 @@
                     <input
                       type="text"
                       v-model="this.password"
+                      pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                      title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
                       class="form-control"/>
                   </div>
+                  <span v-if="this.invPassword" class="text-red-500 text-sm">
+                       Please type password cant be null
+                  </span>
                 </div>
                 <hr />
                 <div v-if="this.editForm == false" class="row">
@@ -148,6 +163,9 @@
                       v-model="this.telNo"
                       class="form-control"/>
                   </div>
+                  <span v-if="this.invTelno" class="text-red-500 text-sm">
+                       Please type your phone number 
+                  </span>
                 </div>
                 <hr />
                 <div v-if="this.editForm == false" class="row">
@@ -172,6 +190,9 @@
                       class="form-control"
                     />
                   </div>
+                  <span v-if="this.invAddress" class="text-red-500 text-sm">
+                       Please type address
+                  </span>
                 </div>
                 <hr />
                 <div v-if="this.editForm == true" class="custom-file row">
@@ -192,7 +213,7 @@
                 </div>
                 <div v-if="this.editForm == true" class="row">
                   <div class="col-sm-12 space-x-2">
-                    <button class="btn btn-success" @click="editSubmit()">
+                    <button class="btn btn-success">
                       Confirm
                     </button>
                     <button class="btn btn-danger" @click="cancel()">
@@ -200,6 +221,7 @@
                     </button>
                   </div>
                 </div>
+                </form>
               </div>
             </div>
           </div>
@@ -221,10 +243,12 @@ export default {
       telNo: "",
       address: "",
       password: "",
-      invFname: false,
-      invLname: false,
-      invTelNo: false,
-      invAddress: false,
+      invFname:false,
+      invLname:false,
+      invEmail:false,
+      invPassword:false,
+      invTelno:false,
+      invAddress:false,
       imgSrc: null,
       imgObject: null,
     };
@@ -279,6 +303,13 @@ export default {
       console.log(this.id, this.fname, this.lname, this.telNo, this.password);
     },
     editSubmit(){
+      this.invFname = this.fname === "" ? true:false; 
+      this.invLname = this.lname === "" ? true:false; 
+      this.invEmail = this.email === "" ? true:false; 
+      this.invPassword = this.password === "" ? true:false;
+      this.invTelno = this.telNo === "" ? true:false;
+      this.invAddress = this.address === "" ? true:false;
+      if(!this.invFname && !this.invLname && !this.invEmail && !this.invPassword && !this.invAddress && !this.invTelno){
       if (this.imgSrc == this.$store.state.url +"/api/customers/showImage/"+ this.receptionist.repId || this.imgSrc == this.$store.state.url +"/api/customers/showImage/"+ this.customer.customerId ) {
           this.imgSrc = null;
           this.imgObject = null;
@@ -309,6 +340,7 @@ export default {
             imgObject: this.imgObject,
         }
         this.createEditReceptionistProfile(obj)
+      }
       }
     },
     createEditCustomerProfile(obj){
