@@ -1,7 +1,7 @@
 <template>
   <div v-if="this.$store.state.user != 0 && this.$store.state.user.role[0].authority == 'customer' || this.$store.state.user.role[0].authority == 'admin'" class="container h-auto mt-5 pb-12 px-2 pt-12 mb-20">
     <h1>Reservation History</h1>
-    <div class="row height d-flex justify-content-center align-items-center mb-4">
+    <div class="row height d-flex justify-content-center align-items-center mb-2">
       <div class="col-md-12">
         <div class="search">
           <i class="fa fa-search"></i>
@@ -65,12 +65,14 @@
                 v-for="reservationDetail in item.reservationDetailList"
                 :key="reservationDetail.reservDetailId"
               >
+              <p>
+              <span class="font-bold">ReservationDetail </span>:
+              {{reservationDetail.reservDetailId}}
+              </p>
                 <p>
                   <span class="font-bold">roomType : </span>
-                  <!-- {{ reservationDetail.reservDetailId }}  -->
                   {{ reservationDetail.room.roomType.name }}
                   {{ reservationDetail.room.bedType }}
-                  {{ reservationDetail.status }}
                 </p>
                 <p>
                   <span class="font-bold">Package detail : </span>
@@ -78,17 +80,60 @@
                     v-for="p in reservationDetail.packageDetailList"
                     :key="p.packageDetailId"
                   >
-                    {{ p.packageId.name + " " }}
+                    {{ p.packageId.name + ", " }}
                   </span>
                 </p>
+              <div v-if="this.editForm == true && this.editId == reservationDetail.reservDetailId" class="col-sm-12">
+              <span class="form-label">Packages (extra charge)</span>
+              <div class="row pl-4">
+                <div
+                  class="form-check col-sm-6"
+                  v-for="p in packages"
+                  :key="p.packageId"
+                >
+                  <input
+                    v-if="checkPackage(p.packageId)"
+                    class="showSelectedPackage"
+                    type="checkbox"
+                    :value="p"
+                    :checked="true"
+                  />
+                  <input
+                    v-if="!checkPackage(p.packageId)"
+                    class="form-check-input"
+                    type="checkbox"
+                    :value="p"
+                    v-model="selectedPackages"
+                  />
+                  
+                  <label class="form-check-label">
+                    {{ p.name }} ({{ p.packageCharge }}฿)
+                  </label>
+                  </div>
+                </div>
+               </div>
+                <button v-if="this.editForm == false" class="btn btn-success" @click="editBtn(reservationDetail.packageDetailList,reservationDetail.reservDetailId)">
+                  Edit Package <i class="fas fa-edit"></i>
+                </button>
+                <div class="space-x-2">
+                <button v-if="this.editForm == true && this.editId == reservationDetail.reservDetailId" class="btn btn-success" @click="comfirmEdit()">Submit</button>
+                <button v-if="this.editForm == true && this.editId == reservationDetail.reservDetailId" class="btn btn-danger" @click="cancelEdit()">cancel</button>
+                </div>
                 <p>
-                  {{ reservationDetail.checkInDate }} {{ reservationDetail.checkOutDate }}
-                  </p>
+                  <span class="font-bold">Check In : </span>{{ reservationDetail.checkInDate }}
+                </p>
+                <p>
+                  <span class="font-bold">Check Out :</span>{{ reservationDetail.checkOutDate }}
+                </p>
+                <hr/>
               </div>
             </div>
-            <div v-if="item.status == 'unpaid'">
+            <div v-if="item.status == 'unpaid'" class="space-x-2">
               <button class="btn btn-primary" @click="confirmPayment(item)">
                 Upload Payment
+              </button>
+              <button class="btn btn-danger" @click="cancelPayment(item)">
+                Cancel
               </button>
             </div>
             <div v-if="item.status == 'paid'">
@@ -130,11 +175,99 @@ import { useStore } from "vuex";
 export default {
   data() {
     return {
+      editForm:false,
+      selectedPackages:[],
+      tempItemPackages:[],
+      editId:"",
       search: "",
-      customer: this.userData.authenticationUser
+      customer: this.userData.authenticationUser,
+      invalidPackage:false
     };
   },
   methods: {
+    cancelEdit(){
+      this.editForm = !this.editForm
+    },
+    editBtn(packageList,reservDetailId){
+      this.editForm = !this.editForm
+      this.editId = reservDetailId
+      this.selectedPackages = packageList
+      console.log(this.selectedPackages)
+    },
+     checkPackage(packageId) {
+      let count = 0;
+      let tempItem = null;
+      for (let i = 0; i < this.selectedPackages.length; i++) {
+        if (this.selectedPackages[i].packageId.packageId == packageId) {
+          tempItem = this.selectedPackages[i].packageId;
+          count++;
+        }
+      }
+      if (count > 0) {
+        if(!this.tempItemPackages.includes(tempItem)){
+          console.log("temp item : "+tempItem);
+          this.tempItemPackages.push(tempItem);
+        }
+        return true;
+      } else{
+        return false;
+      }
+    },
+    comfirmEdit(){
+      if(this.selectedPackages != null) {
+        let btn = document.getElementsByClassName("showSelectedPackage");
+        let hasChange = false;
+        let changeOldPackages = [];
+        let indexOfTrue = [];
+        console.log(this.selectedPackages);
+        for (let zq = 0; zq < btn.length; zq++) {
+          console.log(zq + " : " + btn.item(zq).checked);
+          changeOldPackages.push(btn.item(zq).checked);
+          if (btn.item(zq).checked == false) {
+            hasChange = true;
+          }
+        }
+        console.log(changeOldPackages);
+        if (hasChange == false) {
+          if (this.selectedPackages.length == 0) {
+            this.selectedPackages = null;
+              this.invalidPackage = false;
+            } else {
+              for (let i = 0; i < this.tempItemPackages.length; i++) {
+                this.selectedPackages.push(this.tempItemPackages[i]);
+              }
+              this.invalidPackage = false;
+            }
+          }
+        else {
+          /* check which one want */
+          for (let e = 0; e < changeOldPackages.length; e++) {
+            if (changeOldPackages[e] == true) {
+              indexOfTrue.push(e);
+            }
+          }
+          /* check that which item still remaining checked */
+          console.log(changeOldPackages);
+          console.log(indexOfTrue);
+          console.log(this.selectedPackages);
+          if (indexOfTrue.length != 0) {
+            /* set old color that was change */
+            for (let i = 0; i < indexOfTrue.length; i++) {
+              this.selectedPackages.push(this.tempItemPackages[indexOfTrue[i]]);
+            }
+            this.invalidPackage = false;
+          } else {
+            if (this.selectedPackages.length == 0) {
+              this.invalidPackage = true
+              return;
+            } else {
+              this.invalidPackage = false;
+              console.log("Lastest progress : " + this.selectedPackages);
+            }
+          }
+        }
+      }
+    },
     backToHome(){
       this.$router.push('/')
     },
@@ -176,15 +309,20 @@ export default {
     store.dispatch(
       "getReservationByCustomerId"
     );
+    store.dispatch("getPackages");
     let reservation = computed(function () {
       return store.state.reservation;
+    });
+    let packages = computed(function () {
+      return store.state.package;
     });
     let userData = computed(function () {
       return store.state.user;
     });
     return {
       reservation,
-      userData
+      userData,
+      packages
     };
   },
 };
