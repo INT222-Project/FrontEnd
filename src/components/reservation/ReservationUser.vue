@@ -305,7 +305,7 @@ export default {
       formData.append("reservNo", this.reserveId);
       formData.append("reservationDetailId", this.editId);
       this.$store.dispatch("editCustomerPackage",formData);
-      // location.reload();
+      location.reload();
     },
     backToHome(){
       this.$router.push('/')

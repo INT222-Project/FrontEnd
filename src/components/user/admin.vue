@@ -5,7 +5,7 @@
         <div class="col-2 text-sm-center text-md-start align-self-center">
             <h1 class="h5 fw-bold">User ID</h1>
         </div>
-        <div class="col-2 align-self-center">
+        <div class="col-3 align-self-center">
             <h1 class="h5 fw-bold">Email</h1>
         </div>
         <div class="col-2 align-self-center">
@@ -21,10 +21,16 @@
             <h1 class="h5 fw-bold">Role</h1>
         </div>
     </div>
-    <div v-for="(item,index) in users" :key="index"  class="d-md-flex d-sm-block justify-content-md-between justify-content-sm-center text-center border-bottom border-2 my-2 bg-light p-2 rounded-3">
+    <div v-for="(item,index) in users" :key="index"  class="d-md-flex d-sm-block justify-content-md-between justify-content-sm-center text-center border-bottom border-2 my-2 bg-light p-6 rounded-3">
         <div class="col-md-1 text-sm-center text-md-start align-self-center my-2">
-            <h1 v-if="item.role[0].authority == 'customer'" class="h6">{{item.authenticationUser.customerId}}</h1>
-            <h1 v-if="item.role[0].authority == 'receptionist'" class="h6">{{item.authenticationUser.repId}}</h1>
+            <h1 v-if="item.role[0].authority == 'customer'" class="h6">
+                {{item.authenticationUser.customerId}}</h1>
+            <h1 v-if="item.role[0].authority == 'receptionist'" class="h6">
+                {{item.authenticationUser.repId}}</h1>
+        </div>
+         <div class="col-md-1 text-sm-center text-md-start align-self-center my-2">
+             <img v-if="item.role[0].authority == 'customer'" :src="viewImg(item.authenticationUser.customerId)" class="rounded-circle" width="30"/>
+             <img v-if="item.role[0].authority == 'receptionist'" :src="viewImg(item.authenticationUser.repId)" class="rounded-circle" width="30"/>
         </div>
         <div class="col-md-3 text-sm-center text-md-start align-self-center my-2">
             <h1  class="h6">{{item.authenticationUser.email}}</h1>
@@ -41,15 +47,23 @@
              <h1 v-if="item.role[0].authority == 'customer'" class="h6">{{item.authenticationUser.telNo}}</h1>
             <h1 v-if="item.role[0].authority == 'receptionist'" class="h6">{{item.authenticationUser.telNo}}</h1>
         </div>
-        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+        <div class="col-md-1 text-sm-center text-md-start align-self-center my-2">
            <p v-if="item.role[0].authority == 'customer' && item.authenticationUser.customerId !== this.editId">{{item.role[0].authority}}</p>
+           <div class="space-x-2">
            <button v-if="item.role[0].authority == 'customer' && this.editForm == false" class="btn btn-success" @click="editBtn(item.authenticationUser.customerId,item.role[0].authority)">
                <i class="fas fa-edit"></i>
+           </button>
+           <button v-if="item.role[0].authority == 'customer' && this.editForm == false" class="btn btn-danger" @click="deleteUser(item.authenticationUser.customerId,item.role[0].authority)">
+               <i class="far fa-trash-alt"></i>
            </button>
            <p v-if="item.role[0].authority == 'receptionist' && item.authenticationUser.repId !== this.editId">{{item.role[0].authority}}</p>
            <button v-if="item.role[0].authority == 'receptionist' && this.editForm == false" class="btn btn-success" @click="editBtn(item.authenticationUser.repId,item.role[0].authority)">
                <i class="fas fa-edit"></i>
            </button>
+           <button v-if="item.role[0].authority == 'receptionist' && this.editForm == false" class="btn btn-danger" @click="deleteUser(item.authenticationUser.repId,item.role[0].authority)">
+               <i class="far fa-trash-alt"></i>
+           </button>
+           </div>
            <select class="btn btn-outline-dark" v-model="this.newRole" v-if="this.editForm == true && item.role[0].authority == 'customer'  && item.authenticationUser.customerId == editId">
                 <option v-for="role in roles" :key="role" :value="role">
                     {{role}}
@@ -79,6 +93,22 @@ export default {
         }
     },
     methods:{
+        viewImg(id){
+            return this.$store.state.url + "/api/receptionists/showImage/" + id;
+        },
+        deleteUser(id,role){
+            let response = confirm(`Are you want to delete this ${role} ${id}`)
+            if(response){
+                if(role == 'receptionist')
+                {
+                    this.$store.dispatch('deleteReceptionist',id).then(this.location.reload())
+                }
+                if(role == 'customer')
+                {
+                    this.$store.dispatch('deleteCustomer',id).then(this.location.reload())
+                }
+            }
+        },
         editBtn(id,role){
             this.editForm = !this.editForm
             this.editId = id 
@@ -88,9 +118,10 @@ export default {
             if(this.newRole == 'receptionist'){
                 if(obj.role[0].authority == 'customer'){
                     const editRole = {
-                    repId : obj.customerId,
-                    fName : obj.authenticationUser.fName,
-                    lName : obj.authenticationUser.lName,
+                    customerId : obj.authenticationUser.customerId,
+                    password:obj.authenticationUser.password,
+                    fName : obj.authenticationUser.fname,
+                    lName : obj.authenticationUser.lname,
                     email : obj.authenticationUser.email,
                     telNo : obj.authenticationUser.telNo,
                     address : obj.authenticationUser.address
@@ -112,13 +143,14 @@ export default {
                     this.editId = ''
                  }else if(obj.role[0].authority == 'receptionist'){
                     const editRole = {
-                    customerId : obj.repId,
-                    fname : obj.authenticationUser.fname,
-                    lname : obj.authenticationUser.lname,
+                    repId : obj.authenticationUser.repId,
+                    fname : obj.authenticationUser.fName,
+                    lname : obj.authenticationUser.lName,
                     email : obj.authenticationUser.email,
                     telNo : obj.authenticationUser.telNo,
                     address : obj.authenticationUser.address
                      }
+                     console.log(editRole)
                      const jsonEditProfile = JSON.stringify(editRole);
                      const blob = new Blob([jsonEditProfile], {
                      type: "application/json",
