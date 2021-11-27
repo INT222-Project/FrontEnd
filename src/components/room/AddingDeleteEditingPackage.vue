@@ -18,7 +18,7 @@
             <label class="form-label font-bold">Package Name</label>
             <input
               type="text"
-              v-model="pName"
+              v-model.trim="pName"
               class="form-control"
               placeholder="example service"
             />
@@ -30,7 +30,7 @@
             <label class="form-label font-bold">Package Charge</label>
             <input
               type="number"
-              v-model="pCharge"
+              v-model.trim="pCharge"
               class="form-control"
             />
             <div v-if="this.invCharge == true" class="text-red-500 text-sm pt-2">
@@ -42,7 +42,7 @@
             <textarea
               class="form-control"
               id="exampleFormControlTextarea1"
-              v-model="pDescription"
+              v-model.trim="pDescription"
               rows="3"
             ></textarea>
             <div v-if="this.invDes == true" class="text-red-500 text-sm pt-2">
@@ -60,7 +60,7 @@
           >
           <p><span class="font-bold">Package Name:</span><span> <input
               type="text"
-              v-model="pName"
+              v-model.trim="pName"
               class="form-control"
               placeholder="example service"
             /></span></p>
@@ -70,7 +70,7 @@
           <p><span class="font-bold"> Description:</span><span> 
               <input
               type="text"
-              v-model="pDescription"
+              v-model.trim="pDescription"
               class="form-control"
               placeholder="example service"
             /></span></p>
@@ -79,7 +79,7 @@
             </p>
           <p><span class="font-bold"> Package Charge: </span><span><input
               type="text"
-              v-model="pCharge"
+              v-model.trim="pCharge"
               class="form-control"
               placeholder="example service"
             /></span></p>
@@ -205,7 +205,7 @@ export default {
         if(this.invName == false){
         for(let i = 0; i<this.packages.length ;i++){
           if(this.packages[i].name == this.pName){
-          this.invName = false
+          this.invName = true
           break;
           }
         }

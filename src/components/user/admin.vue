@@ -8,29 +8,39 @@
         <div class="col-2 align-self-center">
             <h1 class="h5 fw-bold">Email</h1>
         </div>
-        <div class="col-3 align-self-center">
+        <div class="col-2 align-self-center">
             <h1 class="h5 fw-bold">Customer</h1>
         </div>
         <div class="col-2 align-self-center">
-            <h1 class="h5 fw-bold">Show details</h1>
+            <h1 class="h5 fw-bold">Address</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">Tel no</h1>
         </div>
         <div class="col-2 align-self-center">
             <h1 class="h5 fw-bold">Role</h1>
         </div>
     </div>
     <div v-for="(item,index) in users" :key="index"  class="d-md-flex d-sm-block justify-content-md-between justify-content-sm-center text-center border-bottom border-2 my-2 bg-light p-2 rounded-3">
-        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+        <div class="col-md-1 text-sm-center text-md-start align-self-center my-2">
             <h1 v-if="item.role[0].authority == 'customer'" class="h6">{{item.authenticationUser.customerId}}</h1>
             <h1 v-if="item.role[0].authority == 'receptionist'" class="h6">{{item.authenticationUser.repId}}</h1>
         </div>
-        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+        <div class="col-md-3 text-sm-center text-md-start align-self-center my-2">
             <h1  class="h6">{{item.authenticationUser.email}}</h1>
         </div>
-        <div class="col-md-3 text-sm-center text-md-start align-self-center my-2">
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
             <h1 v-if="item.role[0].authority == 'customer'" class="h6">{{item.authenticationUser.fname}} {{item.authenticationUser.lname}}</h1>
             <h1 v-if="item.role[0].authority == 'receptionist'" class="h6">{{item.authenticationUser.fName}} {{item.authenticationUser.lName}}</h1>
         </div>
-        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2"> <a class="btn btn-outline-dark w-100" href="#">Details</a> </div>
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+             <h1 v-if="item.role[0].authority == 'customer'" class="h6">{{item.authenticationUser.address}}</h1>
+            <h1 v-if="item.role[0].authority == 'receptionist'" class="h6">{{item.authenticationUser.address}}</h1>
+        </div>
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+             <h1 v-if="item.role[0].authority == 'customer'" class="h6">{{item.authenticationUser.telNo}}</h1>
+            <h1 v-if="item.role[0].authority == 'receptionist'" class="h6">{{item.authenticationUser.telNo}}</h1>
+        </div>
         <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
            <p v-if="item.role[0].authority == 'customer' && item.authenticationUser.customerId !== this.editId">{{item.role[0].authority}}</p>
            <button v-if="item.role[0].authority == 'customer' && this.editForm == false" class="btn btn-success" @click="editBtn(item.authenticationUser.customerId,item.role[0].authority)">

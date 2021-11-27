@@ -18,7 +18,7 @@
             <label class="form-label font-bold">Roomtype</label>
             <input
               type="text"
-              v-model="rName"
+              v-model.trim="rName"
               class="form-control"
               placeholder="example type"
             />
@@ -40,7 +40,7 @@
             <label class="form-label font-bold">Room Size</label>
             <input
               type="text"
-              v-model="rSize"
+              v-model.trim="rSize"
               class="form-control"
               placeholder="25 squre meter"
             />
@@ -53,7 +53,7 @@
             <textarea
               class="form-control"
               id="exampleFormControlTextarea1"
-              v-model="rDescription"
+              v-model.trim="rDescription"
               rows="3"
             ></textarea>
             <div v-if="this.invDes == true" class="text-red-500 text-sm pt-2">
@@ -77,7 +77,7 @@
             ><span>
               <input
                 type="text"
-                v-model="rName"
+                v-model.trim="rName"
                 class="form-control"
                 placeholder="example service"
             /></span>
@@ -87,7 +87,7 @@
             ><span>
               <input
                 type="text"
-                v-model="rDescription"
+                v-model.trim="rDescription"
                 class="form-control"
                 placeholder="example service"
             /></span>
@@ -97,7 +97,7 @@
             ><span
               ><input
                 type="text"
-                v-model="rMaxrest"
+                v-model.trim="rMaxrest"
                 class="form-control"
                 placeholder="example service"
             /></span>
@@ -107,7 +107,7 @@
             ><span
               ><input
                 type="text"
-                v-model="rSize"
+                v-model.trim="rSize"
                 class="form-control"
                 placeholder="example service"
             /></span>
