@@ -15,4 +15,5 @@ jobs:
                    "ls -la ;"
       - run:
           name: docker-compose section
-          command: chmod +x ./FrontEnd/script.sh ; ./FrontEnd/script.sh
+          command: "chmod +x ./FrontEnd/script.sh ; ./FrontEnd/script.sh ;"
+          
