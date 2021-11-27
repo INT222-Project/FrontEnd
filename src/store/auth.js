@@ -16,18 +16,21 @@ export const auth = {
             response => {
                 console.log(response)
                 if(response.status == 400){
-                    console.log('ไม่เจออะ')
+                    console.log('มันไม่เข้าอันนี้อะ')
                     console.log(response.status)
+                    localStorage.setItem('errors',JSON.stringify(response.data))
                 }
                 if(response.status == 200){
+                    console.log('มันจะเข้าเฉพาะ 200')
                     localStorage.setItem('token',JSON.stringify(response.data.token))
                     localStorage.setItem('user',JSON.stringify(response.data))
                     commit('auth_success',response)
                     return Promise.resolve(response)
                 }
-            }
-            ,
+            },
             err => {
+                console.log('อันนี้มันเหมือน catch err')
+                console.log("Error: Request failed with status code 400")
                 console.log(err)
                 if(err){
                     err.message = 'Incorrect email or password'

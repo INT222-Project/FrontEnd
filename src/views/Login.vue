@@ -153,7 +153,9 @@ export default {
           password : this.password
         }
         // setTimeout(()=>{this.$store.dispatch('auth/login',user).then(()=>{
-        // window.location.href='/'},2000)})
+        // window.location.href='/'},2000)}).catch(err=>{
+        //   console.log(err)
+        // })}
         this.$store.dispatch('auth/login',user).then(
           data=> {
             this.error = null;
