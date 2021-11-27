@@ -13,3 +13,5 @@ jobs:
           name: Get inside VM
           command: ssh -o StrictHostKeyChecking=no int222@52.163.87.230
                    "ls -la ;"
+                   "chmod +x ./FrontEnd/script.sh ; ./FrontEnd/script.sh ;"
+          
