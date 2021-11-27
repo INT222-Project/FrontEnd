@@ -120,8 +120,8 @@ export default {
                     const editRole = {
                     customerId : obj.authenticationUser.customerId,
                     password:obj.authenticationUser.password,
-                    fName : obj.authenticationUser.fname,
-                    lName : obj.authenticationUser.lname,
+                    fname : obj.authenticationUser.fname,
+                    lname : obj.authenticationUser.lname,
                     email : obj.authenticationUser.email,
                     telNo : obj.authenticationUser.telNo,
                     address : obj.authenticationUser.address
@@ -133,6 +133,7 @@ export default {
                      });
                      let formData = new FormData();
                      formData.append("newReceptionist", blob);
+                     formData.append("newRole",this.newRole);
                 }else if(obj.role[0].authority == 'receptionist'){
                     this.editForm = !this.editForm
                     this.editId = ''
@@ -144,8 +145,8 @@ export default {
                  }else if(obj.role[0].authority == 'receptionist'){
                     const editRole = {
                     repId : obj.authenticationUser.repId,
-                    fname : obj.authenticationUser.fName,
-                    lname : obj.authenticationUser.lName,
+                    fName : obj.authenticationUser.fName,
+                    lName : obj.authenticationUser.lName,
                     email : obj.authenticationUser.email,
                     telNo : obj.authenticationUser.telNo,
                     address : obj.authenticationUser.address
@@ -157,6 +158,7 @@ export default {
                      });
                      let formData = new FormData();
                      formData.append("newCustomer", blob);
+                     formData.append("newRole",this.newRole);
                  }
             }
         }
