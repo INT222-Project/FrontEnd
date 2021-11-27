@@ -3,7 +3,7 @@ const API_URL = "http://localhost:8081";
 const user = JSON.parse(window.localStorage.getItem('user'));
 const getUser = user != null ? {status: {isLoggedIn: true},user} : {status: {isLoggedIn: false}, user:null};
 localStorage.setItem('data',JSON.stringify(getUser))
-console.log(user)
+console.log('user= '+user)
 export const auth = {
     namespaced:true,
     state : getUser,
@@ -12,17 +12,28 @@ export const auth = {
             return axios.post(`${API_URL}/api/auth/authenticate`,{
                 username: payload.email,
                 password: payload.password
-            }).then(response => {
-                if(response){
+            }).then(
+            response => {
+                console.log(response)
+                if(response.status == 400){
+                    console.log('ไม่เจออะ')
+                    console.log(response.status)
+                }
+                if(response.status == 200){
                     localStorage.setItem('token',JSON.stringify(response.data.token))
                     localStorage.setItem('user',JSON.stringify(response.data))
+                    commit('auth_success',response)
+                    return Promise.resolve(response)
                 }
-                commit('auth_success',response)
-                return Promise.resolve(response)
-            },
+            }
+            ,
             err => {
-                commit('auth_error');
-                return Promise.reject(err)
+                console.log(err)
+                if(err){
+                    err.message = 'Incorrect email or password'
+                    commit('auth_error');
+                    return Promise.reject(err)
+                }
             }
             )
         },
@@ -39,8 +50,11 @@ export const auth = {
                 }
             },
                 err=>{
-                    commit('register_error')
-                    return Promise.reject(err)
+                    if(err){
+                        err.message = 'Email already exists'
+                        commit('register_error')
+                        return Promise.reject(err)
+                    }
                 }
             )
         }

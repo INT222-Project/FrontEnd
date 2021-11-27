@@ -7,9 +7,11 @@ let cartItems = window.localStorage.getItem('cartItems');
 let cartItemCount = window.localStorage.getItem('cartItemCount')
 let checkInDate = window.localStorage.getItem('checkInDate')
 let checkOutDate = window.localStorage.getItem('checkOutDate')  
+let message = window.localStorage.getItem('errors') 
 let token = 'Bearer '+ localStorage.getItem('token') 
 const userData = JSON.parse(window.localStorage.getItem('user'));
 console.log(token)
+console.log(message)
 export default createStore({
   modules:{
     auth
@@ -17,6 +19,7 @@ export default createStore({
   state: {
     url: "http://localhost:8081",
     //user
+    errorMessage: message || null,
     users:[],
     customer:[],
     receptionist:[],

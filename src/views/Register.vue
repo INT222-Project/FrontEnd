@@ -194,7 +194,7 @@ export default {
     },
     createFormdata(obj){
       console.log(obj)
-     const json = JSON.stringify(obj);
+      const json = JSON.stringify(obj);
       const blob = new Blob([json], {
         type: "application/json",
       });
@@ -212,7 +212,7 @@ export default {
         err => {
           this.showSuccess = false;
           this.message = null ;
-          this.error = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+          this.error = err.message;
           this.showError = true;})
       // setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)})
     }
