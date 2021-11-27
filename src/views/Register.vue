@@ -14,6 +14,12 @@
         ">
         <form @submit.prevent="register()">
           <div class="flex justify-center"><h1>Sign up</h1></div>
+          <div v-if="this.showSuccess == true" class="alert alert-success" role="alert">
+                 register successfully!
+          </div>
+          <div v-if="this.showError == true" class="alert alert-danger" role="alert">
+            {{this.error}}
+          </div>
           <div class="mb-3 row">
             <div class="col-sm-6">
             <label for="exampleFormControlInput1" class="form-label"><span class="font-bold">Email address</span></label>
@@ -133,6 +139,10 @@
 export default {
   data() {
     return {
+      showSuccess:false,
+      showError:false,
+      error:null,
+      message:null,
       customerId:"",
       fname: "",
       lname: "",
@@ -190,8 +200,21 @@ export default {
       });
       let formData = new FormData();
       formData.append("newUser", blob);
-      // this.$store.state.showLoading = true;
-      setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)})
+      this.$store.dispatch("auth/register", formData).then(
+        data => {
+          this.$store.state.showLoading = true;
+          this.error = null ;
+          this.message = data.message;
+          this.showSuccess = true;
+          this.showError = false;
+          setTimeout(()=> window.location.href='/login',2000)
+        },
+        err => {
+          this.showSuccess = false;
+          this.message = null ;
+          this.error = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+          this.showError = true;})
+      // setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)})
     }
   },
 };

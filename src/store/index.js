@@ -44,6 +44,10 @@ export default createStore({
     reservationDetail: [],
   },
   actions: {
+    async editCustomerPackage({commit},formData){
+      const response = await axios.put(`${API_URL}/api/reservations/editCustomerPackage`,formData,{headers:{Authorization:token}})
+      commit('setEditCustomerPackage',response.data)
+    },
     async getAllUsers({commit}){
       const response = await axios.get(`${API_URL}/api/auth/getAllUsers`,{headers:{Authorization:token}})
       commit('setAllUsers',response.data)
@@ -206,6 +210,9 @@ export default createStore({
     },
   },
   mutations: {
+    setEditCustomerPackage(state,data){
+      state.reservation = data
+    },
     setAllUsers(state,data){
       state.users = data
     },

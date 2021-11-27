@@ -31,7 +31,7 @@
                 </div>
                 <div class="buttons d-flex flex-row gap-3">
                     <button v-if="getRemainingRoom(rTypeById.roomTypeId,req.bedType) == true"
-                    class="btn btn-outline-primary"
+                    class="btn btn-dark"
                     @click="bookNow(req.roomId)" disabled
                     >room is full now</button>
                     <button v-if="getRemainingRoom(rTypeById.roomTypeId,req.bedType) == false"

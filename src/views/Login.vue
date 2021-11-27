@@ -29,19 +29,18 @@
             <h1>Sign in</h1>
           </div>
 
-          <div
-            v-if="authen"
-            class="
-              alert alert-danger
+          <div v-if="this.showSuccess == true" class="alert alert-success" role="alert">
+                 Login successfully!
+                 {{this.message}}
+          </div>
+          <div v-if="this.showError == true" class="alert alert-danger
               d-flex
               align-items-center
               alert-dismissible
               fade
-              show
-            "
-            role="alert"
-          >
-            <svg
+              show" 
+              role="alert">
+              <svg
               class="bi flex-shrink-0 me-2"
               width="24"
               height="24"
@@ -50,7 +49,7 @@
             >
               <use xlink:href="#exclamation-triangle-fill" />
             </svg>
-            <div>Incorrect username or password.</div>
+            {{this.error}}
           </div>
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label"
@@ -64,11 +63,13 @@
                 id="inputUsername"
                 placeholder="name@example.com"
               />
-              <div class="error" v-if="errors.email">{{errors.email}}</div>
               <span class="input-group-text"
                 ><i class="far fa-envelope"></i
               ></span>
             </div>
+             <span v-if="this.invEmail" class="text-red-500 text-sm">
+                    Please type your email
+            </span>
           </div>
           <div class="mb-3 row">
             <label for="inputPassword" class="form-label"
@@ -82,9 +83,11 @@
                 placeholder="password"
                 id="inputPassword"
               />
-              <div class="error" v-if="errors.password">{{errors.password}}</div>
               <span class="input-group-text"><i class="fas fa-lock"></i></span>
             </div>
+            <span v-if="this.invEmail" class="text-red-500 text-sm">
+                    Please type your password
+            </span>
           </div>
 
           <div class="mb-3 row">
@@ -129,8 +132,12 @@ export default {
       userData: JSON.parse(localStorage.getItem("data")) || null,
       email: "",
       password: "",
-      errors:[],
-      authen: false,
+      invEmail:false,
+      invPassword:false,
+      showError:false,
+      error:null,
+      message:null,
+      showSuccess:false,
     };
   },
   methods: {
@@ -138,21 +145,32 @@ export default {
        this.$router.push('/')
      },
      login() {
-      if (this.email == "" || this.password == "") {
-        this.authen = true;
-      }else {
+      this.invEmail = this.email === "" ? true:false; 
+      this.invPassword = this.password === "" ? true:false;
+      if (!this.invEmail && !this.invPassword) {
         const user = {
           email : this.email,
           password : this.password
         }
-        this.$store.state.showLoading = true;
-        setTimeout(()=>{this.$store.dispatch('auth/login',user).then(()=>{
-        window.location.href='/'},2000)}).catch(err=>{console.log(err)
-        this.authen = true
-       })
+        this.$store.dispatch('auth/login',user).then(
+          data=> {
+            this.error = null;
+            this.message = data.message;
+            this.showError = false;
+            this.showSuccess = true;
+            this.$store.state.showLoading = true;
+            setTimeout(()=> window.location.href='/',2000)
+          },
+          err => {
+          this.showSuccess = false;
+          this.message = null ;
+          this.error = (err.response && err.response.data && err.response.data.message) || err.message || err.toString()
+          this.showError = true;})
+        // setTimeout(()=>{this.$store.dispatch('auth/login',user).then(()=>{
+        // window.location.href='/'},2000)}).catch(err=>{console.log(err)  
       }
-    }
-  },
+    },
+  }
 };
 </script>
 <style scoped>

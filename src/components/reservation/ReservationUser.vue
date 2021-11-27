@@ -1,6 +1,7 @@
 <template>
   <div v-if="this.$store.state.user != 0 && this.$store.state.user.role[0].authority == 'customer' || this.$store.state.user.role[0].authority == 'admin'" class="container h-auto mt-5 pb-12 px-2 pt-12 mb-20">
     <h1>Reservation History</h1>
+    <!-- {{this.reservation}} -->
     <div class="row height d-flex justify-content-center align-items-center mb-2">
       <div class="col-md-12">
         <div class="search">
@@ -84,6 +85,7 @@
                   </span>
                 </p>
               <div v-if="this.editForm == true && this.editId == reservationDetail.reservDetailId" class="col-sm-12">
+              <div v-if="this.selectedPackages != null">
               <span class="form-label">Packages (extra charge)</span>
               <div class="row pl-4">
                 <div
@@ -93,7 +95,7 @@
                 >
                   <input
                     v-if="checkPackage(p.packageId)"
-                    class="showSelectedPackage"
+                    class="form-check-input showSelectedPackage"
                     type="checkbox"
                     :value="p"
                     :checked="true"
@@ -111,8 +113,9 @@
                   </label>
                   </div>
                 </div>
+              </div> 
                </div>
-                <button v-if="this.editForm == false" class="btn btn-success" @click="editBtn(reservationDetail.packageDetailList,reservationDetail.reservDetailId)">
+                <button v-if="this.editForm == false && item.status == 'unpaid'" class="btn btn-success" @click="editBtn(reservationDetail.packageDetailList,item.reservNo,reservationDetail.reservDetailId)">
                   Edit Package <i class="fas fa-edit"></i>
                 </button>
                 <div class="space-x-2">
@@ -177,7 +180,10 @@ export default {
     return {
       editForm:false,
       selectedPackages:[],
+      newSelectedPacakges:[],
+      oldPackages:[],
       tempItemPackages:[],
+      reserveId:"",
       editId:"",
       search: "",
       customer: this.userData.authenticationUser,
@@ -188,18 +194,26 @@ export default {
     cancelEdit(){
       this.editForm = !this.editForm
     },
-    editBtn(packageList,reservDetailId){
+    editBtn(packageList,reservNo,reservationDetail){
+      for(let i = 0; i<packageList.length;i++){
+        this.selectedPackages.push(packageList[i].packageId)
+      }
       this.editForm = !this.editForm
-      this.editId = reservDetailId
-      this.selectedPackages = packageList
+      this.reserveId = reservNo
+      this.editId = reservationDetail
+      this.oldPackages = packageList
+      console.log('editButton')
       console.log(this.selectedPackages)
+      console.log(this.reserveId)
+      console.log(this.editId)
     },
      checkPackage(packageId) {
       let count = 0;
       let tempItem = null;
+      // console.log(this.selectedPackages )
       for (let i = 0; i < this.selectedPackages.length; i++) {
-        if (this.selectedPackages[i].packageId.packageId == packageId) {
-          tempItem = this.selectedPackages[i].packageId;
+        if (this.selectedPackages[i].packageId == packageId) {
+          tempItem = this.selectedPackages[i];
           count++;
         }
       }
@@ -214,12 +228,14 @@ export default {
       }
     },
     comfirmEdit(){
+      // console.log('temp '+this.tempItemPackages)
+      // console.log('selected package '+this.selectedPackages.length);
+      // console.log(this.oldPackages);
       if(this.selectedPackages != null) {
         let btn = document.getElementsByClassName("showSelectedPackage");
         let hasChange = false;
         let changeOldPackages = [];
         let indexOfTrue = [];
-        console.log(this.selectedPackages);
         for (let zq = 0; zq < btn.length; zq++) {
           console.log(zq + " : " + btn.item(zq).checked);
           changeOldPackages.push(btn.item(zq).checked);
@@ -227,15 +243,19 @@ export default {
             hasChange = true;
           }
         }
-        console.log(changeOldPackages);
+      //   console.log('changeOldPackages '+changeOldPackages);
         if (hasChange == false) {
           if (this.selectedPackages.length == 0) {
-            this.selectedPackages = null;
+              this.selectedPackages = [];
+              console.log('old selected')
+              console.log(this.selectedPackages)
               this.invalidPackage = false;
             } else {
               for (let i = 0; i < this.tempItemPackages.length; i++) {
-                this.selectedPackages.push(this.tempItemPackages[i]);
+                this.newSelectedPacakges.push(this.tempItemPackages[i]);
               }
+              console.log('new selected')
+              console.log(this.newSelectedPacakges)
               this.invalidPackage = false;
             }
           }
@@ -246,27 +266,49 @@ export default {
               indexOfTrue.push(e);
             }
           }
-          /* check that which item still remaining checked */
-          console.log(changeOldPackages);
-          console.log(indexOfTrue);
-          console.log(this.selectedPackages);
+      //     /* check that which item still remaining checked */
+          console.log('changeOld '+changeOldPackages);
+          console.log('indexOftrue '+ indexOfTrue);
+      //     console.log(this.selectedPackages);
           if (indexOfTrue.length != 0) {
             /* set old color that was change */
             for (let i = 0; i < indexOfTrue.length; i++) {
-              this.selectedPackages.push(this.tempItemPackages[indexOfTrue[i]]);
+              this.newSelectedPacakges.push(this.tempItemPackages[indexOfTrue[i]]);
             }
-            this.invalidPackage = false;
+            console.log('oldSelected change ')
+            console.log(this.newSelectedPacakges)
+      //       this.invalidPackage = false;
           } else {
             if (this.selectedPackages.length == 0) {
-              this.invalidPackage = true
+              this.newSelectedPacakges = null
               return;
             } else {
-              this.invalidPackage = false;
-              console.log("Lastest progress : " + this.selectedPackages);
+              console.log("Lastest progress : " + this.newSelectedPacakges);
             }
           }
         }
       }
+      this.createFormEditPackages(this.newSelectedPacakges)
+    },
+    createFormEditPackages(newPackages) {
+      console.log('lastTest')
+      console.log(newPackages)
+      console.log(this.editId)
+      console.log(this.reserveId)
+      let packageDetail = {
+        packages : newPackages
+      }
+      const json = JSON.stringify(packageDetail);
+      const blob = new Blob([json], {
+        type: "application/json",
+      });
+      let formData = new FormData();
+      console.log(json)
+      formData.append("editPackage", blob);
+      formData.append("reservNo", this.reserveId);
+      formData.append("reservationDetailId", this.editId);
+      this.$store.dispatch("editCustomerPackage",formData);
+      // location.reload();
     },
     backToHome(){
       this.$router.push('/')
