@@ -222,6 +222,10 @@ export default createStore({
   },
   mutations: {
     setDeleteUserRole(state,data){
+      state.users = state.users.filter(user => {
+        if(user.role[0].authority == "customer" && user.authenticationUser.customerId == data.customerId) return user.authenticationUser.customerId == data.customerId;
+        else if(user.role[0].authority == "receptionist" && user.authenticationUser.repId == data.repId) return user.authenticationUser.repId == data.repId;
+      })
       state.users = data
     },
     setEditUserRole(state,data){
