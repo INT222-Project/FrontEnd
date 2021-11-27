@@ -7,9 +7,11 @@ let cartItems = window.localStorage.getItem('cartItems');
 let cartItemCount = window.localStorage.getItem('cartItemCount')
 let checkInDate = window.localStorage.getItem('checkInDate')
 let checkOutDate = window.localStorage.getItem('checkOutDate')  
+let message = window.localStorage.getItem('errors') 
 let token = 'Bearer '+ localStorage.getItem('token') 
 const userData = JSON.parse(window.localStorage.getItem('user'));
 console.log(token)
+console.log(message)
 export default createStore({
   modules:{
     auth
@@ -17,6 +19,7 @@ export default createStore({
   state: {
     url: API_URL,
     //user
+    errorMessage: message || null,
     users:[],
     customer:[],
     receptionist:[],
@@ -44,6 +47,10 @@ export default createStore({
     reservationDetail: [],
   },
   actions: {
+    async editCustomerPackage({commit},formData){
+      const response = await axios.put(`${API_URL}/api/reservations/editCustomerPackage`,formData,{headers:{Authorization:token}})
+      commit('setEditCustomerPackage',response.data)
+    },
     async getAllUsers({commit}){
       const response = await axios.get(`${API_URL}/api/auth/getAllUsers`,{headers:{Authorization:token}})
       commit('setAllUsers',response.data)
@@ -206,6 +213,9 @@ export default createStore({
     },
   },
   mutations: {
+    setEditCustomerPackage(state,data){
+      state.reservation = data
+    },
     setAllUsers(state,data){
       state.users = data
     },

@@ -90,7 +90,7 @@ const routes = [
   {
     path:'/cart',
     name:'Cart',
-    component: Cart
+    component: Cart,
   },
   {
     path:'/reservationUser',
@@ -102,6 +102,64 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to)=>{
+  const userData = JSON.parse(window.localStorage.getItem('user'));
+  if(to.path=='/cart'){
+    if(userData !=null && userData.role[0].authority==='receptionist'){
+      alert('You do not have permission to access this page')
+      router.push('/')
+    }else if(userData == null){
+      router.push('/login')
+    }
+  }
+  if(to.path=='/admin' ){
+    if(userData == null){
+      alert('You do not have permission to access this page')
+      router.push('/')
+    }else if(userData!=null && userData.role[0].authority==='receptionist' || userData.role[0].authority==='customer'){
+      alert('You do not have permission to access this page')
+      router.push('/')
+    }
+  }
+  if(to.path=='/reservationUser'){
+    if(userData == null){
+      router.push('/login')
+    }else if(userData!=null && userData.role[0].authority==='receptionist'){
+      alert('You do not have permission to access this page')
+      router.push('/')
+    }
+  }
+  if(to.path=='/reservationStaff'){
+    if(userData == null){
+      router.push('/login')
+    }else if(userData!=null && userData.role[0].authority==='customer'){
+      alert('You do not have permission to access this page')
+      router.push('/')
+    }
+  }
+  if(to.path=='/profile'){
+    if(userData == null){
+      router.push('/login')
+    }
+  }
+  if(to.path=='/AddingDeleteEditingRoomType'){
+    if(userData == null){
+      router.push('/login')
+    }else if(userData.role[0].authority!='admin'){
+      alert('You do not have permission to access this page')
+      router.push('/')
+    }
+  }
+  if(to.path=='/AddingDeleteEditingPackage'){
+    if(userData == null){
+      router.push('/login')
+    }else if(userData.role[0].authority!='admin'){
+      alert('You do not have permission to access this page')
+      router.push('/')
+    }
+  }
 })
 
 export default router

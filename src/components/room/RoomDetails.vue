@@ -6,13 +6,6 @@
           <div class="col-md-6 border-end">
             <div class="d-flex flex-column justify-content-center">
               <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div>
-              <!-- <div class="main_image">
-                <img
-                  src="https://i.imgur.com/TAzli1U.jpg"
-                  id="main_product_image"
-                  width="350"
-                />
-              </div> -->
             </div>
           </div>
           <div class="col-md-6">
@@ -38,9 +31,9 @@
                 </div>
                 <div class="buttons d-flex flex-row gap-3">
                     <button v-if="getRemainingRoom(rTypeById.roomTypeId,req.bedType) == true"
-                    class="btn btn-outline-primary"
+                    class="btn btn-dark"
                     @click="bookNow(req.roomId)" disabled
-                    >Book Now</button>
+                    >room is full now</button>
                     <button v-if="getRemainingRoom(rTypeById.roomTypeId,req.bedType) == false"
                     class="btn btn-outline-primary"
                     @click="bookNow(req.roomId)"
@@ -72,9 +65,21 @@ export default {
       this.$router.push("/");
     },
     getRemainingRoom(roomTypeId, bedType){
-      let array = this.remainingRoom.filter((row)=> row.roomTypeId == roomTypeId && row.bedType == bedType);
-      console.log("room type id : " + roomTypeId + ", bed type : " + bedType + ", count : " + array[0].count);
-      if(array[0].count == 0){ return true;}
+      let isFull = null;
+      if(this.remainingRoom.length != 0){
+        for(let i = 0 ; i < this.remainingRoom.length ; i++){
+          // console.log(this.remainingRoom[i]);
+          // console.log("room type id : " + roomTypeId + ", bed type : " + bedType);
+          if(this.remainingRoom[i].roomTypeId == roomTypeId && this.remainingRoom[i].bedType == bedType && this.remainingRoom[i].count == 0) {
+            isFull = true;
+            break;
+          }
+          else{ isFull = false}
+        }
+      }
+      // let array = this.remainingRoom.filter((row)=> row.roomTypeId == roomTypeId && row.bedType == bedType);
+      // console.log("room type id : " + roomTypeId + ", bed type : " + bedType);
+      if(isFull == true){ return true;}
       else{return false;}
     }
     ,

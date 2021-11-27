@@ -12,7 +12,14 @@
           tracking-wide
           shadow-lg
         ">
+        <form @submit.prevent="register()">
           <div class="flex justify-center"><h1>Sign up</h1></div>
+          <div v-if="this.showSuccess == true" class="alert alert-success" role="alert">
+                 register successfully!
+          </div>
+          <div v-if="this.showError == true" class="alert alert-danger" role="alert">
+            {{this.error}}
+          </div>
           <div class="mb-3 row">
             <div class="col-sm-6">
             <label for="exampleFormControlInput1" class="form-label"><span class="font-bold">Email address</span></label>
@@ -21,7 +28,9 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="name@example.com"
-              v-model="email"/>
+              title="name@example.com"
+              v-model.trim="email"
+              required/>
             <span v-if="this.invEmail" class="text-red-500 text-sm">
                     Please type email
             </span>
@@ -32,9 +41,12 @@
                 type="password"
                 class="form-control"
                 placeholder="Password"
-                v-model="password"/>
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
+                required
+                v-model.trim="password"/>
              <span v-if="this.invPassword" class="text-red-500 text-sm">
-                    Please type lastname
+                    Please type password
             </span>
           </div>
           </div>
@@ -46,7 +58,7 @@
               class="form-control"
               id="inputFirstname"
               placeholder="First Name"
-              v-model="fname"
+              v-model.trim="fname"
             />
             <span v-if="this.invFname" class="text-red-500 text-sm">
                     Please type firstname
@@ -60,7 +72,7 @@
               class="form-control"
               id="inputLastname"
               placeholder="Last Name"
-              v-model="lname"
+              v-model.trim="lname"
             />
             <span v-if="this.invLname" class="text-red-500 text-sm">
                     Please type lastname
@@ -70,11 +82,11 @@
           <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label"><span class="font-bold">Telephone</span></label>
             <input
-              type="text"
+              type="number"
               class="form-control"
-              id="inputLastname"
-              placeholder="Last Name"
-              v-model="telNo"
+              placeholder="123-456-7891" 
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+              v-model.trim="telNo"
             />
             <span v-if="this.invTelno" class="text-red-500 text-sm">
                     Please type telephone
@@ -86,8 +98,7 @@
               <input
               type="text"
               class="form-control"
-              id="inputLastname"
-              placeholder="Last Name"
+              placeholder="address"
               v-model="address"
             />
             <span v-if="this.invAddress" class="text-red-500 text-sm">
@@ -97,10 +108,11 @@
           </div>
           <div class="mb-2 row">
             <div class="col-sm-12 space-x-2">
-            <button class="btn btn-primary btn-block mb-2" @click="register()">Sign up</button>
+            <button class="btn btn-primary btn-block mb-2">Sign up</button>
             <button class="btn btn-danger btn-block mb-2" @click="cancel()">Cancel</button>
             </div>
           </div>
+          </form>
       </div>
     </div>
     <div v-if="this.$store.state.user != 0" class="flex justify-center p-24">
@@ -127,6 +139,10 @@
 export default {
   data() {
     return {
+      showSuccess:false,
+      showError:false,
+      error:null,
+      message:null,
       customerId:"",
       fname: "",
       lname: "",
@@ -139,7 +155,7 @@ export default {
       invEmail:false,
       invPassword:false,
       invTelno:false,
-      invAddress:false
+      invAddress:false,
     };
   },
   methods: {
@@ -165,7 +181,6 @@ export default {
       this.invAddress = this.address === "" ? true:false;
       if(!this.invFname && !this.invLname && !this.invEmail && !this.invPassword && !this.invTelno && !this.invAddress){
        const data = {
-        customerId:this.customerId,
         fname: this.fname,
         lname: this.lname,
         email: this.email,
@@ -178,14 +193,28 @@ export default {
       }
     },
     createFormdata(obj){
-     const json = JSON.stringify(obj);
+      console.log(obj)
+      const json = JSON.stringify(obj);
       const blob = new Blob([json], {
         type: "application/json",
       });
       let formData = new FormData();
       formData.append("newUser", blob);
-      this.$store.state.showLoading = true;
-      setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)}).catch(err=>console.log(err))
+      this.$store.dispatch("auth/register", formData).then(
+        data => {
+          this.$store.state.showLoading = true;
+          this.error = null ;
+          this.message = data.message;
+          this.showSuccess = true;
+          this.showError = false;
+          setTimeout(()=> window.location.href='/login',2000)
+        },
+        err => {
+          this.showSuccess = false;
+          this.message = null ;
+          this.error = err.message;
+          this.showError = true;})
+      // setTimeout(()=>{this.$store.dispatch("auth/register", formData).then(()=>{window.location.href='/login'},2000)})
     }
   },
 };

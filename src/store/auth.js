@@ -3,7 +3,7 @@ const API_URL = "https://www.beebooking.company";
 const user = JSON.parse(window.localStorage.getItem('user'));
 const getUser = user != null ? {status: {isLoggedIn: true},user} : {status: {isLoggedIn: false}, user:null};
 localStorage.setItem('data',JSON.stringify(getUser))
-console.log(user)
+console.log('user= '+user)
 export const auth = {
     namespaced:true,
     state : getUser,
@@ -12,17 +12,23 @@ export const auth = {
             return axios.post(`${API_URL}/api/auth/authenticate`,{
                 username: payload.email,
                 password: payload.password
-            }).then(response => {
-                if(response){
-                    localStorage.setItem('token',JSON.stringify(response.data.token))
-                    localStorage.setItem('user',JSON.stringify(response.data))
-                }
-                commit('auth_success',response)
-                return Promise.resolve(response)
-            },
+            }).then(
+            response => {
+                    if(response){
+                        localStorage.setItem('token',JSON.stringify(response.data.token))
+                        localStorage.setItem('user',JSON.stringify(response.data))
+                        commit('auth_success',response)
+                        return Promise.resolve(response)
+                    }
+            }
+            ,
             err => {
-                commit('auth_error');
-                return Promise.reject(err)
+                console.log(err.response.data.code)
+                if(err.response.data.code == 400){
+                    err.message = 'Incorrect email or password'
+                    commit('auth_error');
+                    return Promise.reject(err)
+                }
             }
             )
         },
@@ -39,8 +45,11 @@ export const auth = {
                 }
             },
                 err=>{
-                    commit('register_error')
-                    return Promise.reject(err)
+                    if(err.response.data.code == 406){
+                        err.message = 'Email already exists'
+                        commit('register_error')
+                        return Promise.reject(err)
+                    }
                 }
             )
         }
