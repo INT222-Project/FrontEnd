@@ -47,6 +47,14 @@ export default createStore({
     reservationDetail: [],
   },
   actions: {
+    async deleteUserRole({commit},id,role){
+      const response = await axios.delete(`${API_URL}/api/reservations/deleteUser/${id}`,role,{headers:{Authorization:token}})
+      commit('setDeleteUserRole',response.data)
+    },
+    async editUserRole({commit},formData){
+      const response = await axios.put(`${API_URL}/api/reservations/editRole`,formData,{headers:{Authorization:token}})
+      commit('setEditUserRole',response.data)
+    },
     async editCustomerPackage({commit},formData){
       const response = await axios.put(`${API_URL}/api/reservations/editCustomerPackage`,formData,{headers:{Authorization:token}})
       commit('setEditCustomerPackage',response.data)
@@ -213,6 +221,12 @@ export default createStore({
     },
   },
   mutations: {
+    setDeleteUserRole(state,data){
+      state.users = data
+    },
+    setEditUserRole(state,data){
+      state.users = data
+    },
     setEditCustomerPackage(state,data){
       state.reservation = data
     },

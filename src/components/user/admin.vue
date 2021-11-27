@@ -99,14 +99,15 @@ export default {
         deleteUser(id,role){
             let response = confirm(`Are you want to delete this ${role} ${id}`)
             if(response){
-                if(role == 'receptionist')
-                {
-                    this.$store.dispatch('deleteReceptionist',id).then(this.location.reload())
-                }
-                if(role == 'customer')
-                {
-                    this.$store.dispatch('deleteCustomer',id).then(this.location.reload())
-                }
+                this.$store.dispatch('deleteUserRole',id,role).then(this.location.reload())
+                // if(role == 'receptionist')
+                // {
+                //     this.$store.dispatch('deleteReceptionist',id).then(this.location.reload())
+                // }
+                // if(role == 'customer')
+                // {
+                //     this.$store.dispatch('deleteCustomer',id).then(this.location.reload())
+                // }
             }
         },
         editBtn(id,role){
@@ -134,6 +135,7 @@ export default {
                      let formData = new FormData();
                      formData.append("newReceptionist", blob);
                      formData.append("newRole",this.newRole);
+                     this.$store.dispatch('editUserRole',formData)
                 }else if(obj.role[0].authority == 'receptionist'){
                     this.editForm = !this.editForm
                     this.editId = ''
@@ -159,6 +161,7 @@ export default {
                      let formData = new FormData();
                      formData.append("newCustomer", blob);
                      formData.append("newRole",this.newRole);
+                     this.$store.dispatch('editUserRole',formData)
                  }
             }
         }
