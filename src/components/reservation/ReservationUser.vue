@@ -295,10 +295,7 @@ export default {
       console.log(newPackages)
       console.log(this.editId)
       console.log(this.reserveId)
-      let packageDetail = {
-        packages : newPackages
-      }
-      const json = JSON.stringify(packageDetail);
+      const json = JSON.stringify(newPackages);
       const blob = new Blob([json], {
         type: "application/json",
       });
