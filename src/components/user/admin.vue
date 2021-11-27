@@ -99,7 +99,10 @@ export default {
         deleteUser(id,role){
             let response = confirm(`Are you want to delete this ${role} ${id}`)
             if(response){
-                this.$store.dispatch('deleteUserRole',id,role).then(this.location.reload())
+                let formData = new FormData();
+                formData.append("id",id);
+                formData.append("role",role)
+                this.$store.dispatch('deleteUserRole',formData).then(this.location.reload())
                 // if(role == 'receptionist')
                 // {
                 //     this.$store.dispatch('deleteReceptionist',id).then(this.location.reload())
