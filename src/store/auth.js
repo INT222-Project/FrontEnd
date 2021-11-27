@@ -14,13 +14,14 @@ export const auth = {
                 password: payload.password
             }).then(
             response => {
-                console.log(response)
                 if(response.status == 400){
                     console.log('มันไม่เข้าอันนี้อะ')
                     console.log(response.status)
+                    console.log(response.data.code)
                     localStorage.setItem('errors',JSON.stringify(response.data))
                 }
                 if(response.status == 200){
+                    console.log(response.data.code)
                     console.log('มันจะเข้าเฉพาะ 200')
                     localStorage.setItem('token',JSON.stringify(response.data.token))
                     localStorage.setItem('user',JSON.stringify(response.data))
@@ -29,7 +30,7 @@ export const auth = {
                 }
             },
             err => {
-                console.log('อันนี้มันเหมือน catch err')
+                console.log('อันนี้ที่เขียนมันเหมือน catch error เจออะไรก็เก็บ string อันนั้นไว้อะ')
                 console.log("Error: Request failed with status code 400")
                 console.log(err)
                 if(err){
