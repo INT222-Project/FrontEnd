@@ -152,10 +152,6 @@ export default {
           email : this.email,
           password : this.password
         }
-        // setTimeout(()=>{this.$store.dispatch('auth/login',user).then(()=>{
-        // window.location.href='/'},2000)}).catch(err=>{
-        //   console.log(err)
-        // })}
         this.$store.dispatch('auth/login',user).then(
           data=> {
             this.error = null;
@@ -168,7 +164,7 @@ export default {
           err => {
           this.showSuccess = false;
           this.message = null ;
-          this.error = err.message || err.toString();
+          this.error = err.message
           this.showError = true;
           })
       }

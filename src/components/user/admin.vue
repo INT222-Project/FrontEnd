@@ -1,13 +1,5 @@
 <template>
     <div class="container my-5 pt-20">
-    <form action="controller" method="get" class="d-md-flex d-sm-block justify-content-between"> <input type="hidden" name="command" value="select-orders">
-        <h1 class="h5 align-self-center col-3">Search Order</h1>
-        <div class="btn-group align-self-center col-12 col-sm-12 col-md-8 col-lg-6"> <select name="searchType" class="btn btn-outline-dark col-3 col-sm-3">
-                <option value="orderId">Order ID</option>
-                <option value="created">Customer</option>
-                <option value="customer">Receptionist</option>
-            </select> <input type="search" name="searchBy" class="col-6 col-sm-6"> <input type="submit" value="Search" class="btn btn-outline-dark col-3 col-sm-3"> </div>
-    </form>
     <!-- {{this.users}} -->
     <div class="d-md-flex d-none justify-content-md-between justify-content-sm-center align-content-center border-bottom border-2 my-2 bg-dark text-light p-3 rounded-3">
         <div class="col-2 text-sm-center text-md-start align-self-center">

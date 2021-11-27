@@ -4,7 +4,7 @@
         <div class="col-md-12">
             <div class="search"> 
               <i class="fa fa-search"></i> 
-              <input type="text" class="form-control" v-model="search" placeholder="Search for the room type you want to booking: Standard, Suite"> 
+              <input type="search" class="form-control" v-model="search" placeholder="Search for the room type you want to booking: Standard, Suite"> 
               </div>
         </div>
         </div>

@@ -29,7 +29,7 @@
           <div class="search">
             <i class="fa fa-search"></i>
             <input
-              type="text"
+              type="search"
               class="form-control"
               v-model="search"
               placeholder="Search for the room type you want to booking: Standard, Suite"

@@ -105,16 +105,17 @@
         <div v-if="this.invRimg == true" class="text-red-500 text-sm">
           Please provide a valid image.
         </div>
-        <div class="mb-3">
+         <div class="mb-3 mt-3">
         <label class="form-label font-bold">Status</label>
-        <input
-          type="text"
-          v-model="status"
-          class="form-control"
-          placeholder="100"
-          disabled
-        />
-      </div>
+        <select v-model="status" class="form-select">
+          <option v-for="r in statusDB" :value="r" :key="r">
+            {{ r }}
+          </option>
+        </select>
+        <div v-if="this.invRtype == true" class="text-red-500 text-sm">
+          Please select a status of room.
+        </div>
+       </div>
       </div>
       <!-- section -->
       <div class="space-x-2">
@@ -137,11 +138,12 @@ export default {
     old_roomtype: { type: Object, require: false, default: null },
     old_roomCharge: { type: Number, require: false, default: 0.0 },
     old_Img: { type: String, require: false, default: null },
-    old_status: { type: String, require: false, default: "Avaliable" },
+    old_status: { type: String, require: false, default: "" },
     itemInRooms: { type: Array, require: false, default: null },
   },
   data() {
     return {
+      statusDB:['Avaliable','mock-up'],
       edited: this.editedRoom,
       file: null,
       imgSrc: this.old_Img,
