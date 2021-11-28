@@ -29,8 +29,8 @@
                 {{item.authenticationUser.repId}}</h1>
         </div>
          <div class="col-md-1 text-sm-center text-md-start align-self-center my-2">
-             <img v-if="item.role[0].authority == 'customer'" :src="viewImg(item.authenticationUser.customerId)" class="rounded-circle" width="30"/>
-             <img v-if="item.role[0].authority == 'receptionist'" :src="viewImg(item.authenticationUser.repId)" class="rounded-circle" width="30"/>
+             <img v-if="item.role[0].authority == 'customer'" :src="viewImg(item.authenticationUser.customerId,item.role[0].authority)" class="rounded-circle" width="30"/>
+             <img v-if="item.role[0].authority == 'receptionist'" :src="viewImg(item.authenticationUser.repId,item.role[0].authority)" class="rounded-circle" width="30"/>
         </div>
         <div class="col-md-3 text-sm-center text-md-start align-self-center my-2">
             <h1  class="h6">{{item.authenticationUser.email}}</h1>
@@ -102,8 +102,12 @@ export default {
         }
     },
     methods:{
-        viewImg(id){
-            return this.$store.state.url + "/api/receptionists/showImage/" + id;
+        viewImg(id,role){
+            if(role == 'receptionist'){
+                return this.$store.state.url + "/api/receptionists/showImage/" + id;
+            }else if(role == 'customer'){
+                return this.$store.state.url + "/api/customers/showImage/" + id;
+            }
         },
         deleteUser(id,role){
             let response = confirm(`Are you want to delete this ${role} ${id}`)

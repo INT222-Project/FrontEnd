@@ -48,7 +48,7 @@ export default createStore({
   },
   actions: {
     async deleteReservation({commit},reservNo){
-      const response = await axios.delete(`${API_URL}/api/reservation/delete${reservNo}`,{headers:{Authorization:token}})
+      const response = await axios.delete(`${API_URL}/api/reservations/delete/${reservNo}`,{headers:{Authorization:token}})
       commit ('setDeleteReservation',response.data)
     },
     async deleteUserRole({commit},formData){

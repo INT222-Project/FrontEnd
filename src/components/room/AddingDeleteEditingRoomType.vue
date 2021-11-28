@@ -119,9 +119,6 @@
             <button class="btn btn-danger" @click="cancel()">Cancel</button>
           </span>
         </div>
-           <label class="form-label font-bold "
-            ><h4 class="font-bold text-start">Roomtype Data</h4>
-            </label >
             <div class="d-md-flex d-none justify-content-md-between justify-content-sm-center align-content-center border-bottom border-2 my-2 bg-primary text-light p-3 rounded-3">
         <div class="col-1 text-sm-center text-md-start align-self-center">
             <h1 class="h5 fw-bold">ID</h1>
