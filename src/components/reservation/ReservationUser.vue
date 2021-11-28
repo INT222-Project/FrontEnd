@@ -191,6 +191,13 @@ export default {
     };
   },
   methods: {
+    cancelPayment(item){
+      let response = confirm(`Are you want to cancel this reservation ${item.reserve}`)
+      if(response){
+         console.log(item.reservNo)
+         this.$store.dispatch("deleteReservation",item.reservNo)
+      }
+    },
     cancelEdit(){
       this.editForm = !this.editForm
     },
@@ -210,7 +217,6 @@ export default {
      checkPackage(packageId) {
       let count = 0;
       let tempItem = null;
-      // console.log(this.selectedPackages )
       for (let i = 0; i < this.selectedPackages.length; i++) {
         if (this.selectedPackages[i].packageId == packageId) {
           tempItem = this.selectedPackages[i];
@@ -228,9 +234,6 @@ export default {
       }
     },
     comfirmEdit(){
-      // console.log('temp '+this.tempItemPackages)
-      // console.log('selected package '+this.selectedPackages.length);
-      // console.log(this.oldPackages);
       if(this.selectedPackages != null) {
         let btn = document.getElementsByClassName("showSelectedPackage");
         let hasChange = false;
