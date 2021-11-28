@@ -222,6 +222,7 @@ export default createStore({
   },
   mutations: {
     setDeleteUserRole(state,data){
+      console.log('มาป่าว')
       state.users = data
     },
     setEditUserRole(state,data){
