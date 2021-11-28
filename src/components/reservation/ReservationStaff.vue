@@ -496,7 +496,9 @@ export default {
             if (
               reservationDetail.room.roomType.roomTypeId ==
                 this.allReservationDetails[i].room.roomType.roomTypeId &&
-              this.allReservationDetails[i].room.status != "mock-up"
+                this.allReservationDetails[i].status != 'check-out' &&
+                this.allReservationDetails[i].status != 'undone' &&
+              this.allReservationDetails[i].room.status != "mock-up" 
             ) {
               listReservedRoom.push(this.allReservationDetails[i].room);
             }

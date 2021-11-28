@@ -141,11 +141,10 @@
             </div>
             <div v-if="item.status == 'paid'">
               <button
-                class="btn btn-primary"
-                @click="confirmPayment(item)"
+                class="btn btn-dark"
                 disabled
               >
-                Upload Payment
+                This reservation paid
               </button>
             </div>
           </div>
@@ -191,6 +190,14 @@ export default {
     };
   },
   methods: {
+    cancelPayment(item){
+      let response = confirm(`Are you want to cancel this reservation ${item.reservNo}`)
+      if(response){
+         console.log(item.reservNo)
+         this.$store.dispatch("deleteReservation",item.reservNo)
+        //  location.reload()
+      }
+    },
     cancelEdit(){
       this.editForm = !this.editForm
     },
@@ -210,7 +217,6 @@ export default {
      checkPackage(packageId) {
       let count = 0;
       let tempItem = null;
-      // console.log(this.selectedPackages )
       for (let i = 0; i < this.selectedPackages.length; i++) {
         if (this.selectedPackages[i].packageId == packageId) {
           tempItem = this.selectedPackages[i];
@@ -228,9 +234,6 @@ export default {
       }
     },
     comfirmEdit(){
-      // console.log('temp '+this.tempItemPackages)
-      // console.log('selected package '+this.selectedPackages.length);
-      // console.log(this.oldPackages);
       if(this.selectedPackages != null) {
         let btn = document.getElementsByClassName("showSelectedPackage");
         let hasChange = false;
@@ -305,7 +308,7 @@ export default {
       formData.append("reservNo", this.reserveId);
       formData.append("reservationDetailId", this.editId);
       this.$store.dispatch("editCustomerPackage",formData);
-      // location.reload();
+      location.reload();
     },
     backToHome(){
       this.$router.push('/')

@@ -2,7 +2,7 @@
 import axios from "axios";
 import auth from "./auth.js"
 import { createStore } from "vuex";
-const API_URL = "https://www.beebooking.company";
+const API_URL = "http://localhost:8081";
 let cartItems = window.localStorage.getItem('cartItems');
 let cartItemCount = window.localStorage.getItem('cartItemCount')
 let checkInDate = window.localStorage.getItem('checkInDate')
@@ -47,6 +47,18 @@ export default createStore({
     reservationDetail: [],
   },
   actions: {
+    async deleteReservation({commit},reservNo){
+      const response = await axios.delete(`${API_URL}/api/reservations/delete/${reservNo}`,{headers:{Authorization:token}})
+      commit ('setDeleteReservation',response.data)
+    },
+    async deleteUserRole({commit},formData){
+      const response = await axios.delete(`${API_URL}/api/auth/deleteUser`,{headers:{Authorization:token},data:formData})
+      commit('setDeleteUserRole',response.data)
+    },
+    async editUserRole({commit},formData){
+      const response = await axios.put(`${API_URL}/api/auth/editRole`,formData,{headers:{Authorization:token}})
+      commit('setEditUserRole',response.data)
+    },
     async editCustomerPackage({commit},formData){
       const response = await axios.put(`${API_URL}/api/reservations/editCustomerPackage`,formData,{headers:{Authorization:token}})
       commit('setEditCustomerPackage',response.data)
@@ -213,6 +225,19 @@ export default createStore({
     },
   },
   mutations: {
+    setDeleteReservation(state,data){
+      state.reservation = state.reservation.filter(d => d.id != data)
+    },
+    setDeleteUserRole(state,data){
+      state.users = state.users.filter(user => {
+        if(user.role[0].authority == "customer" && user.authenticationUser.customerId == data.customerId) return user.authenticationUser.customerId == data.customerId;
+        else if(user.role[0].authority == "receptionist" && user.authenticationUser.repId == data.repId) return user.authenticationUser.repId == data.repId;
+      })
+      state.users = data
+    },
+    setEditUserRole(state,data){
+      state.users = data
+    },
     setEditCustomerPackage(state,data){
       state.reservation = data
     },
