@@ -185,7 +185,7 @@ export default {
             description: this.pDescription,
             packageCharge : this.pCharge
         }
-        console.log(obj)
+        // console.log(obj)
          this.createEditFormData(obj)
       }
     this.editForm = !this.editForm
@@ -227,7 +227,7 @@ export default {
             packageCharge : this.pCharge
         }
         this.addSwitch()
-        console.log(obj)
+        // console.log(obj)
         this.createFormData(obj)
         location.reload()
         }

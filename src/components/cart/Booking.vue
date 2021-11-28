@@ -109,7 +109,7 @@
                     :value="p"
                     v-model="selectedPackages"
                   />
-                  <label class="form-check-label">
+                  <label v-if="p.name != undefined" class="form-check-label">
                     {{ p.name }} ({{ p.packageCharge }}฿)
                   </label>
                 </div>
@@ -253,17 +253,17 @@ export default {
           this.total += this.selectedPackages[i].packageCharge;
         }
         this.total += this.room.roomCharge * this.calculateDay();
-        console.log(
-          this.customer.customerId +
-            "," +
-            this.paymentMethod +
-            "," +
-            this.total +
-            "," +
-            currentDate +
-            "," +
-            paymentDate
-        );
+        // console.log(
+        //   this.customer.customerId +
+        //     "," +
+        //     this.paymentMethod +
+        //     "," +
+        //     this.total +
+        //     "," +
+        //     currentDate +
+        //     "," +
+        //     paymentDate
+        // );
         const booking = {
           customer: this.customer,
           reservationDate: currentDate,

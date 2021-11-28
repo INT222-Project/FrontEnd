@@ -208,7 +208,7 @@ export default {
       this.rDescription = item.description;
       this.rSize = item.roomSize;
       this.editForm = !this.editForm;
-      console.log(this.rId);
+      // console.log(this.rId);
     },
     addSwitch() {
       this.addForm = !this.addForm;
@@ -226,7 +226,7 @@ export default {
           maxRest: this.rMaxrest,
           roomSize: this.rSize,
         };
-        console.log(obj);
+        // console.log(obj);
         this.createEditFormData(obj);
         this.editForm = !this.editForm;
       }
@@ -273,7 +273,7 @@ export default {
           roomSize: this.rSize,
         };
         this.addSwitch();
-        console.log(obj);
+        // console.log(obj);
         this.createFormData(obj);
         location.reload();
       }

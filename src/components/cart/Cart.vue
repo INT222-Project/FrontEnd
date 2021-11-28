@@ -257,7 +257,7 @@ export default {
       this.$store.dispatch("removeCartItem", item);
     },
     checkOut() {
-      console.log(this.paymentMethod);
+      // console.log(this.paymentMethod);
       this.invPaymentMethod = this.paymentMethod === null ? true : false;
       if (!this.invPaymentMethod) {
         if (this.$store.state.cartItemCount > 0) {
@@ -276,7 +276,7 @@ export default {
         const blob = new Blob([jsonNewRoom], {
           type: "application/json",
         });
-        console.log(booking)
+        // console.log(booking)
         let formData = new FormData();
         formData.append("newReservation", blob);
         this.$store.dispatch("addReservation", formData);
