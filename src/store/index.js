@@ -52,7 +52,7 @@ export default createStore({
       commit ('setDeleteReservation',response.data)
     },
     async deleteUserRole({commit},formData){
-      const response = await axios.delete(`${API_URL}/api/auth/deleteUser`,formData,{headers:{Authorization:token}})
+      const response = await axios.delete(`${API_URL}/api/auth/deleteUser`,{headers:{Authorization:token},data:formData})
       commit('setDeleteUserRole',response.data)
     },
     async editUserRole({commit},formData){

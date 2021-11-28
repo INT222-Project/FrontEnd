@@ -115,16 +115,20 @@ export default {
                 let formData = new FormData();
                 formData.append("id",id);
                 formData.append("role",role)
-                this.$store.dispatch('deleteUserRole',formData).then(data => {
-                this.$store.state.showLoading = true;
-                this.message = data.message;
-                setTimeout(()=> window.location.href='/admin',2000)
-                },
-            err => {
-             this.showSuccess = false;
-             this.message = null ;
-             this.error = err.response.data;
-             this.showError = true;})
+                this.$store.dispatch('deleteUserRole',formData).then(
+                    data => {
+                        this.$store.state.showLoading = true;
+                        this.message = data;
+                        setTimeout(()=> location.reload(),2000)
+                         },
+                    err => {
+                        if(err){
+                            this.showError = true;
+                            this.error = 'This user doing transaction cant not delete user ';
+                            alert(this.error)
+                        }
+                       })
+                    
             }
         },
         editBtn(id,role){
