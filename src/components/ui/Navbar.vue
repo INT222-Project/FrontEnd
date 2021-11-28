@@ -78,8 +78,10 @@ export default {
   },
    setup() {
     const store = useStore();
-    store.dispatch("getCustomersById");
-    store.dispatch("getReceptionistsById");
+    if(store.state.user != 0){
+      store.dispatch("getCustomersById");
+      store.dispatch("getReceptionistsById");
+    }
     let customer = computed(function () {
       return store.state.customer;
     });
