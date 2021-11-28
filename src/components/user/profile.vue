@@ -368,7 +368,7 @@ export default {
        }
       this.$store.dispatch("editCustomer",formData);
       this.editForm = !this.editForm
-      location.reload()
+      // location.reload()
     },
     createEditReceptionistProfile(obj){
        console.log(obj)
@@ -394,7 +394,7 @@ export default {
           formData.append("editReceptionist", blob);
        }
       this.$store.dispatch("editReceptionist",formData);
-      location.reload()
+      // location.reload()
     }
   },
   setup() {

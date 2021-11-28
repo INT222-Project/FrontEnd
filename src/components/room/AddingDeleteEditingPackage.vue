@@ -91,41 +91,48 @@
             <button class="btn btn-danger" @click="cancel()">Cancel</button>
           </span>
         </div>
-      <div class="card p-4">
-           <label class="form-label font-bold "
-            ><h4 class="font-bold text-start">Package Data</h4>
-            </label >
-        <table class="table table-responsive table-bordered">
-          <thead class="table-primary">
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Roomtype</th>
-              <th scope="col" width="30%">Description</th>
-              <th scope="col">PackageCharge</th>
-              <th scope="col"><div class="search"> 
-              <i class="fa fa-search"></i> 
-              <input type="text" class="form-control" v-model="search" placeholder="Type to search package"> 
-              </div></th>
-            </tr>
-          </thead>
-          <tbody class="table-light">
-            <tr v-for="item in filterRoomtype" :key="item.packageId">
-              <td>{{ item.packageId }}</td>
-              <td>{{ item.name }}</td>
-              <td>{{ item.description }}</td>
-              <td>{{ item.packageCharge.toLocaleString() }}</td>
-            
-              <td class="space-x-2 text-center">
-                <button class="btn btn-success" @click="editBtn(item)">
+      <div class="d-md-flex d-none justify-content-md-between justify-content-sm-center align-content-center border-bottom border-2 my-2 bg-primary text-light p-3 rounded-3">
+        <div class="col-2 text-sm-center text-md-start align-self-center">
+            <h1 class="h5 fw-bold">ID</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">Package</h1>
+        </div>
+        <div class="col-3 align-self-center">
+            <h1 class="h5 fw-bold">Description</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">PackageCharge</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">
+              <input type="search" class="form-control" v-model="search" placeholder="Type to search package"> </h1>
+        </div>
+    </div>
+    <div v-for="item in filterRoomtype" :key="item.packageId"  class="d-md-flex d-sm-block justify-content-md-between justify-content-sm-center text-center border-bottom border-2 my-2 bg-light p-6 rounded-3">
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+            <h1 class="h6">{{ item.packageId }}</h1>
+          
+        </div>
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+            <h1 class="h6">{{ item.name }}</h1>
+          
+        </div>
+        <div class="col-md-3 text-sm-center text-md-start align-self-center my-2">
+            <h1 class="h6">{{ item.description }}</h1>
+          
+        </div>
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+            <h1 class="h6">{{ item.packageCharge.toLocaleString() }}</h1>
+        </div>
+        <div class="col-md-2 text-sm-center text-md-start align-self-center my-2 space-x-2">
+           <button class="btn btn-success" @click="editBtn(item)">
                   <i class="fas fa-edit"></i>
                 </button>
                 <button @click="deletePackage(item)" class="btn btn-danger">
                   <i class="far fa-trash-alt"></i>
                 </button> 
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        </div>
       </div>
     </div>
   </div>
