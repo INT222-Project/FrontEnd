@@ -29,8 +29,8 @@
                 {{item.authenticationUser.repId}}</h1>
         </div>
          <div class="col-md-1 text-sm-center text-md-start align-self-center my-2">
-             <img v-if="item.role[0].authority == 'customer'" :src="viewImg(item.authenticationUser.customerId)" class="rounded-circle" width="30"/>
-             <img v-if="item.role[0].authority == 'receptionist'" :src="viewImg(item.authenticationUser.repId)" class="rounded-circle" width="30"/>
+             <img v-if="item.role[0].authority == 'customer'" :src="viewImg(item.authenticationUser.customerId,item.role[0].authority)" class="rounded-circle" width="30"/>
+             <img v-if="item.role[0].authority == 'receptionist'" :src="viewImg(item.authenticationUser.repId,item.role[0].authority)" class="rounded-circle" width="30"/>
         </div>
         <div class="col-md-3 text-sm-center text-md-start align-self-center my-2">
             <h1  class="h6">{{item.authenticationUser.email}}</h1>
@@ -102,8 +102,12 @@ export default {
         }
     },
     methods:{
-        viewImg(id){
-            return this.$store.state.url + "/api/receptionists/showImage/" + id;
+        viewImg(id,role){
+            if(role == 'receptionist'){
+                return this.$store.state.url + "/api/receptionists/showImage/" + id;
+            }else if(role == 'customer'){
+                return this.$store.state.url + "/api/customers/showImage/" + id;
+            }
         },
         deleteUser(id,role){
             let response = confirm(`Are you want to delete this ${role} ${id}`)
@@ -111,16 +115,20 @@ export default {
                 let formData = new FormData();
                 formData.append("id",id);
                 formData.append("role",role)
-                this.$store.dispatch('deleteUserRole',formData).then(data => {
-                this.$store.state.showLoading = true;
-                this.message = data.message;
-                setTimeout(()=> window.location.href='/admin',2000)
-                },
-            err => {
-             this.showSuccess = false;
-             this.message = null ;
-             this.error = err.response.data;
-             this.showError = true;})
+                this.$store.dispatch('deleteUserRole',formData).then(
+                    data => {
+                        this.$store.state.showLoading = true;
+                        this.message = data;
+                        setTimeout(()=> location.reload(),2000)
+                         },
+                    err => {
+                        if(err){
+                            this.showError = true;
+                            this.error = 'This user doing transaction cant not delete user ';
+                            alert(this.error)
+                        }
+                       })
+                    
             }
         },
         editBtn(id,role){

@@ -141,11 +141,10 @@
             </div>
             <div v-if="item.status == 'paid'">
               <button
-                class="btn btn-primary"
-                @click="confirmPayment(item)"
+                class="btn btn-dark"
                 disabled
               >
-                Upload Payment
+                This reservation paid
               </button>
             </div>
           </div>
@@ -192,10 +191,11 @@ export default {
   },
   methods: {
     cancelPayment(item){
-      let response = confirm(`Are you want to cancel this reservation ${item.reserve}`)
+      let response = confirm(`Are you want to cancel this reservation ${item.reservNo}`)
       if(response){
          console.log(item.reservNo)
          this.$store.dispatch("deleteReservation",item.reservNo)
+        //  location.reload()
       }
     },
     cancelEdit(){
