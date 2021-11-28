@@ -76,6 +76,12 @@
                 </option>
             </select>
             <button @click="changeRole(item)" class="btn btn-outline-dark" v-if="this.editForm == true && item.role[0].authority == 'receptionist'  && item.authenticationUser.repId == editId">OK</button>  
+            <div v-if="this.showError == true && this.editId == item.authenticationUser.customerId" class="alert alert-danger" role="alert">
+            {{this.error}}
+            </div>
+            <div v-if="this.showError == true && this.editId == item.authenticationUser.repId" class="alert alert-danger" role="alert">
+            {{this.error}}
+            </div>
         </div>
     </div>
 </div>
@@ -89,6 +95,9 @@ export default {
             newRole:'',
             editId:'',
             editForm:false,
+            showError:false,
+            error:null,
+            message:'',
             roles:['customer','receptionist']
         }
     },
@@ -102,18 +111,21 @@ export default {
                 let formData = new FormData();
                 formData.append("id",id);
                 formData.append("role",role)
-                this.$store.dispatch('deleteUserRole',formData).then(this.location.reload())
-                // if(role == 'receptionist')
-                // {
-                //     this.$store.dispatch('deleteReceptionist',id).then(this.location.reload())
-                // }
-                // if(role == 'customer')
-                // {
-                //     this.$store.dispatch('deleteCustomer',id).then(this.location.reload())
-                // }
+                this.$store.dispatch('deleteUserRole',formData).then(data => {
+                this.$store.state.showLoading = true;
+                this.message = data.message;
+                setTimeout(()=> window.location.href='/admin',2000)
+                },
+            err => {
+             this.showSuccess = false;
+             this.message = null ;
+             this.error = err.response.data;
+             this.showError = true;})
             }
         },
         editBtn(id,role){
+            this.error = null
+            this.showError = false
             this.editForm = !this.editForm
             this.editId = id 
             this.newRole = role
@@ -138,7 +150,18 @@ export default {
                      let formData = new FormData();
                      formData.append("newReceptionist", blob);
                      formData.append("newRole",this.newRole);
-                     this.$store.dispatch('editUserRole',formData)
+                     this.$store.dispatch('editUserRole',formData).then(
+                        data => {
+                        this.$store.state.showLoading = true;
+                        this.message = data;
+                        setTimeout(()=> location.reload(),2000)
+                         },
+                        err => {
+                        if(err){
+                        this.message = null ;
+                        this.error = 'This user doing transaction cant not change role ';
+                        this.showError = true;
+                        }})
                 }else if(obj.role[0].authority == 'receptionist'){
                     this.editForm = !this.editForm
                     this.editId = ''
@@ -164,7 +187,18 @@ export default {
                      let formData = new FormData();
                      formData.append("newCustomer", blob);
                      formData.append("newRole",this.newRole);
-                     this.$store.dispatch('editUserRole',formData)
+                     this.$store.dispatch('editUserRole',formData).then(
+                        data => {
+                        this.$store.state.showLoading = true;
+                        this.message = data;
+                        setTimeout(()=> location.reload(),2000)
+                         },
+                        err => {
+                        if(err){
+                        this.message = null ;
+                        this.error = 'This user doing transaction cant not change role ';
+                        this.showError = true;
+                        }})
                  }
             }
         }
