@@ -7,3 +7,5 @@ git status ;
 docker-compose down ;
 docker-compose up --build -d ;
 docker ps -a ;
+docker image prune -f ;
+docker ps -a ;
