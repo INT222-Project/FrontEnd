@@ -261,10 +261,10 @@ export default {
     },
      viewImg(id) {
       if (this.userData.role[0].authority == "receptionist") {
-        console.log(this.$store.state.url + "/api/receptionists/showImage/" + id)
+        // console.log(this.$store.state.url + "/api/receptionists/showImage/" + id)
         return this.$store.state.url + "/api/receptionists/showImage/" + id;
       } else if (this.userData.role[0].authority == "customer") {
-        console.log(this.$store.state.url + "/api/customers/showImage/" + id)
+        // console.log(this.$store.state.url + "/api/customers/showImage/" + id)
         return this.$store.state.url + "/api/customers/showImage/" + id;
       }
     },
@@ -300,7 +300,7 @@ export default {
         this.imgSrc = this.$store.state.url +"/api/customers/showImage/"+ this.receptionist.repId 
         this.editForm = !this.editForm;
       }
-      console.log(this.id, this.fname, this.lname, this.telNo, this.password);
+      // console.log(this.id, this.fname, this.lname, this.telNo, this.password);
     },
     editSubmit(){
       this.invFname = this.fname === "" ? true:false; 
@@ -344,7 +344,7 @@ export default {
       }
     },
     createEditCustomerProfile(obj){
-      console.log(obj)
+      // console.log(obj)
       const data = {
             customerId : obj.customerId,
             email : obj.email,
@@ -371,7 +371,7 @@ export default {
       // location.reload()
     },
     createEditReceptionistProfile(obj){
-       console.log(obj)
+      //  console.log(obj)
       const data = {
             repId : obj.repId,
             email : obj.email,

@@ -188,12 +188,12 @@ export default {
         telNo: this.telNo,
         address: this.address,
       };
-      console.log(data);
+      // console.log(data);
       this.createFormdata(data);
       }
     },
     createFormdata(obj){
-      console.log(obj)
+      // console.log(obj)
       const json = JSON.stringify(obj);
       const blob = new Blob([json], {
         type: "application/json",

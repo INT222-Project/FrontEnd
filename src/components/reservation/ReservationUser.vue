@@ -193,7 +193,7 @@ export default {
     cancelPayment(item){
       let response = confirm(`Are you want to cancel this reservation ${item.reservNo}`)
       if(response){
-         console.log(item.reservNo)
+        //  console.log(item.reservNo)
          this.$store.dispatch("deleteReservation",item.reservNo)
         //  location.reload()
       }
@@ -209,10 +209,10 @@ export default {
       this.reserveId = reservNo
       this.editId = reservationDetail
       this.oldPackages = packageList
-      console.log('editButton')
-      console.log(this.selectedPackages)
-      console.log(this.reserveId)
-      console.log(this.editId)
+      // console.log('editButton')
+      // console.log(this.selectedPackages)
+      // console.log(this.reserveId)
+      // console.log(this.editId)
     },
      checkPackage(packageId) {
       let count = 0;
@@ -225,7 +225,7 @@ export default {
       }
       if (count > 0) {
         if(!this.tempItemPackages.includes(tempItem)){
-          console.log("temp item : "+tempItem);
+          // console.log("temp item : "+tempItem);
           this.tempItemPackages.push(tempItem);
         }
         return true;
@@ -240,7 +240,7 @@ export default {
         let changeOldPackages = [];
         let indexOfTrue = [];
         for (let zq = 0; zq < btn.length; zq++) {
-          console.log(zq + " : " + btn.item(zq).checked);
+          // console.log(zq + " : " + btn.item(zq).checked);
           changeOldPackages.push(btn.item(zq).checked);
           if (btn.item(zq).checked == false) {
             hasChange = true;
@@ -250,15 +250,15 @@ export default {
         if (hasChange == false) {
           if (this.selectedPackages.length == 0) {
               this.selectedPackages = [];
-              console.log('old selected')
-              console.log(this.selectedPackages)
+              // console.log('old selected')
+              // console.log(this.selectedPackages)
               this.invalidPackage = false;
             } else {
               for (let i = 0; i < this.tempItemPackages.length; i++) {
                 this.newSelectedPacakges.push(this.tempItemPackages[i]);
               }
-              console.log('new selected')
-              console.log(this.newSelectedPacakges)
+              // console.log('new selected')
+              // console.log(this.newSelectedPacakges)
               this.invalidPackage = false;
             }
           }
@@ -270,23 +270,23 @@ export default {
             }
           }
       //     /* check that which item still remaining checked */
-          console.log('changeOld '+changeOldPackages);
-          console.log('indexOftrue '+ indexOfTrue);
+          // console.log('changeOld '+changeOldPackages);
+          // console.log('indexOftrue '+ indexOfTrue);
       //     console.log(this.selectedPackages);
           if (indexOfTrue.length != 0) {
             /* set old color that was change */
             for (let i = 0; i < indexOfTrue.length; i++) {
               this.newSelectedPacakges.push(this.tempItemPackages[indexOfTrue[i]]);
             }
-            console.log('oldSelected change ')
-            console.log(this.newSelectedPacakges)
+            // console.log('oldSelected change ')
+            // console.log(this.newSelectedPacakges)
       //       this.invalidPackage = false;
           } else {
             if (this.selectedPackages.length == 0) {
               this.newSelectedPacakges = null
               return;
             } else {
-              console.log("Lastest progress : " + this.newSelectedPacakges);
+              // console.log("Lastest progress : " + this.newSelectedPacakges);
             }
           }
         }
@@ -294,16 +294,16 @@ export default {
       this.createFormEditPackages(this.newSelectedPacakges)
     },
     createFormEditPackages(newPackages) {
-      console.log('lastTest')
-      console.log(newPackages)
-      console.log(this.editId)
-      console.log(this.reserveId)
+      // console.log('lastTest')
+      // console.log(newPackages)
+      // console.log(this.editId)
+      // console.log(this.reserveId)
       const json = JSON.stringify(newPackages);
       const blob = new Blob([json], {
         type: "application/json",
       });
       let formData = new FormData();
-      console.log(json)
+      // console.log(json)
       formData.append("editPackage", blob);
       formData.append("reservNo", this.reserveId);
       formData.append("reservationDetailId", this.editId);

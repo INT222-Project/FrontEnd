@@ -78,7 +78,7 @@ export default createStore({
     },
     async editReceptionist({commit},formData){
       const response = await axios.put(`${API_URL}/api/receptionists/edit/${this.state.user.authenticationUser.repId}`,formData,{headers:{Authorization:token}});
-      console.log(formData.get('editReceptionist'))
+      // console.log(formData.get('editReceptionist'))
       commit('editReceptionist', response.data);
     },
     async getAllCustomer({commit}){

@@ -223,7 +223,7 @@ export default {
       const temp2 = new Date(this.checkOut);
       var diffTime = temp2.getTime() - temp1.getTime();
       var diffDays = diffTime / (1000 * 3600 * 24);
-      console.log("diff days : " + diffDays);
+      // console.log("diff days : " + diffDays);
       return diffDays;
     },
     addToCart() {

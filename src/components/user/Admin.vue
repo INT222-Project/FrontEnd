@@ -150,7 +150,7 @@ export default {
                     telNo : obj.authenticationUser.telNo,
                     address : obj.authenticationUser.address
                      }
-                     console.log(editRole)
+                    //  console.log(editRole)
                      const jsonEditProfile = JSON.stringify(editRole);
                      const blob = new Blob([jsonEditProfile], {
                      type: "application/json",
@@ -187,7 +187,7 @@ export default {
                     telNo : obj.authenticationUser.telNo,
                     address : obj.authenticationUser.address
                      }
-                     console.log(editRole)
+                    //  console.log(editRole)
                      const jsonEditProfile = JSON.stringify(editRole);
                      const blob = new Blob([jsonEditProfile], {
                      type: "application/json",

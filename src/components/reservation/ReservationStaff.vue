@@ -426,7 +426,7 @@ export default {
         reservation.repId = this.receptionist;
         reservationDetail.room = this.selectedRoom;
         reservationDetail.status = "done";
-        console.log(reservation);
+        // console.log(reservation);
         let booking = {
           reservNo: reservation.reservNo,
           customerId: reservation.customerId,
@@ -441,10 +441,10 @@ export default {
         this.createFormData(booking);
       } else {
         if (reservationDetail.status == "done" && this.selectedRoom != null) {
-            console.log('hi')
+            // console.log('hi')
             reservation.repId = this.receptionist;
             reservationDetail.room = this.selectedRoom;
-            console.log(reservation);
+            // console.log(reservation);
             let booking = {
             reservNo: reservation.reservNo,
             customerId: reservation.customerId,
@@ -505,7 +505,7 @@ export default {
           }
         }
       }
-      console.log(listReservedRoom);
+      // console.log(listReservedRoom);
       let showRoom = this.rooms;
       if (listReservedRoom.length != 0) {
         for (let i = 0; i < listReservedRoom.length; i++) {
@@ -529,10 +529,10 @@ export default {
       }
       this.staffRoom = showRoom;
       // console.log(reservationDetail)
-      console.log(this.staffRoom)
+      // console.log(this.staffRoom)
     },
     enterRoom(reservation, reservationDetail){
-      console.log("test");
+      // console.log("test");
       let response = confirm(
         `Are you sure you want to checkIn this reservation: ${reservation.reservNo}`
       );
@@ -541,7 +541,7 @@ export default {
           reservation.repId = this.receptionist;
           reservationDetail.room.status = "Available";
           reservationDetail.status = "check-in";
-          console.log(reservation);
+          // console.log(reservation);
           let booking = {
             reservNo: reservation.reservNo,
             customerId: reservation.customerId,
@@ -558,7 +558,7 @@ export default {
       }
     },
     returnRoom(reservation, reservationDetail) {
-      console.log("test");
+      // console.log("test");
       let response = confirm(
         `Are you sure you want to checkout this reservation: ${reservation.reservNo}`
       );
@@ -567,7 +567,7 @@ export default {
           reservation.repId = this.receptionist;
           reservationDetail.room.status = "Available";
           reservationDetail.status = "check-out";
-          console.log(reservation);
+          // console.log(reservation);
           let booking = {
             reservNo: reservation.reservNo,
             customerId: reservation.customerId,

@@ -22,7 +22,7 @@ export const auth = {
             }
             ,
             err => {
-                console.log(err.response.data.code)
+                // console.log(err.response.data.code)
                 if(err.response.data.code == 400){
                     err.message = 'Incorrect email or password'
                     commit('auth_error');

@@ -230,7 +230,7 @@ export default {
           src: this.imgSrc,
           imgObject: this.imgObject,
         };
-        console.log(room);
+        // console.log(room);
         this.invRNo = false;
         this.invBtype = false;
         this.invRtype = false;

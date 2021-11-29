@@ -77,15 +77,15 @@ export default {
         const blob = new Blob([jsonNewRoom],{
           type: "application/json",
         })
-        console.log(jsonNewRoom)
-        console.log(room.imgObject)
-        console.log(room.imgObject.name)
+        // console.log(jsonNewRoom)
+        // console.log(room.imgObject)
+        // console.log(room.imgObject.name)
         let formData = new FormData();
         formData.append("image-file", room.imgObject, room.imgObject.name);
         formData.append("newRoom",blob)
         // this.$store.dispatch('addRoom',formData);
         RoomDataService.addNewRoom(formData).then((response)=>{
-          console.log(response.data)
+          // console.log(response.data)
         })
         this.$store.state.showLoading = true;
         setTimeout(()=>{this.activeTab = "RoomList"
@@ -93,7 +93,7 @@ export default {
       }
     },
      deleteRoom(room) {
-      console.log(room.roomId)
+      // console.log(room.roomId)
       let response = confirm(`Are you sure you want to delete room: ${room.roomNo}`)
       if(response){
          this.$store.dispatch('deleteRoom',room.roomId);
@@ -105,7 +105,7 @@ export default {
         
     },
     editBtn(room){
-      console.log("Room No editing : " + room);
+      // console.log("Room No editing : " + room);
       this.isEdit = true
       this.old_roomId = room.roomId
       this.old_roomNo = room.roomNo
@@ -128,12 +128,12 @@ export default {
         status:room.status,
         src:room.src
         }
-        console.log('imgsrc '+editRoom.src)
+        // console.log('imgsrc '+editRoom.src)
         const jsonNewRoom = JSON.stringify(editRoom);
         const blob = new Blob([jsonNewRoom],{
           type: "application/json",
         })
-        console.log(jsonNewRoom)
+        // console.log(jsonNewRoom)
         let formData = new FormData();
         if(room.imgObject != null) {
           formData.append("image-file", room.imgObject, room.imgObject.name);
@@ -143,7 +143,7 @@ export default {
           formData.append("editRoom",blob);
         }
         RoomDataService.editRoom(formData,room.roomId).then((response)=>{
-          console.log(response.data)
+          // console.log(response.data)
         })
         this.isEdit = false;
         this.$store.state.showLoading = true;
