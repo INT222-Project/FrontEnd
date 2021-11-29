@@ -20,8 +20,12 @@
         <div class="col-2 align-self-center">
             <h1 class="h5 fw-bold">Role</h1>
         </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">tes</h1>
+        </div>
     </div>
-    <div v-for="(item,index) in users" :key="index"  class="d-md-flex d-sm-block justify-content-md-between justify-content-sm-center text-center border-bottom border-2 my-2 bg-light p-6 rounded-3">
+    <div v-for="(item,index) in users" :key="index">
+    <div class="d-md-flex d-sm-block justify-content-md-between justify-content-sm-center text-center border-bottom border-2 my-2 bg-light p-6 rounded-3">
         <div class="col-md-1 text-sm-center text-md-start align-self-center my-2">
             <h1 v-if="item.role[0].authority == 'customer'" class="h6">
                 {{item.authenticationUser.customerId}}</h1>
@@ -76,13 +80,14 @@
                 </option>
             </select>
             <button @click="changeRole(item)" class="btn btn-outline-dark" v-if="this.editForm == true && item.role[0].authority == 'receptionist'  && item.authenticationUser.repId == editId">OK</button>  
-            <div v-if="this.showError == true && this.editId == item.authenticationUser.customerId" class="alert alert-danger" role="alert">
-            {{this.error}}
-            </div>
-            <div v-if="this.showError == true && this.editId == item.authenticationUser.repId" class="alert alert-danger" role="alert">
-            {{this.error}}
-            </div>
         </div>
+    </div>
+        <div v-if="this.showError == true && this.editId == item.authenticationUser.customerId" class="alert alert-danger text-center" role="alert">
+            {{this.error}}
+            </div>
+            <div v-if="this.showError == true && this.editId == item.authenticationUser.repId" class="alert alert-danger text-center" role="alert">
+            {{this.error}}
+            </div>
     </div>
 </div>
 </template>
@@ -117,12 +122,14 @@ export default {
                 formData.append("role",role)
                 this.$store.dispatch('deleteUserRole',formData).then(
                     data => {
+                        this.showError = false;
                         this.$store.state.showLoading = true;
                         this.message = data;
                         setTimeout(()=> location.reload(),2000)
                          },
                     err => {
                         if(err){
+                            this.message = null;
                             this.showError = true;
                             this.error = 'This user doing transaction cant not delete user ';
                             alert(this.error)

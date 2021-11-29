@@ -27,6 +27,9 @@
             </div>
           </div>
           <div class="profile col-md-8">
+            <div v-if="this.showError == true" class="alert alert-danger text-center" role="alert">
+                      {{this.error}}
+            </div>
             <div class="card mb-3">
               <div class="card-body">
                 <div v-if="this.editForm == false" class="row">
@@ -237,6 +240,9 @@ export default {
   data() {
     return {
       editForm: false,
+      showError:false,
+      error:null,
+      message:null,
       id: "",
       fname: "",
       lname: "",
@@ -366,8 +372,21 @@ export default {
        }else{
          formData.append("editCustomer", blob);
        }
-      this.$store.dispatch("editCustomer",formData);
-      this.editForm = !this.editForm
+      this.$store.dispatch("editCustomer",formData).then(
+                    data => {
+                        this.message = data;
+                        this.showError = false;
+                        this.editForm = !this.editForm
+                        this.$store.state.showLoading = true;
+                        setTimeout(()=> location.reload(),2000)
+                         },
+                    err => {
+                        if(err){
+                            this.message = null;
+                            this.showError = true;
+                            this.error = 'Email or Phone Number already exists ';
+                        }
+                       })
       // location.reload()
     },
     createEditReceptionistProfile(obj){
@@ -393,7 +412,21 @@ export default {
        }else{
           formData.append("editReceptionist", blob);
        }
-      this.$store.dispatch("editReceptionist",formData);
+      this.$store.dispatch("editReceptionist",formData).then(
+                    data => {
+                        this.message = data;
+                        this.showError = false;
+                        this.editForm = !this.editForm
+                        this.$store.state.showLoading = true;
+                        setTimeout(()=> location.reload(),2000)
+                         },
+                    err => {
+                        if(err){
+                            this.message = null;
+                            this.showError = true;
+                            this.error = 'Email or Phone Number already exists ';
+                        }
+                       })
       // location.reload()
     }
   },

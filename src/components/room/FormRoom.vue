@@ -12,7 +12,7 @@
           placeholder="100"
         />
         <div v-if="this.invRNo == true" class="text-red-500 text-sm">
-          Please provide a valid room number.
+           Invalid room number or this room number already exists.
         </div>
       </div>
       <!-- section -->
@@ -143,7 +143,7 @@ export default {
   },
   data() {
     return {
-      statusDB:['Avaliable','mock-up'],
+      statusDB:['Available','mock-up'],
       edited: this.editedRoom,
       file: null,
       imgSrc: this.old_Img,
