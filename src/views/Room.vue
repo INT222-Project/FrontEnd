@@ -84,9 +84,7 @@ export default {
         formData.append("image-file", room.imgObject, room.imgObject.name);
         formData.append("newRoom",blob)
         // this.$store.dispatch('addRoom',formData);
-        RoomDataService.addNewRoom(formData).then((response)=>{
-          // console.log(response.data)
-        })
+        RoomDataService.addNewRoom(formData)
         this.$store.state.showLoading = true;
         setTimeout(()=>{this.activeTab = "RoomList"
         location.reload()},2000);
@@ -142,9 +140,7 @@ export default {
         else {
           formData.append("editRoom",blob);
         }
-        RoomDataService.editRoom(formData,room.roomId).then((response)=>{
-          // console.log(response.data)
-        })
+        RoomDataService.editRoom(formData,room.roomId)
         this.isEdit = false;
         this.$store.state.showLoading = true;
         setTimeout(()=>{
