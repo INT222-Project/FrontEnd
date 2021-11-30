@@ -2,6 +2,8 @@
 node_modules
 /dist
 
+# circleCI
+.circleci/
 
 # local env files
 .env.local
