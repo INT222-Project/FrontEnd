@@ -5,6 +5,7 @@
         class="
           w-full
           md:w-2/4
+          sm:w-2/4
           bg-white
           p-10
           shadow-md

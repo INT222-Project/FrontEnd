@@ -60,18 +60,18 @@
               <span class="font-bold">Cost </span>:
               {{ item.subTotal.toLocaleString() }}
             </p>
-            <p><span class="font-bold">Booking detail </span></p>
+            <p><span class="font-bold">Payment Method </span>: {{item.paymentMethodId.paymentMethodName}}</p>
             <div class="border border-primary rounded p-3 mb-3">
               <div
                 v-for="reservationDetail in item.reservationDetailList"
                 :key="reservationDetail.reservDetailId"
               >
               <p>
-              <span class="font-bold">ReservationDetail </span>:
+              <span class="font-bold">Reservation detail </span>:
               {{reservationDetail.reservDetailId}}
               </p>
                 <p>
-                  <span class="font-bold">roomType : </span>
+                  <span class="font-bold">Room type : </span>
                   {{ reservationDetail.room.roomType.name }}
                   {{ reservationDetail.room.bedType }}
                 </p>
@@ -123,17 +123,17 @@
                 <button v-if="this.editForm == true && this.editId == reservationDetail.reservDetailId" class="btn btn-danger" @click="cancelEdit()">cancel</button>
                 </div>
                 <p>
-                  <span class="font-bold">Check In : </span>{{ reservationDetail.checkInDate }}
+                  <span class="font-bold">Check in : </span>{{ reservationDetail.checkInDate }}
                 </p>
                 <p>
-                  <span class="font-bold">Check Out :</span>{{ reservationDetail.checkOutDate }}
+                  <span class="font-bold">Check out :</span>{{ reservationDetail.checkOutDate }}
                 </p>
                 <hr/>
               </div>
             </div>
             <div v-if="item.status == 'unpaid'" class="space-x-2">
               <button class="btn btn-primary" @click="confirmPayment(item)">
-                Upload Payment
+                Confirm Payment
               </button>
               <button class="btn btn-danger" @click="cancelPayment(item)">
                 Cancel
@@ -195,7 +195,7 @@ export default {
       if(response){
         //  console.log(item.reservNo)
          this.$store.dispatch("deleteReservation",item.reservNo)
-        //  location.reload()
+         location.reload()
       }
     },
     cancelEdit(){

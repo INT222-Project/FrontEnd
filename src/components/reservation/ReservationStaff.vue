@@ -195,14 +195,15 @@
           <thead class="table-primary">
             <tr class="bg-light">
               <th scope="col">ID</th>
+              <th scope="col">Customer</th>
               <th scope="col">RoomType</th>
               <th scope="col">Bed</th>
               <th scope="col">PaymentMethod</th>
-              <th scope="col">Customer</th>
               <th scope="col">CheckInDate</th>
               <th scope="col">CheckOutDate</th>
+              <th scope="col" >Package</th>
               <th scope="col">Total</th>
-              <th scope="col" width="15%">Room</th>
+              <th scope="col" >Room</th>
               <th scope="col" class="text-end">
                 <div class="search">
                   <i class="fa fa-search"></i>
@@ -225,6 +226,12 @@
                 {{ reservationDetail.reservDetailId }} ({{ item.reservNo }})
               </td>
               <td>
+                {{
+                  item.customerId.fname
+                }}
+                {{ item.customerId.lname }}
+              </td>
+              <td>
                 {{ reservationDetail.room.roomType.name }}
               </td>
               <td>
@@ -240,14 +247,15 @@
                 <i class="fa fa-check-circle-o green"></i
                 ><span class="ms-1">-</span>
               </td>
-              <td>
-                <img src="https://i.imgur.com/VKOeFyS.png" width="25" />{{
-                  item.customerId.fname
-                }}
-                {{ item.customerId.lname }}
-              </td>
               <td>{{ reservationDetail.checkInDate }}</td>
               <td>{{ reservationDetail.checkOutDate }}</td>
+               <td>
+                {{item.packages}}
+                <button type="button" @click="getListPackage(reservationDetail.packageDetailList)" class="btn btn-success"
+                data-bs-toggle="modal" data-bs-target="#packages">
+                  details
+                </button>
+              </td>
               <td>
                 {{ reservationDetail.total }}
               </td>
@@ -381,6 +389,49 @@
         </div>
       </div>
     </div>
+    <div
+      class="modal fade"
+      id="packages"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="checkoutLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="
+          modal-dialog modal-dialog-scrollable modal-md modal-dialog-centered
+        "
+      >
+        <div class="modal-content">
+          <div class="modal-header bg-success">
+            <h5 class="modal-title text-white" id="checkoutLabel">
+              Package Details
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row p-4" v-for="p in packageStatus" :key="p.packageId">
+                <p>{{p.packageId.name}} {{p.packageId.packageCharge}}฿</p>
+                <span>Description:
+                {{p.packageId.description}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-success">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div v-if="this.$store.state.user.role[0].authority == 'customer'" class=" w-screen h-screen pt-12 ">
      <div class="flex justify-center p-24 bg-blue-500">
@@ -417,10 +468,15 @@ export default {
       isShowCheckIn:false,
       isShowCheckout: false,
       selectedRoom: null,
+      packageStatus:null,
       receptionist:this.userData.authenticationUser||null
     };
   },
   methods: {
+    getListPackage(item) {
+      console.log(item)
+      this.packageStatus = item;
+    },
     preferRoom(reservation, reservationDetail) {
       if (reservationDetail.status == "undone" && this.selectedRoom != null) {
         reservation.repId = this.receptionist;

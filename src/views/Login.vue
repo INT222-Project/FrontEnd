@@ -12,11 +12,12 @@
   </svg>
   <div v-if="this.$store.state.user == 0" class="login bg-blue-500 w-screen h-screen">
     <form @submit.prevent="login()">
-      <div class="flex justify-center p-24">
+      <div class="flex justify-center pt-24 p-10">
         <div
           class="
             w-full
             md:w-2/4
+            sm:w-2/4
             bg-white
             p-10
             shadow-md

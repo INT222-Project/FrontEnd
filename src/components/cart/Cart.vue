@@ -1,12 +1,12 @@
 <template>
-  <div class="container pt-14">
-    <div class="container-fluid h-screen mt-100">
+  <div class="container pt-32">
+    <div class="container-fluid h-screen ">
       <div class="col-md-12">
         <div v-if="$store.state.cartItemCount == 0" class="card">
           <div class="card-header">
             <h5>Cart</h5>
           </div>
-          <div class="card-body cart">
+          <div class="card-body cart ">
             <div class="col-sm-12 text-center">
               <div class="d-flex justify-center">
                 <img
@@ -38,8 +38,71 @@
               {{ total.toLocaleString() }}
             </h5>
           </div>
-          <div class="card-body cart">
-            <table class="table table-responsive table-bordered">
+          <div class="d-md-flex d-none justify-content-md-between justify-content-sm-center align-content-center border-bottom border-2 my-2 bg-dark text-light p-3 rounded-3">
+        <div class="col-2 text-sm-center text-md-start align-self-center">
+            <h1 class="h5 fw-bold">RoomType</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">Subtotal</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">Guest</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">Period</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">Package</h1>
+        </div>
+        <div class="col-2 align-self-center">
+            <h1 class="h5 fw-bold">Remove</h1>
+        </div>
+      </div>
+          <div class="card-body cart" v-for="item in items" :key="item.roomId">
+            <div class="d-md-flex d-sm-block justify-content-md-between justify-content-sm-center text-center border-bottom border-2 my-2 bg-light p-3 rounded-3">
+             <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+            <h1 class="h6">
+                {{ item.room.roomType.name }}</h1>
+            <h1 class="h6">
+                ({{ item.room.bedType }})</h1>
+             </div>
+             <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+            <h1 class="h6">
+               ฿ {{ item.subtotal.toLocaleString() }} </h1>
+             </div>
+             <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+            <h1 class="h6">
+                {{ item.numOfRest }}</h1>
+             </div>
+             <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+            (checkin)
+            <h1 class="h6">
+               {{ item.checkInDate }}</h1>
+                (checkout)
+              <h1 class="h6">
+                {{ item.checkOutDate }}
+              </h1>
+             </div>
+              <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+                <h1 class="h6">
+                   <button v-if="item.packages.length > 0" class="btn btn-success"  @click="getListPackage(item.packages)"  
+                    data-bs-toggle="modal" data-bs-target="#packages">
+                      Details
+                    </button>
+                    <span v-if="item.packages.length == 0">
+                      No Packages
+                    </span>
+                </h1>
+             </div>
+              <div class="col-md-2 text-sm-center text-md-start align-self-center my-2">
+                    <h1 class="h6"><button @click="removeItem(item)" class="btn btn-danger">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                    </h1>
+              </div>
+            </div>
+        
+            <!-- <table class="table table-responsive table-bordered">
               <thead class="">
                 <tr>
                   <th scope="col" width="15%">Roomtype</th>
@@ -76,7 +139,7 @@
                   </td>
                 </tr>
               </tbody>
-            </table>
+            </table> -->
           </div>
           <div class="card-footer">
             <div class="col-sm-4">
@@ -221,8 +284,7 @@
             <div class="container">
               <div class="row p-4" v-for="p in packageStatus" :key="p.packageId">
                 <p>{{p.name}} ฿{{p.packageCharge}}</p>
-                <span>Description:</span>
-                <p>{{p.description}}</p>
+                <span>Description:{{p.description}}</span>
               </div>
             </div>
           </div>
