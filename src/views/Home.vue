@@ -134,7 +134,7 @@
             <div class="card shadow-md">
               <div class="inner">
                 <button @click="CheckDateAvaliable(r.roomTypeId)">
-                  <img :src="viewImg(r.roomTypeId)" class="card-img-top" />
+                  <img :src="viewImg(r.roomTypeId)" class="card-img-top"/>
                 </button>
               </div>
             </div>

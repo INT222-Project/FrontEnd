@@ -1,129 +1,141 @@
 <template>
   <div class="w-auto h-full pt-4 pb-12">
     <div class="card shadow-md p-4">
-    <div class="room container section p-10">
-      <!-- section -->
-      <div class="mb-3">
-        <label class="form-label font-bold">Room No</label>
-        <input
-          type="text"
-          v-model="roomNo"
-          class="form-control"
-          placeholder="100"
-        />
-        <div v-if="this.invRNo == true" class="text-red-500 text-sm">
-           Invalid room number or this room number already exists.
+      <div class="room container section p-10">
+        <!-- section -->
+        <div class="mb-3">
+          <label class="form-label font-bold">Room No</label>
+          <input
+            type="text"
+            v-model="roomNo"
+            class="form-control"
+            placeholder="100"
+          />
+          <div v-if="this.invRNo == true && this.invENo == false" class="text-red-500 text-sm">
+            Invalid room number
+          </div>
+          <div v-if="this.invRNo == true && this.invENo == true" class="text-red-500 text-sm">
+            This room number already exists
+          </div>
         </div>
-      </div>
-      <!-- section -->
-      <div class="mb-3">
-        <label class="form-check-label font-bold">Bed Type</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="inlineRadioOptions"
-          value="Single Bed"
-          v-model="bedtype"
-        />
-        <label class="form-check-label">Single Bed</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="inlineRadioOptions"
-          value="Double Bed"
-          v-model="bedtype"
-        />
-        <label class="form-check-label">Double Bed</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="inlineRadioOptions"
-          value="Triple Bed"
-          v-model="bedtype"
-        />
-        <label class="form-check-label">Triple Bed</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input
-          class="form-check-input"
-          type="radio"
-          name="inlineRadioOptions"
-          value="Double-double Bed"
-          v-model="bedtype"
-        />
-        <label class="form-check-label">Double-double Bed</label>
-      </div>
-      <div v-if="this.invBtype == true" class="text-red-500 text-sm">
-        Please choose a Bed Type.
-      </div>
-      <!-- section -->
-      <div class="mb-3 mt-3">
-        <label class="form-label font-bold">Room Type</label>
-        <select v-model="roomtype" class="form-select">
-          <option v-for="r in rType" :value="r" :key="r.roomTypeId">
-            {{ r.name }}
-          </option>
-        </select>
-        <div v-if="this.invRtype == true" class="text-red-500 text-sm">
-          Please select a valid room type.
+        <!-- section -->
+        <div class="mb-3">
+          <label class="form-check-label font-bold">Bed Type</label>
         </div>
-      </div>
-      <!--section-->
-      <label class="form-label font-bold">Room charge</label>
-      <div class="input-group mb-3">
-        <span class="input-group-text">฿</span>
-        <input
-          class="form-control"
-          type="number"
-          v-model="roomCharge"
-          min="1"
-          step="0.05"
-          placeholder="0.00"
-        />
-      </div>
-      <div v-if="this.invRcharge == true" class="text-red-500 text-sm">
-        Please provide a valid room charge.
-      </div>
-      <!-- section -->
-      <div class="mb-3">
-        <label for="formFile" class="form-label font-bold">Images</label>
-        <div id="preview">
-          <img class="rounded mx-auto d-block" v-if="imgSrc" :src="imgSrc"  width="350" />
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            value="Single Bed"
+            v-model="bedtype"
+          />
+          <label class="form-check-label">Single Bed</label>
         </div>
-        <input
-          class="form-control"
-          type="file"
-          id="formFile"
-          @change="openFile"
-        />
-        <div v-if="this.invRimg == true" class="text-red-500 text-sm">
-          Please provide a valid image.
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            value="Double Bed"
+            v-model="bedtype"
+          />
+          <label class="form-check-label">Double Bed</label>
         </div>
-         <div class="mb-3 mt-3">
-        <label class="form-label font-bold">Status</label>
-        <select v-model="status" class="form-select">
-          <option v-for="r in statusDB" :value="r" :key="r">
-            {{ r }}
-          </option>
-        </select>
-        <div v-if="this.invRtype == true" class="text-red-500 text-sm">
-          Please select a status of room.
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            value="Triple Bed"
+            v-model="bedtype"
+          />
+          <label class="form-check-label">Triple Bed</label>
         </div>
-       </div>
-      </div>
-      <!-- section -->
-      <div class="space-x-2">
-        <button class="btn btn-success" @click="checkInput">Submit</button>
-        <button class="btn btn-danger" @click="clear">Cancel</button>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            value="Double-double Bed"
+            v-model="bedtype"
+          />
+          <label class="form-check-label">Double-double Bed</label>
+        </div>
+        <div v-if="this.invBtype == true && this.invMock == false" class="text-red-500 text-sm">
+          Please choose a Bed Type.
+        </div>
+        <div v-if="this.invBtype == true && this.invMock == true" class="text-red-500 text-sm">
+          This bedtype in room mock-up already exist cannot duplicate 
+        </div>
+        <!-- section -->
+        <div class="mb-3 mt-3">
+          <label class="form-label font-bold">Room Type</label>
+          <select v-model="roomtype" class="form-select">
+            <option v-for="r in rType" :value="r" :key="r.roomTypeId">
+              {{ r.name }}
+            </option>
+          </select>
+          <div v-if="this.invRtype == true" class="text-red-500 text-sm">
+            Please select a valid room type.
+          </div>
+        </div>
+        <!--section-->
+        <label class="form-label font-bold">Room charge</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">฿</span>
+          <input
+            class="form-control"
+            type="number"
+            v-model="roomCharge"
+            min="1"
+            step="0.05"
+            placeholder="0.00"
+          />
+        </div>
+        <div v-if="this.invRcharge == true" class="text-red-500 text-sm">
+          Please provide a valid room charge.
+        </div>
+        <!-- section -->
+        <div class="mb-3">
+          <label for="formFile" class="form-label font-bold">Images</label>
+          <div id="preview">
+            <img
+              class="rounded mx-auto d-block"
+              v-if="imgSrc"
+              :src="imgSrc"
+              width="350"
+            />
+          </div>
+          <input
+            class="form-control"
+            type="file"
+            id="formFile"
+            @change="openFile"
+          />
+          <div v-if="this.invRimg == true" class="text-red-500 text-sm">
+            Please provide a valid image.
+          </div>
+          <div class="mb-3 mt-3">
+            <label class="form-label font-bold">Status</label>
+            <select v-model="status" class="form-select">
+              <option v-for="r in statusDB" :value="r" :key="r">
+                {{ r }}
+              </option>
+            </select>
+            <div v-if="this.invStatus == true" class="text-red-500 text-sm">
+              Please select a status of room.
+            </div>
+          </div>
+        </div>
+        <!-- {{ itemInRooms }} -->
+        <!-- section -->
+        <div class="space-x-2">
+          <button class="btn btn-success" @click="checkInput">Submit</button>
+          <button class="btn btn-danger" @click="clear">Cancel</button>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -143,7 +155,7 @@ export default {
   },
   data() {
     return {
-      statusDB:['Available','mock-up'],
+      statusDB: ["Available", "mock-up"],
       edited: this.editedRoom,
       file: null,
       imgSrc: this.old_Img,
@@ -160,6 +172,8 @@ export default {
       invRtype: false,
       invRcharge: false,
       invRimg: false,
+      invStatus: false,
+      invENo: false
     };
   },
   methods: {
@@ -180,14 +194,46 @@ export default {
       this.invRtype = false;
       this.invRcharge = false;
       this.invRimg = false;
+      this.invMock = false;
+      this.invENo = false;
       location.reload();
     },
     checkInput() {
+      this.invMock = false;
+      this.invENo = false;
       this.invRNo = this.roomNo === "" ? true : false;
       this.invBtype = this.bedtype === "" ? true : false;
       this.invRtype = this.roomtype === null ? true : false;
       this.invRcharge = this.roomCharge <= 0 ? true : false;
       this.invRimg = this.imgSrc === null ? true : false;
+      this.invStatus = this.status === "" ? true : false;
+      if (this.invBtype == false ) {
+        if (this.old_status == "mock-up") {
+          if (this.bedtype == this.old_bedtype){
+            this.invBtype = false;
+            this.invMock = false;
+          } 
+          else {
+            for (let i = 0; i < this.itemInRooms.length; i++) {
+              if (this.itemInRooms[i].status == 'mock-up' && this.itemInRooms[i].roomType.name == this.roomtype.name &&this.itemInRooms[i].bedType == this.bedtype) {
+                this.invBtype = true;
+                this.invMock = true;
+                break;
+              }
+            }
+          }
+        }else {
+          if(this.status == "mock-up" && (this.roomType !== null || this.bedType !== "")){
+            for (let i = 0; i < this.itemInRooms.length; i++) {
+               if (this.itemInRooms[i].status == 'mock-up' && this.itemInRooms[i].roomType.name === this.roomtype.name && this.itemInRooms[i].bedType == this.bedtype) {
+              this.invBtype = true;
+              this.invMock = true;
+              break;
+            }
+           }
+          }
+        }
+      }
 
       if (this.invRNo == false) {
         if (this.old_roomNo != "") {
@@ -196,6 +242,7 @@ export default {
             for (let i = 0; i < this.itemInRooms.length; i++) {
               if (this.itemInRooms[i].roomNo == this.roomNo) {
                 this.invRNo = true;
+                this.invENo = true;
                 break;
               }
             }
@@ -204,6 +251,7 @@ export default {
           for (let i = 0; i < this.itemInRooms.length; i++) {
             if (this.itemInRooms[i].roomNo == this.roomNo) {
               this.invRNo = true;
+              this.invENo = true
               break;
             }
           }
@@ -214,7 +262,8 @@ export default {
         !this.invBtype &&
         !this.invRtype &&
         !this.invRcharge &&
-        !this.invRimg
+        !this.invRimg &&
+        !this.invStatus
       ) {
         if (this.imgSrc == this.old_Img) {
           this.imgSrc = null;
@@ -226,7 +275,7 @@ export default {
           roomType: this.roomtype,
           roomCharge: this.roomCharge,
           bedType: this.bedtype,
-          status:this.status,
+          status: this.status,
           src: this.imgSrc,
           imgObject: this.imgObject,
         };
