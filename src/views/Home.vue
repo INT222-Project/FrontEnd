@@ -256,13 +256,13 @@ export default {
   setup() {
     const store = useStore();
     store.dispatch("getRoomType");
-    store.dispatch("getRooms")
+    // store.dispatch("getRooms")
     let rType = computed(function () {
       return store.state.rType;
     });
-    let rooms = computed(function () {
-      return store.state.rooms;
-    });
+    // let rooms = computed(function () {
+    //   return store.state.rooms;
+    // });
     let userData = computed(function () {
       return store.state.user;
     });

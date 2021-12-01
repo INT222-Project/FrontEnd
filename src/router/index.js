@@ -152,6 +152,14 @@ router.beforeEach((to)=>{
       router.push('/')
     }
   }
+  if(to.path=='/room'){
+    if(userData == null){
+      router.push('/login')
+    }else if(userData.role[0].authority!='admin'){
+      alert('You do not have permission to access this page')
+      router.push('/')
+    }
+  }
   if(to.path=='/AddingDeleteEditingPackage'){
     if(userData == null){
       router.push('/login')
