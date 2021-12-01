@@ -5,7 +5,7 @@
         <div class="row g-0 ">
           <div class="col-md-6 border-end">
             <div class="d-flex flex-column justify-content-center">
-              <div class="main_image"><img :src="viewImg(roomTypeId)" id="main_product_image" class="card-img-top" /></div>
+              <div class="main_image"><img :src="viewImg(rTypeById)" id="main_product_image" class="card-img-top" /></div>
             </div>
           </div>
           <div class="col-md-6">
