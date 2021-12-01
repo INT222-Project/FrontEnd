@@ -5,7 +5,7 @@
         <div class="row g-0 ">
           <div class="col-md-6 border-end">
             <div class="d-flex flex-column justify-content-center">
-              <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div>
+              <div class="main_image"><img :src="viewImg()" id="main_product_image" class="card-img-top" /></div>
             </div>
           </div>
           <div class="col-md-6">
@@ -22,6 +22,9 @@
                 <p>Size : {{ rTypeById.roomSize }}</p>
               </div>
               <hr class="my-4" />
+                <div v-if="roomReq.length == 0">
+                <button class="btn btn-success" @click="goToAdd()">Add Room</button>
+                </div>
               <div v-for="req in roomReq" :key="req.roomId">
                 <div class="mt-2 pr-3 content">
                   <p>
@@ -55,12 +58,16 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
-  props: ["id"],
+  props: ["id", "name"],
   data() {
     return {
+      image:''
     };
   },
   methods: {
+    goToAdd(){
+      this.$router.push("/room")
+    },
     back() {
       this.$router.push("/");
     },
@@ -95,20 +102,28 @@ export default {
             })
           }
         }else if(this.userData!=0 && this.userData.role[0].authority == 'customer' || this.userData.role[0].authority == 'admin'){
-          this.$router.push({ name: "Booking", params: { roomDetails:roomId ,pageId: this.id } })
+          this.$router.push({ name: "Booking", params: { roomDetails:roomId ,pageId: this.id , name: this.name} })
         }
     },
-    viewImg(roomTypeId) {
-      if(roomTypeId == undefined){
-        return null
-      }else{
-         return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId;
+    viewImg() {
+      for(let i=0 ;i<this.$store.state.rooms.length;i++){
+        if(this.$store.state.rooms[i].roomType.name == this.name){
+          this.image = this.$store.state.rooms[i].roomId
+          break;
+        }
       }
+      return this.$store.state.url + "/api/rooms/showImage/" + this.image;
+      // if(roomTypeId == undefined){
+      //   return null
+      // }else{
+      //    return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId;
+      // }
     },
   },
 
   setup(props) {
     const store = useStore();
+    store.dispatch("getRooms")
     store.dispatch("getRoomTypeById", props.id);
     store.dispatch("getRoomRequirementById", props.id);
     store.dispatch("getGetRemaining")

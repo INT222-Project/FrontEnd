@@ -168,10 +168,10 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 export default {
-  props: ["roomDetails", "pageId"],
+  props: ["roomDetails", "pageId" , "name"],
   data() {
     return {
-      customer:this.userData.authenticationUser||null,
+      customer:this.userData.authenticationUser||null,  
       minCiDate: new Date().toISOString().slice(0, 10),
       checkIn: this.$store.state.checkIn || "",
       checkOut: this.$store.state.checkOut || "",
@@ -284,7 +284,7 @@ export default {
       }
     },
     goBack() {
-      this.$router.push({ name: "RoomDetails", params: { id: this.pageId } });
+      this.$router.push({ name: "RoomDetails", params: { id: this.pageId , name:this.name}});
     },
   },
   computed: {

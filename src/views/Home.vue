@@ -133,8 +133,8 @@
           <div class="col">
             <div class="card shadow-md">
               <div class="inner">
-                <button @click="CheckDateAvaliable(r.roomTypeId)">
-                  <img :src="viewImg(r.roomTypeId)" class="card-img-top"/>
+                <button @click="CheckDateAvaliable(r.roomTypeId,r.name)">
+                  <img :src="viewImg(r.name)" class="card-img-top"/>
                 </button>
               </div>
             </div>
@@ -148,7 +148,7 @@
               <div class="flex justify-center">
                 <span
                   ><button
-                    @click="CheckDateAvaliable(r.roomTypeId)"
+                    @click="CheckDateAvaliable(r.roomTypeId , r.name)"
                     class="
                       bg-blue-500
                       px-5
@@ -187,17 +187,19 @@ export default {
       invCheckIn: false,
       invCheckOut: false,
       showDate: false,
+      rt:'',
+      imgIndex:""
     };
   },
   methods: {
-    CheckDateAvaliable(pId) {
+    CheckDateAvaliable(pId,roomName) {
       if (this.checkIn == "" || this.checkOut == "" || this.calculateDay() == 0) {
         window.scrollTo({ top: 0, behavior: "smooth" });
         alert("Please Choose Travel Date Atleast 1 Day");
       } else if (!this.invCheckIn && !this.invCheckOut) {
         this.showDate = this.$router.push({
           name: "RoomDetails",
-          params: { id: pId },
+          params: { id: pId , name: roomName},
         });
       }
     },
@@ -225,8 +227,14 @@ export default {
         this.showDate = false;
       }
     },
-    viewImg(roomTypeId) {
-      return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId; //change ip
+    viewImg(roomName) {
+      for(let i=0 ;i<this.$store.state.rooms.length;i++){
+        if(this.$store.state.rooms[i].roomType.name == roomName){
+          this.rt = this.$store.state.rooms[i].roomId
+          break;
+        }
+      }
+      return this.$store.state.url + "/api/rooms/showImage/" +  this.rt; 
     },
   },
   computed: {
@@ -248,15 +256,20 @@ export default {
   setup() {
     const store = useStore();
     store.dispatch("getRoomType");
+    store.dispatch("getRooms")
     let rType = computed(function () {
       return store.state.rType;
+    });
+    let rooms = computed(function () {
+      return store.state.rooms;
     });
     let userData = computed(function () {
       return store.state.user;
     });
     return {
       rType,
-      userData
+      userData,
+      rooms
     };
   },
 };
