@@ -5,7 +5,7 @@
         <div class="row g-0 ">
           <div class="col-md-6 border-end">
             <div class="d-flex flex-column justify-content-center">
-              <div class="main_image"><img :src="viewImg(rTypeById.roomTypeId)" id="main_product_image" class="card-img-top" /></div>
+              <div class="main_image"><img :src="viewImg()" id="main_product_image" class="card-img-top" /></div>
             </div>
           </div>
           <div class="col-md-6">
@@ -105,25 +105,25 @@ export default {
           this.$router.push({ name: "Booking", params: { roomDetails:roomId ,pageId: this.id , name: this.name} })
         }
     },
-    viewImg(roomTypeId) {
-      // for(let i=0 ;i<this.$store.state.rooms.length;i++){
-      //   if(this.$store.state.rooms[i].roomType.name == this.name){
-      //     this.image = this.$store.state.rooms[i].roomId
-      //     break;
-      //   }
-      // }
-      // return this.$store.state.url + "/api/rooms/showImage/" + this.image;
-      if(roomTypeId == undefined){
-        return null
-      }else{
-         return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId;
+    viewImg() {
+      for(let i=0 ;i<this.$store.state.rooms.length;i++){
+        if(this.$store.state.rooms[i].roomType.name == this.name){
+          this.image = this.$store.state.rooms[i].roomId
+          break;
+        }
       }
+      return this.$store.state.url + "/api/rooms/showImage/" + this.image;
+      // if(roomTypeId == undefined){
+      //   return null
+      // }else{
+      //    return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId;
+      // }
     },
   },
 
   setup(props) {
     const store = useStore();
-    // store.dispatch("getRooms")
+    store.dispatch("getRooms")
     store.dispatch("getRoomTypeById", props.id);
     store.dispatch("getRoomRequirementById", props.id);
     store.dispatch("getGetRemaining")

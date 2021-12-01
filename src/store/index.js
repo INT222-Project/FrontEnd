@@ -114,7 +114,7 @@ export default createStore({
       commit('setPaymentMethods', response.data)
     },
     async getRooms({ commit }) {
-      const response = await axios.get(`${API_URL}/api/rooms`,{headers:{Authorization:token}});
+      const response = await axios.get(`${API_URL}/api/rooms`);
       commit('setRooms', response.data)
     },
     async getAvailableRooms({ commit }) {

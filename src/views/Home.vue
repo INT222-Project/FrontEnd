@@ -4,6 +4,7 @@
       <div class="text-start mb-8">
         <h1 class="display-2">
           Room Offer
+          <!-- {{this.$store.state.rooms}} -->
           <span class="float-right">
             <button
               class="btn btn-primary p-3"
@@ -134,7 +135,7 @@
             <div class="card shadow-md">
               <div class="inner">
                 <button @click="CheckDateAvaliable(r.roomTypeId,r.name)">
-                  <img :src="viewImg(r.roomTypeId)" class="card-img-top"/>
+                  <img :src="viewImg(r.name)" class="card-img-top"/>
                 </button>
               </div>
             </div>
@@ -227,14 +228,14 @@ export default {
         this.showDate = false;
       }
     },
-    viewImg(roomTypeId) {
-      // for(let i=0 ;i<this.$store.state.rooms.length;i++){
-      //   if(this.$store.state.rooms[i].roomType.name == roomName){
-      //     this.rt = this.$store.state.rooms[i].roomId
-      //     break;
-      //   }
-      // }
-      return this.$store.state.url + "/api/rooms/showImage/" +  roomTypeId; 
+    viewImg(roomName) {
+      for(let i=0 ;i<this.$store.state.rooms.length;i++){
+        if(this.$store.state.rooms[i].roomType.name == roomName){
+          this.rt = this.$store.state.rooms[i].roomId
+          break;
+        }
+      }
+      return this.$store.state.url + "/api/rooms/showImage/" +  this.rt; 
     },
   },
   computed: {
@@ -256,13 +257,10 @@ export default {
   setup() {
     const store = useStore();
     store.dispatch("getRoomType");
-    // store.dispatch("getRooms")
+    store.dispatch("getRooms")
     let rType = computed(function () {
       return store.state.rType;
     });
-    // let rooms = computed(function () {
-    //   return store.state.rooms;
-    // });
     let userData = computed(function () {
       return store.state.user;
     });
