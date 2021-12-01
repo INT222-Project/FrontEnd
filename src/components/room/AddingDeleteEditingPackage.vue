@@ -49,8 +49,9 @@
                Please type package description 
             </div>
           </div>
-          <div>
+          <div class="space-x-2">
             <button class="btn btn-primary" @click="addPackage()">Add</button>
+            <button class="btn btn-danger" @click="cancelAdd()">Cancel</button>
           </div>
         </div>
       </div>
@@ -65,7 +66,7 @@
               placeholder="example service"
             /></span></p>
             <p v-if="this.invName == true" class="text-red-500 text-sm ">
-                Please type package name 
+                Incorrect package name or already exists 
             </p>
           <p><span class="font-bold"> Description:</span><span> 
               <input
@@ -147,6 +148,7 @@ export default {
       addForm: false,
       editForm:false,
       pId:"",
+      old_name:"",
       pName: "",
       pCharge: 0,
       pDescription:'',
@@ -161,6 +163,9 @@ export default {
       this.pName= "" ;
       this.pCharge = "" ;
       this.pDescription = "" ;
+      this.invName = false;
+      this.invCharge = false;
+      this.invDes = false;
       this.editForm = !this.editForm
     },
     editBtn(item){
@@ -169,6 +174,7 @@ export default {
         this.pName = item.name
         this.pCharge = item.packageCharge
         this.pDescription = item.description
+        this.old_name = item.name
         this.editForm = !this.editForm
     },
     addSwitch() {
@@ -176,6 +182,18 @@ export default {
     },
     editPackage(){
       this.invName = this.pName === "" ? true : false;
+      if(this.invName == false){
+        if(this.old_name == this.pName){
+          this.invName = false
+        }else{
+          for(let i = 0; i<this.packages.length ;i++){
+            if(this.packages[i].name == this.pName){
+            this.invName = true
+            break;
+            }
+          }
+        }
+      }
       this.invCharge = this.pCharge <=0 ? true : false;
       this.invDes = this.pDescription === "" ? true : false;
       if(!this.invName && !this.invCharge && !this.invDes){
@@ -187,8 +205,8 @@ export default {
         }
         // console.log(obj)
          this.createEditFormData(obj)
+         this.editForm = !this.editForm
       }
-    this.editForm = !this.editForm
     },
     createEditFormData(obj){
      const jsonEditPackage = JSON.stringify(obj);
@@ -240,6 +258,17 @@ export default {
       let formData = new FormData();
       formData.append("addPackage", blob);
       this.$store.dispatch("addPackages", formData);
+    },
+    cancelAdd(){
+      this.pId="" ;
+      this.pName= "" ;
+      this.pCharge = "" ;
+      this.pDescription = "" ;
+      this.old_name = "";
+      this.invName = false;
+      this.invCharge = false;
+      this.invDes = false;
+      this.addForm = !this.addForm;
     }
   },
   computed: {

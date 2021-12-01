@@ -55,6 +55,7 @@
             <textarea
               class="form-control"
               id="exampleFormControlTextarea1"
+              placeholder="description"
               v-model.trim="rDescription"
               rows="3"
             ></textarea>
@@ -82,8 +83,9 @@
               Please choose img room
             </div>
           </div>
-          <div>
+          <div class="space-x-2">
             <button class="btn btn-primary" @click="addRoomtype()">Add</button>
+            <button class="btn btn-danger" @click="cancelAdd()">Cancel</button>
           </div>
         </div>
       </div>
@@ -98,9 +100,11 @@
               type="text"
               v-model.trim="rName"
               class="form-control"
-              placeholder="example service"
           /></span>
         </p>
+        <div v-if="this.invName == true" class="text-red-500 text-sm pt-2">
+              Incorrect package name or This package name already exist
+            </div>
         <p>
           <span class="font-bold"> Description:</span
           ><span>
@@ -108,9 +112,11 @@
               type="text"
               v-model.trim="rDescription"
               class="form-control"
-              placeholder="example service"
           /></span>
         </p>
+        <div v-if="this.invDes == true" class="text-red-500 text-sm pt-2">
+              Please type roomtype description
+            </div>
         <p>
           <span class="font-bold"> Max Rest: </span
           ><span
@@ -118,9 +124,11 @@
               type="text"
               v-model.trim="rMaxrest"
               class="form-control"
-              placeholder="example service"
           /></span>
         </p>
+        <div v-if="this.invMaxrest == true" class="text-red-500 text-sm pt-2">
+              Please type max rest more than 0
+            </div>
         <p>
           <span class="font-bold"> Room Size: </span
           ><span
@@ -128,9 +136,11 @@
               type="text"
               v-model.trim="rSize"
               class="form-control"
-              placeholder="example service"
           /></span>
         </p>
+        <div v-if="this.invSize == true" class="text-red-500 text-sm pt-2">
+              Please type room size
+            </div>
         <div class=" text-secondary">
               <img
                 class="rounded mx-auto d-block"
@@ -144,6 +154,9 @@
                 id="customFile"
                 @change="openFile"
               />
+            </div>
+            <div v-if="this.invImg == true" class="text-red-500 text-sm pt-2">
+              Please choose img room
             </div>
         <span class="space-x-2">
           <button class="btn btn-success" @click="editRoomtype(item)">
@@ -292,6 +305,11 @@ export default {
       this.rSize = "";
       this.rId = 0;
       this.imgSrc = null;
+      this.invName= false
+      this.invMaxrest= false
+      this.invDes= false
+      this.invSize= false
+      this.invImg=false
     },
     editBtn(item) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -301,15 +319,27 @@ export default {
       this.rDescription = item.description;
       this.rSize = item.roomSize;
       this.editForm = !this.editForm;
+      this.old_name = item.name
       this.old_Img = this.$store.state.url +"/api/rooms/showImage/" + item.roomTypeId;
       this.imgSrc = this.$store.state.url +"/api/rooms/showImage/" + item.roomTypeId;
-      // console.log(this.rId);
     },
     addSwitch() {
       this.addForm = !this.addForm;
     },
     editRoomtype() {
       this.invName = this.rName === "" ? true : false;
+      if (this.invName == false) {
+        if(this.old_name == this.rName){
+          this.invName = false
+        }else{
+          for (let i = 0; i < this.rType.length; i++) {
+          if (this.rType[i].name == this.rName) {
+            this.invName = true;
+            break;
+            }
+          }
+        }
+      }
       this.invMaxrest = this.rMaxrest <= 0 ? true : false;
       this.invDes = this.rDescription === "" ? true : false;
       this.invSize = this.rSize === "" ? true : false;
@@ -396,6 +426,20 @@ export default {
       formData.append("addRoomType", blob);
       this.$store.dispatch("addRoomType", formData);
     },
+    cancelAdd(){
+      this.addForm = !this.addForm
+      this.rName = "";
+      this.rMaxrest = 0;
+      this.rDescription = "";
+      this.rSize = "";
+      this.rId = 0;
+      this.imgSrc = null;
+      this.invName= false
+      this.invMaxrest= false
+      this.invDes= false
+      this.invSize= false
+      this.invImg=false
+    }
   },
   computed: {
     filterRoomtype: function () {
