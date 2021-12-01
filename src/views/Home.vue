@@ -128,6 +128,7 @@
           </div>
         </div>
       </div>
+      <!-- {{this.rType}} -->
       <hr class="my-2" />
       <div class="row row-cols-lg-2 g-4">
         <div v-for="r in filteredRtype" :key="r.roomTypeId">
@@ -135,7 +136,7 @@
             <div class="card shadow-md">
               <div class="inner">
                 <button @click="CheckDateAvaliable(r.roomTypeId,r.name)">
-                  <img :src="viewImg(r.name)" class="card-img-top"/>
+                  <img :src="viewImg(r.roomTypeId)" class="card-img-top"/>
                 </button>
               </div>
             </div>
@@ -193,6 +194,16 @@ export default {
     };
   },
   methods: {
+    viewImg(roomTypeId) {
+      // for(let i=0 ;i<this.$store.state.rooms.length;i++){
+      //   if(this.$store.state.rooms[i].roomType.name == roomName){
+      //     this.rt = this.$store.state.url + "/api/rooms/showImage/" + this.$store.state.rooms[i].roomId
+      //     break;
+      //   }
+      // }
+        return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId
+
+    },
     CheckDateAvaliable(pId,roomName) {
       if (this.checkIn == "" || this.checkOut == "" || this.calculateDay() == 0) {
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -227,15 +238,6 @@ export default {
       } else {
         this.showDate = false;
       }
-    },
-    viewImg(roomName) {
-      for(let i=0 ;i<this.$store.state.rooms.length;i++){
-        if(this.$store.state.rooms[i].roomType.name == roomName){
-          this.rt = this.$store.state.url + "/api/rooms/showImage/" + this.$store.state.rooms[i].roomId
-          break;
-        }
-      }
-      return this.rt
     },
   },
   computed: {

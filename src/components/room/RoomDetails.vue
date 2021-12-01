@@ -26,7 +26,7 @@
                 <button class="btn btn-success" @click="goToAdd()">Add Room</button>
                 </div>
               <div v-for="req in roomReq" :key="req.roomId">
-                <div class="mt-2 pr-3 content">
+                <div class="mt-2 pr-3 content"> 
                   <p>
                     Bed: {{ req.bedType }} |<span> ฿:{{ req.roomCharge }}</span>
                     (starter price per day)
