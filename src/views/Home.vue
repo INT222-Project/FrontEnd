@@ -134,7 +134,7 @@
             <div class="card shadow-md">
               <div class="inner">
                 <button @click="CheckDateAvaliable(r.roomTypeId,r.name)">
-                  <img :src="viewImg(r.name)" class="card-img-top"/>
+                  <img :src="viewImg(r.roomTypeId)" class="card-img-top"/>
                 </button>
               </div>
             </div>
@@ -227,14 +227,14 @@ export default {
         this.showDate = false;
       }
     },
-    viewImg(roomName) {
-      for(let i=0 ;i<this.$store.state.rooms.length;i++){
-        if(this.$store.state.rooms[i].roomType.name == roomName){
-          this.rt = this.$store.state.rooms[i].roomId
-          break;
-        }
-      }
-      return this.$store.state.url + "/api/rooms/showImage/" +  this.rt; 
+    viewImg(roomTypeId) {
+      // for(let i=0 ;i<this.$store.state.rooms.length;i++){
+      //   if(this.$store.state.rooms[i].roomType.name == roomName){
+      //     this.rt = this.$store.state.rooms[i].roomId
+      //     break;
+      //   }
+      // }
+      return this.$store.state.url + "/api/rooms/showImage/" +  roomTypeId; 
     },
   },
   computed: {
