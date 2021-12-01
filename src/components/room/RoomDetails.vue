@@ -106,13 +106,6 @@ export default {
         }
     },
     viewImg(roomTypeId) {
-      // for(let i=0 ;i<this.$store.state.rooms.length;i++){
-      //   if(this.$store.state.rooms[i].roomType.name == this.name){
-      //     this.image = this.$store.state.rooms[i].roomId
-      //     break;
-      //   }
-      // }
-      // return this.$store.state.url + "/api/rooms/showImage/" + this.image;
       if(roomTypeId == undefined){
         return null
       }else{

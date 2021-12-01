@@ -1,6 +1,6 @@
 import axios from "axios";
-// const API_URL = "http://localhost:8081";
-const API_URL = "https://www.beebooking.company";
+const API_URL = "http://localhost:8081";
+// const API_URL = "https://www.beebooking.company";
 let token = 'Bearer '+ localStorage.getItem('token') 
 
 class RoomDataService{

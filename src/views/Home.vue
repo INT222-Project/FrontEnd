@@ -202,7 +202,6 @@ export default {
       //   }
       // }
         return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId
-
     },
     CheckDateAvaliable(pId,roomName) {
       if (this.checkIn == "" || this.checkOut == "" || this.calculateDay() == 0) {
@@ -259,7 +258,7 @@ export default {
   setup() {
     const store = useStore();
     store.dispatch("getRoomType");
-    store.dispatch("getRooms")
+    // store.dispatch("getRooms")
     let rType = computed(function () {
       return store.state.rType;
     });

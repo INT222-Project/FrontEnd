@@ -2,8 +2,8 @@
 import axios from "axios";
 import auth from "./auth.js"
 import { createStore } from "vuex";
-// const API_URL = "http://localhost:8081";
-const API_URL = "https://www.beebooking.company";
+const API_URL = "http://localhost:8081";
+// const API_URL = "https://www.beebooking.company";
 let cartItems = window.localStorage.getItem('cartItems');
 let cartItemCount = window.localStorage.getItem('cartItemCount')
 let checkInDate = window.localStorage.getItem('checkInDate')

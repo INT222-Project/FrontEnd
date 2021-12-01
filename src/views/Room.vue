@@ -81,9 +81,8 @@ export default {
         // console.log(room.imgObject)
         // console.log(room.imgObject.name)
         let formData = new FormData();
-        formData.append("image-file", room.imgObject, room.imgObject.name);
+        // formData.append("image-file", room.imgObject, room.imgObject.name);
         formData.append("newRoom",blob)
-        // this.$store.dispatch('addRoom',formData);
         RoomDataService.addNewRoom(formData)
         this.$store.state.showLoading = true;
         setTimeout(()=>{
@@ -111,7 +110,7 @@ export default {
       this.old_roomtype = room.roomType
       this.old_roomCharge = room.roomCharge
       this.old_status = room.status
-      this.old_Img =  this.$store.state.url +"/api/rooms/showImage/" +room.roomId //change ip
+      // this.old_Img =  this.$store.state.url +"/api/rooms/showImage/" +room.roomId 
       this.activeTab = "FormRoom";
     },
     editRoom(room){
@@ -124,7 +123,7 @@ export default {
         roomCharge:room.roomCharge,
         bedType:room.bedType,
         status:room.status,
-        src:room.src
+        // src:room.src
         }
         // console.log('imgsrc '+editRoom.src)
         const jsonNewRoom = JSON.stringify(editRoom);
@@ -133,13 +132,14 @@ export default {
         })
         // console.log(jsonNewRoom)
         let formData = new FormData();
-        if(room.imgObject != null) {
-          formData.append("image-file", room.imgObject, room.imgObject.name);
-          formData.append("editRoom",blob);
-          }
-        else {
-          formData.append("editRoom",blob);
-        }
+        // if(room.imgObject != null) {
+        //   formData.append("image-file", room.imgObject, room.imgObject.name);
+        //   formData.append("editRoom",blob);
+        //   }
+        // else {
+        //   formData.append("editRoom",blob);
+        // }
+        formData.append("editRoom",blob);
         RoomDataService.editRoom(formData,room.roomId)
         this.isEdit = false;
         this.$store.state.showLoading = true;

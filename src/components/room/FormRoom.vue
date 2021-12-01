@@ -98,7 +98,7 @@
         </div>
         <!-- section -->
         <div class="mb-3">
-          <label for="formFile" class="form-label font-bold">Images</label>
+          <!-- <label for="formFile" class="form-label font-bold">Images</label>
           <div id="preview">
             <img
               class="rounded mx-auto d-block"
@@ -115,7 +115,7 @@
           />
           <div v-if="this.invRimg == true" class="text-red-500 text-sm">
             Please provide a valid image.
-          </div>
+          </div> -->
           <div class="mb-3 mt-3">
             <label class="form-label font-bold">Status</label>
             <select v-model="status" class="form-select">
@@ -205,7 +205,7 @@ export default {
       this.invBtype = this.bedtype === "" ? true : false;
       this.invRtype = this.roomtype === null ? true : false;
       this.invRcharge = this.roomCharge <= 0 ? true : false;
-      this.invRimg = this.imgSrc === null ? true : false;
+      // this.invRimg = this.imgSrc === null ? true : false;
       this.invStatus = this.status === "" ? true : false;
       if (this.invBtype == false ) {
         if (this.old_status == "mock-up") {
@@ -262,13 +262,12 @@ export default {
         !this.invBtype &&
         !this.invRtype &&
         !this.invRcharge &&
-        !this.invRimg &&
         !this.invStatus
       ) {
-        if (this.imgSrc == this.old_Img) {
-          this.imgSrc = null;
-          this.imgObject = null;
-        }
+        // if (this.imgSrc == this.old_Img) {
+        //   this.imgSrc = null;
+        //   this.imgObject = null;
+        // }
         const room = {
           roomId: this.roomId,
           roomNo: this.roomNo,
@@ -276,8 +275,8 @@ export default {
           roomCharge: this.roomCharge,
           bedType: this.bedtype,
           status: this.status,
-          src: this.imgSrc,
-          imgObject: this.imgObject,
+          // src: this.imgSrc,
+          // imgObject: this.imgObject,
         };
         // console.log(room);
         this.invRNo = false;
@@ -288,8 +287,8 @@ export default {
         this.roomId = "";
         this.roomtype = null;
         this.bedtype = "";
-        this.imgSrc = null;
-        this.imgObject = null;
+        // this.imgSrc = null;
+        // this.imgObject = null;
         this.$emit("add-room", room);
       }
     },
