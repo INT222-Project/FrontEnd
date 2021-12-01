@@ -268,8 +268,7 @@ export default {
     });
     return {
       rType,
-      userData,
-      rooms
+      userData
     };
   },
 };
