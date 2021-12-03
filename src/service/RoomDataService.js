@@ -24,9 +24,6 @@ class RoomDataService{
         return axios.put(`${API_URL}/api/rooms/edit/${roomId}`, formData,{headers:{Authorization:token}})
     }
     
-
-
-    
     getImage(roomId){
         return axios.get(`${API_URL}/api/showImage/${roomId}`);
     }

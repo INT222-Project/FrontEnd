@@ -65,7 +65,7 @@
             <div class="mb-3">
               <h6 class="mb-0 font-bold">Choose Image</h6>
             </div>
-            <div class=" text-secondary">
+            <div class="text-secondary">
               <img
                 class="rounded mx-auto d-block"
                 v-if="imgSrc"
@@ -96,68 +96,56 @@
         <p>
           <span class="font-bold"> Roomtype:</span
           ><span>
-            <input
-              type="text"
-              v-model.trim="rName"
-              class="form-control"
+            <input type="text" v-model.trim="rName" class="form-control"
           /></span>
         </p>
         <div v-if="this.invName == true" class="text-red-500 text-sm pt-2">
-              Incorrect package name or This package name already exist
-            </div>
+          Incorrect package name or This package name already exist
+        </div>
         <p>
           <span class="font-bold"> Description:</span
           ><span>
-            <input
-              type="text"
-              v-model.trim="rDescription"
-              class="form-control"
+            <input type="text" v-model.trim="rDescription" class="form-control"
           /></span>
         </p>
         <div v-if="this.invDes == true" class="text-red-500 text-sm pt-2">
-              Please type roomtype description
-            </div>
+          Please type roomtype description
+        </div>
         <p>
           <span class="font-bold"> Max Rest: </span
           ><span
-            ><input
-              type="text"
-              v-model.trim="rMaxrest"
-              class="form-control"
+            ><input type="text" v-model.trim="rMaxrest" class="form-control"
           /></span>
         </p>
         <div v-if="this.invMaxrest == true" class="text-red-500 text-sm pt-2">
-              Please type max rest more than 0
-            </div>
+          Please type max rest more than 0
+        </div>
         <p>
           <span class="font-bold"> Room Size: </span
           ><span
-            ><input
-              type="text"
-              v-model.trim="rSize"
-              class="form-control"
+            ><input type="text" v-model.trim="rSize" class="form-control"
           /></span>
         </p>
         <div v-if="this.invSize == true" class="text-red-500 text-sm pt-2">
-              Please type room size
-            </div>
-        <div class=" text-secondary">
-              <img
-                class="rounded mx-auto d-block"
-                v-if="imgSrc"
-                :src="imgSrc"
-                width="150"
-              />
-              <input
-                type="file"
-                class="form-control"
-                id="customFile"
-                @change="openFile"
-              />
-            </div>
-            <div v-if="this.invImg == true" class="text-red-500 text-sm pt-2">
-              Please choose img room
-            </div>
+          Please type room size
+        </div>
+        <div class="text-secondary">
+          <img
+            class="rounded mx-auto d-block"
+            v-if="imgSrc"
+            :src="imgSrc"
+            width="150"
+          />
+          <input
+            type="file"
+            class="form-control"
+            id="customFile"
+            @change="openFile"
+          />
+        </div>
+        <div v-if="this.invImg == true" class="text-red-500 text-sm pt-2">
+          Please choose img room
+        </div>
         <span class="space-x-2">
           <button class="btn btn-success" @click="editRoomtype(item)">
             Confirm
@@ -221,13 +209,13 @@
         <div
           class="col-md-1 text-sm-center text-md-start align-self-center my-2"
         >
-        {{item.roomTypeId}}
+          {{ item.roomTypeId }}
         </div>
         <div
           class="col-md-2 text-sm-center text-md-start align-self-center my-2"
         >
           <h1 class="h6">{{ item.name }}</h1>
-          <img :src="viewImg(item.roomTypeId)" width="150"/>
+          <img :src="viewImg(item.roomTypeId)" width="150" />
         </div>
         <div
           class="col-md-2 text-sm-center text-md-start align-self-center my-2"
@@ -278,19 +266,19 @@ export default {
       rMaxrest: 0,
       rDescription: "",
       rSize: "",
-      old_Img:null,
-      imgSrc:null,
-      imgObject:null,
+      old_Img: null,
+      imgSrc: null,
+      imgObject: null,
       invName: false,
       invMaxrest: false,
       invDes: false,
       invSize: false,
-      invImg:false
+      invImg: false,
     };
   },
   methods: {
     viewImg(roomId) {
-      return this.$store.state.url +"/api/roomTypes/showImage/" + roomId;
+      return this.$store.state.url + "/api/roomTypes/showImage/" + roomId;
     },
     openFile(ev) {
       const file = ev.target.files[0];
@@ -305,11 +293,11 @@ export default {
       this.rSize = "";
       this.rId = 0;
       this.imgSrc = null;
-      this.invName= false
-      this.invMaxrest= false
-      this.invDes= false
-      this.invSize= false
-      this.invImg=false
+      this.invName = false;
+      this.invMaxrest = false;
+      this.invDes = false;
+      this.invSize = false;
+      this.invImg = false;
     },
     editBtn(item) {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -319,9 +307,11 @@ export default {
       this.rDescription = item.description;
       this.rSize = item.roomSize;
       this.editForm = !this.editForm;
-      this.old_name = item.name
-      this.old_Img = this.$store.state.url +"/api/roomTypes/showImage/" + item.roomTypeId;
-      this.imgSrc = this.$store.state.url +"/api/roomTypes/showImage/" + item.roomTypeId;
+      this.old_name = item.name;
+      this.old_Img =
+        this.$store.state.url + "/api/roomTypes/showImage/" + item.roomTypeId;
+      this.imgSrc =
+        this.$store.state.url + "/api/roomTypes/showImage/" + item.roomTypeId;
     },
     addSwitch() {
       this.addForm = !this.addForm;
@@ -329,13 +319,13 @@ export default {
     editRoomtype() {
       this.invName = this.rName === "" ? true : false;
       if (this.invName == false) {
-        if(this.old_name == this.rName){
-          this.invName = false
-        }else{
+        if (this.old_name == this.rName) {
+          this.invName = false;
+        } else {
           for (let i = 0; i < this.rType.length; i++) {
-          if (this.rType[i].name == this.rName) {
-            this.invName = true;
-            break;
+            if (this.rType[i].name == this.rName) {
+              this.invName = true;
+              break;
             }
           }
         }
@@ -344,7 +334,13 @@ export default {
       this.invDes = this.rDescription === "" ? true : false;
       this.invSize = this.rSize === "" ? true : false;
       this.invImg = this.imgSrc === null ? true : false;
-      if (!this.invName && !this.invMaxrest && !this.invDes && !this.invSize && !this.invImg) {
+      if (
+        !this.invName &&
+        !this.invMaxrest &&
+        !this.invDes &&
+        !this.invSize &&
+        !this.invImg
+      ) {
         if (this.imgSrc == this.old_Img) {
           this.imgSrc = null;
           this.imgObject = null;
@@ -355,7 +351,7 @@ export default {
           description: this.rDescription,
           maxRest: this.rMaxrest,
           roomSize: this.rSize,
-          src : this.imgSrc
+          src: this.imgSrc,
         };
         // console.log(obj);
         this.createEditFormData(obj);
@@ -368,21 +364,21 @@ export default {
         type: "application/json",
       });
       let formData = new FormData();
-      if(this.imgObject != null) {
-          formData.append("image-file", this.imgObject, this.imgObject.name);
-          formData.append("editRoomType",blob);
-          this.rName = "";
-          this.rMaxrest = 0;
-          this.rDescription = "";
-          this.rSize = "";
-          this.rId = 0;
-      }else{
-        formData.append("editRoomType",blob);
-          this.rName = "";
-          this.rMaxrest = 0;
-          this.rDescription = "";
-          this.rSize = "";
-          this.rId = 0;
+      if (this.imgObject != null) {
+        formData.append("image-file", this.imgObject, this.imgObject.name);
+        formData.append("editRoomType", blob);
+        this.rName = "";
+        this.rMaxrest = 0;
+        this.rDescription = "";
+        this.rSize = "";
+        this.rId = 0;
+      } else {
+        formData.append("editRoomType", blob);
+        this.rName = "";
+        this.rMaxrest = 0;
+        this.rDescription = "";
+        this.rSize = "";
+        this.rId = 0;
       }
       this.$store.dispatch("editRoomType", formData);
       location.reload();
@@ -418,7 +414,7 @@ export default {
           description: this.rDescription,
           maxRest: this.rMaxrest,
           roomSize: this.rSize,
-          src: this.imgSrc
+          src: this.imgSrc,
         };
         this.addSwitch();
         // console.log(obj);
@@ -436,20 +432,20 @@ export default {
       formData.append("addRoomType", blob);
       this.$store.dispatch("addRoomType", formData);
     },
-    cancelAdd(){
-      this.addForm = !this.addForm
+    cancelAdd() {
+      this.addForm = !this.addForm;
       this.rName = "";
       this.rMaxrest = 0;
       this.rDescription = "";
       this.rSize = "";
       this.rId = 0;
       this.imgSrc = null;
-      this.invName= false
-      this.invMaxrest= false
-      this.invDes= false
-      this.invSize= false
-      this.invImg=false
-    }
+      this.invName = false;
+      this.invMaxrest = false;
+      this.invDes = false;
+      this.invSize = false;
+      this.invImg = false;
+    },
   },
   computed: {
     filterRoomtype: function () {
