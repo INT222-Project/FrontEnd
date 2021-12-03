@@ -201,7 +201,7 @@ export default {
       //     break;
       //   }
       // }
-        return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId
+        return this.$store.state.url + "/api/roomTypes/showImage/" + roomTypeId
     },
     CheckDateAvaliable(pId,roomName) {
       if (this.checkIn == "" || this.checkOut == "" || this.calculateDay() == 0) {

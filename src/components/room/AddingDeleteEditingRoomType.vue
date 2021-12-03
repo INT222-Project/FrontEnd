@@ -290,7 +290,7 @@ export default {
   },
   methods: {
     viewImg(roomId) {
-      return this.$store.state.url +"/api/rooms/showImage/" + roomId;
+      return this.$store.state.url +"/api/roomTypes/showImage/" + roomId;
     },
     openFile(ev) {
       const file = ev.target.files[0];

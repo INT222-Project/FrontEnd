@@ -109,7 +109,7 @@ export default {
       if(roomTypeId == undefined){
         return null
       }else{
-         return this.$store.state.url + "/api/rooms/showImage/" + roomTypeId;
+         return this.$store.state.url + "/api/roomTypes/showImage/" + roomTypeId;
       }
     },
   },
