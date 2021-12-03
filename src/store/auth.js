@@ -1,6 +1,6 @@
 import axios from 'axios';
-// const API_URL = "http://localhost:8081";
-const API_URL = "https://www.beebooking.company";
+const API_URL = "http://localhost:8082";
+// const API_URL = "https://www.beebooking.company";
 const user = JSON.parse(window.localStorage.getItem('user'));
 const getUser = user != null ? {status: {isLoggedIn: true},user} : {status: {isLoggedIn: false}, user:null};
 localStorage.setItem('data',JSON.stringify(getUser))
