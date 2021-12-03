@@ -13,7 +13,7 @@
       <div class="col">
         <div class="card shadow-md">
           <div class="inner">
-            <img :src="viewImg(room.roomId)" class="card-img-top" />
+            <img :src="viewImg(room.roomType.roomTypeId)" class="card-img-top" />
           </div>
           <div class="card-body">
             <h5 class="card-title">
@@ -50,8 +50,8 @@ export default {
     reset(){
       this.notFound = false
     },
-    viewImg(roomId) {
-      return this.$store.state.url +"/api/rooms/showImage/" + roomId;
+    viewImg(roomtypeid) {
+      return this.$store.state.url +"/api/roomTypes/showImage/" + roomtypeid;
     },
     deleteRoom(room) {
       this.$emit("delete-room",room);
