@@ -320,8 +320,8 @@ export default {
       this.rSize = item.roomSize;
       this.editForm = !this.editForm;
       this.old_name = item.name
-      this.old_Img = this.$store.state.url +"/api/rooms/showImage/" + item.roomTypeId;
-      this.imgSrc = this.$store.state.url +"/api/rooms/showImage/" + item.roomTypeId;
+      this.old_Img = this.$store.state.url +"/api/roomTypes/showImage/" + item.roomTypeId;
+      this.imgSrc = this.$store.state.url +"/api/roomTypes/showImage/" + item.roomTypeId;
     },
     addSwitch() {
       this.addForm = !this.addForm;
@@ -370,9 +370,19 @@ export default {
       let formData = new FormData();
       if(this.imgObject != null) {
           formData.append("image-file", this.imgObject, this.imgObject.name);
-          formData.append("editRoom",blob);
+          formData.append("editRoomType",blob);
+          this.rName = "";
+          this.rMaxrest = 0;
+          this.rDescription = "";
+          this.rSize = "";
+          this.rId = 0;
       }else{
-        formData.append("editRoom",blob);
+        formData.append("editRoomType",blob);
+          this.rName = "";
+          this.rMaxrest = 0;
+          this.rDescription = "";
+          this.rSize = "";
+          this.rId = 0;
       }
       this.$store.dispatch("editRoomType", formData);
       location.reload();
